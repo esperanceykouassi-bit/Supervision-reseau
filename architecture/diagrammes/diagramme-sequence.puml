@@ -1,0 +1,54 @@
+@startuml diagramme-sequence
+' Diagramme de séquence UML : cycle de détection de panne et d'alerte
+skinparam sequenceMessageAlign center
+autonumber
+
+actor "Cron" as cron
+participant "supervisor.py\n(Moteur)" as moteur
+participant "database.py" as db
+participant "ping_monitor" as ping
+participant "service_monitor" as svc
+participant "alertes" as alert
+participant "email_alert" as mail
+participant "telegram_alert" as tg
+database "MySQL" as sql
+
+cron -> moteur : déclenche cycle_supervision()
+moteur -> db : get_all_equipements(actifs)
+db -> sql : SELECT * FROM equipements
+sql --> db : liste équipements
+db --> moteur : équipements
+
+loop pour chaque équipement
+    moteur -> ping : ping(adresse_ip)
+    ping --> moteur : (statut, latence)
+
+    opt service défini et hôte UP
+        moteur -> svc : verifier_service(ip, service)
+        svc --> moteur : (ouvert, temps)
+    end
+
+    moteur -> db : update_statut_equipement()
+    moteur -> db : add_journal()
+    db -> sql : UPDATE / INSERT
+
+    alt statut == DOWN et seuil atteint
+        moteur -> alert : declencher_alerte()
+        alert -> db : derniere_alerte_active() (anti-spam)
+        db --> alert : aucune alerte active
+        alert -> db : add_alerte()
+        alert -> mail : envoyer_alerte_email()
+        mail --> alert : OK
+        alert -> tg : envoyer_alerte_telegram()
+        tg --> alert : OK
+        alert --> moteur : alerte émise
+    else statut == UP après panne
+        moteur -> alert : alerte_retablissement()
+        alert -> db : acquitter_alerte()
+        alert -> tg : notifier rétablissement
+    end
+end
+
+moteur --> cron : cycle terminé (n UP / m DOWN)
+
+@enduml

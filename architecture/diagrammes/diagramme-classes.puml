@@ -1,0 +1,88 @@
+@startuml diagramme-classes
+' Diagramme de classes UML : modèle du domaine et composants logiciels
+skinparam classAttributeIconSize 0
+
+class Equipement {
+  - id : int
+  - nom : str
+  - adresse_ip : str
+  - type_equipement : str
+  - emplacement : str
+  - service_supervise : str
+  - statut : enum {UP, DOWN, INCONNU}
+  - latence_ms : float
+  - derniere_verification : datetime
+  - actif : bool
+  + superviser() : (statut, latence)
+}
+
+class Journal {
+  - id : bigint
+  - equipement_id : int
+  - statut : enum
+  - latence_ms : float
+  - message : str
+  - date_evenement : datetime
+}
+
+class Alerte {
+  - id : bigint
+  - equipement_id : int
+  - type_alerte : str
+  - severite : enum {CRITIQUE, AVERTISSEMENT, INFO}
+  - message : str
+  - canal : str
+  - acquittee : bool
+  - date_alerte : datetime
+  - date_acquittement : datetime
+  + acquitter() : void
+}
+
+class Utilisateur {
+  - id : int
+  - identifiant : str
+  - mot_de_passe_hash : str
+  - role : enum {admin, operateur, lecteur}
+  + verifier_mot_de_passe(mdp) : bool
+}
+
+class Statistique {
+  - date_stat : date
+  - total_equipements : int
+  - equipements_up : int
+  - equipements_down : int
+  - taux_disponibilite : float
+  - latence_moyenne : float
+}
+
+class SondeICMP {
+  + ping(ip) : (statut, latence)
+}
+
+class SondeService {
+  + verifier_port(ip, port) : (ouvert, temps)
+}
+
+class GestionnaireAlertes {
+  + declencher_alerte(equip, type, severite, msg)
+  + alerte_retablissement(equip)
+}
+
+class CanalEmail {
+  + envoyer_alerte_email() : bool
+}
+
+class CanalTelegram {
+  + envoyer_alerte_telegram() : bool
+}
+
+Equipement "1" o-- "0..*" Journal : génère >
+Equipement "1" o-- "0..*" Alerte : déclenche >
+Equipement ..> SondeICMP : utilise
+Equipement ..> SondeService : utilise
+GestionnaireAlertes ..> Alerte : crée
+GestionnaireAlertes ..> CanalEmail : diffuse via
+GestionnaireAlertes ..> CanalTelegram : diffuse via
+Statistique ..> Equipement : agrège
+
+@enduml

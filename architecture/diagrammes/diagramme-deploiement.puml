@@ -1,0 +1,44 @@
+@startuml diagramme-deploiement
+' Diagramme de déploiement UML : répartition physique des artefacts
+skinparam node {
+  BackgroundColor #f8f9fa
+  BorderColor #0d6efd
+}
+
+node "Serveur de supervision\n(Ubuntu Server 22.04 LTS)" as serveur {
+  artifact "supervisor.py + modules" as app
+  artifact "Application Flask (app.py)" as flask
+  node "Service Cron" as cron
+  node "Serveur WSGI\n(Gunicorn)" as gunicorn
+  database "MySQL 8" as db
+}
+
+node "Poste administrateur" as poste {
+  artifact "Navigateur Web" as nav
+}
+
+node "Smartphone admin" as phone {
+  artifact "App Telegram" as tgapp
+}
+
+cloud "Internet" as net {
+  node "Serveur SMTP" as smtp
+  node "API Telegram" as tgapi
+}
+
+node "Équipements réseau supervisés" as equip {
+  artifact "Routeurs / Switches / Serveurs"
+}
+
+cron ..> app : exécute toutes les 2 min
+gunicorn ..> flask : sert
+flask --> db : JDBC/Connector (3306)
+app --> db
+app ..> equip : ICMP / TCP
+app --> smtp : SMTP (587, STARTTLS)
+app --> tgapi : HTTPS (443)
+nav --> gunicorn : HTTP/HTTPS (5000/443)
+tgapi --> tgapp : push
+smtp ..> poste : e-mail
+
+@enduml

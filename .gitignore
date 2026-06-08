@@ -1,0 +1,43 @@
+# Secrets et configuration locale — NE JAMAIS versionner
+.env
+src/.env
+*.env.local
+
+# Environnement virtuel Python
+venv/
+env/
+ENV/
+.venv/
+
+# Caches et fichiers compilés Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Journaux
+logs/
+*.log
+
+# Base de données locale / dumps
+*.sql.bak
+*.sqlite
+*.db
+
+# Fichiers d'environnement de développement
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Images générées des diagrammes (régénérables depuis les .puml)
+architecture/diagrammes/*.png
+architecture/diagrammes/*.svg
+
+# Exports de documents générés
+*.pdf
+*.docx
+*.pptx

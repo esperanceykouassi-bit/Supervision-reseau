@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block titre %}Rapports{% endblock %}
+{% block contenu %}
+<h2 class="mb-4"><i class="bi bi-graph-up"></i> Rapports et statistiques</h2>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-4">
+    <div class="card shadow-sm text-center">
+      <div class="card-body">
+        <h6 class="text-muted">Taux de disponibilité</h6>
+        <p class="display-5 text-success mb-0">{{ stats.taux_disponibilite }} %</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card shadow-sm text-center">
+      <div class="card-body">
+        <h6 class="text-muted">Latence moyenne</h6>
+        <p class="display-5 text-primary mb-0">{{ stats.latence_moyenne }} ms</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card shadow-sm text-center">
+      <div class="card-body">
+        <h6 class="text-muted">Alertes actives</h6>
+        <p class="display-5 text-danger mb-0">{{ stats.alertes_actives }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-header">Répartition des statuts par équipement</div>
+  <div class="card-body">
+    <canvas id="graphiqueEquip" height="100"></canvas>
+  </div>
+</div>
+
+<div class="text-end mt-3">
+  <button class="btn btn-outline-secondary" onclick="window.print()">
+    <i class="bi bi-printer"></i> Imprimer / Exporter PDF
+  </button>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const noms = {{ equipements | map(attribute='nom') | list | tojson }};
+  const latences = {{ equipements | map(attribute='latence_ms') | list | tojson }};
+  initGraphiqueEquipements(noms, latences);
+</script>
+{% endblock %}

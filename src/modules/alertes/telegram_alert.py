@@ -1,0 +1,62 @@
+# -*- coding: utf-8 -*-
+"""
+telegram_alert.py
+=================
+Canal d'alerte instantanée via un bot Telegram.
+
+Telegram offre une notification « push » gratuite, fiable et quasi instantanée
+sur smartphone, ce qui réduit considérablement le temps de réaction de
+l'administrateur (objectif central du mémoire). On utilise l'API HTTP du bot
+(méthode sendMessage) via une simple requête POST.
+
+Pré-requis : créer un bot via @BotFather pour obtenir le TELEGRAM_BOT_TOKEN,
+puis récupérer le chat_id de l'administrateur ou du groupe d'astreinte.
+"""
+
+import requests
+
+from config import config
+from modules.logger import get_logger
+
+logger = get_logger("alerte_telegram")
+
+# Modèle d'URL de l'API Telegram Bot.
+API_URL = "https://api.telegram.org/bot{token}/sendMessage"
+
+
+def _construire_message(equipement, type_alerte, severite, message):
+    """Construit le texte de la notification au format Markdown Telegram."""
+    icone = {"CRITIQUE": "🔴", "AVERTISSEMENT": "🟠", "INFO": "🔵"}.get(severite, "⚪")
+    return (
+        f"{icone} *ALERTE SUPERVISION*\n\n"
+        f"*Équipement :* {equipement['nom']}\n"
+        f"*IP :* `{equipement['adresse_ip']}`\n"
+        f"*Type :* {type_alerte}\n"
+        f"*Sévérité :* {severite}\n"
+        f"*Détail :* {message}"
+    )
+
+
+def envoyer_alerte_telegram(equipement, type_alerte, severite, message):
+    """Envoie l'alerte via Telegram. Retourne True si l'envoi a réussi."""
+    if not config.TELEGRAM_BOT_TOKEN or not config.TELEGRAM_CHAT_ID:
+        logger.warning("Bot Telegram non configuré : notification non envoyée.")
+        return False
+
+    url = API_URL.format(token=config.TELEGRAM_BOT_TOKEN)
+    payload = {
+        "chat_id": config.TELEGRAM_CHAT_ID,
+        "text": _construire_message(equipement, type_alerte, severite, message),
+        "parse_mode": "Markdown",
+    }
+
+    try:
+        reponse = requests.post(url, data=payload, timeout=10)
+        if reponse.status_code == 200:
+            logger.info("Notification Telegram envoyée pour %s.", equipement["nom"])
+            return True
+        logger.error("Échec Telegram (HTTP %s) : %s", reponse.status_code, reponse.text)
+        return False
+    except Exception as exc:
+        logger.error("Erreur lors de l'envoi Telegram : %s", exc)
+        return False

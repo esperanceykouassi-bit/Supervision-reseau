@@ -1,0 +1,50 @@
+@startuml diagramme-activite
+' Diagramme d'activité UML : logique d'un cycle de supervision
+start
+:Cron déclenche le moteur;
+:Charger les équipements actifs (MySQL);
+
+while (Reste-t-il un équipement à tester ?) is (oui)
+  :Envoyer sonde ICMP (ping);
+  if (Hôte répond ?) then (oui)
+    if (Service applicatif défini ?) then (oui)
+      :Tester le port TCP du service;
+      if (Service ouvert ?) then (oui)
+        :statut = UP;
+      else (non)
+        :statut = DOWN\n(service indisponible);
+      endif
+    else (non)
+      :statut = UP;
+    endif
+  else (non)
+    :statut = DOWN;
+  endif
+
+  :Mettre à jour le statut en base;
+  :Écrire une ligne de journal;
+
+  if (statut == DOWN ?) then (oui)
+    :Compter les échecs consécutifs;
+    if (échecs >= seuil ?) then (oui)
+      if (Alerte déjà active ?) then (non)
+        :Enregistrer l'alerte;
+        :Envoyer e-mail;
+        :Envoyer Telegram;
+      else (oui)
+        :Ignorer (anti-spam);
+      endif
+    else (non)
+      :Attendre confirmation\n(cycle suivant);
+    endif
+  else (statut == UP)
+    if (Revenait d'une panne ?) then (oui)
+      :Acquitter les alertes;
+      :Notifier le rétablissement;
+    endif
+  endif
+endwhile (non)
+
+:Journaliser le bilan du cycle;
+stop
+@enduml

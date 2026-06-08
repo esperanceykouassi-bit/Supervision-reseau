@@ -1,0 +1,20 @@
+# ====================================================================== #
+#  Planification Cron du moteur de supervision                           #
+#  ----------------------------------------------------------------------#
+#  Installation :                                                         #
+#    crontab -e   puis coller les lignes ci-dessous                      #
+#  OU (recommandé en production) :                                        #
+#    sudo cp supervision.cron /etc/cron.d/supervision                    #
+#                                                                         #
+#  Format d'une ligne cron :                                             #
+#    min  heure  jour-mois  mois  jour-semaine  commande                 #
+# ====================================================================== #
+
+# Exécute un cycle de supervision toutes les 2 minutes.
+# On active l'environnement virtuel puis on lance le moteur.
+# La sortie est redirigée vers un journal dédié (et les erreurs aussi).
+*/2 * * * * cd /opt/supervision/src && /opt/supervision/venv/bin/python supervisor.py >> /opt/supervision/src/logs/cron.log 2>&1
+
+# Découverte automatique du réseau une fois par jour à 03h00
+# (détecte les nouveaux équipements branchés sur le LAN).
+0 3 * * * cd /opt/supervision/src && /opt/supervision/venv/bin/python supervisor.py --decouvrir 192.168.1.0/24 >> /opt/supervision/src/logs/decouverte.log 2>&1

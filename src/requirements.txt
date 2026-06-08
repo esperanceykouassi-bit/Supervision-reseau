@@ -1,0 +1,9 @@
+# Dépendances Python du système de supervision réseau
+# Installer avec : pip install -r requirements.txt
+
+Flask==3.0.3                 # Micro-framework web pour le tableau de bord
+mysql-connector-python==9.0.0  # Connecteur officiel MySQL
+python-dotenv==1.0.1        # Chargement des variables d'environnement (.env)
+requests==2.32.3           # Requêtes HTTP (API Telegram)
+Werkzeug==3.0.3            # Utilitaires WSGI + hachage des mots de passe
+gunicorn==22.0.0          # Serveur WSGI de production (déploiement)

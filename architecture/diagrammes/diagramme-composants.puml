@@ -1,0 +1,50 @@
+@startuml diagramme-composants
+' Diagramme de composants UML : organisation logicielle du système
+skinparam componentStyle rectangle
+
+package "Interface utilisateur" {
+  [Tableau de bord Web\n(Flask + Jinja2)] as Web
+  [API REST JSON] as API
+}
+
+package "Moteur de supervision" {
+  [Ordonnanceur\n(Cron)] as Cron
+  [supervisor.py\n(Orchestrateur)] as Moteur
+  [Découverte réseau\n(detection)] as Disco
+  [Sonde ICMP\n(ping_monitor)] as Ping
+  [Sonde Service\n(service_monitor)] as Svc
+}
+
+package "Gestion des alertes" {
+  [Gestionnaire\nd'alertes] as Alert
+  [Canal E-mail\n(SMTP)] as Mail
+  [Canal Telegram\n(API Bot)] as Tg
+}
+
+package "Accès aux données" {
+  [database.py\n(DAL)] as DAL
+}
+
+database "MySQL" as DB
+
+cloud "Serveur SMTP" as SMTP
+cloud "API Telegram" as APITG
+
+Cron --> Moteur : déclenche
+Moteur --> Ping : utilise
+Moteur --> Svc : utilise
+Moteur --> Disco : utilise
+Moteur --> Alert : signale panne
+Moteur --> DAL
+Disco --> DAL
+Alert --> Mail
+Alert --> Tg
+Alert --> DAL
+Mail --> SMTP
+Tg --> APITG
+Web --> DAL
+Web --> API
+API --> DAL
+DAL --> DB
+
+@enduml

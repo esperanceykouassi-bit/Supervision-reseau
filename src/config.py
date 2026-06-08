@@ -1,0 +1,81 @@
+# -*- coding: utf-8 -*-
+"""
+config.py
+=========
+Module de configuration centralisée du système de supervision réseau.
+
+Toutes les variables sensibles (mots de passe, jetons, etc.) sont chargées
+depuis des variables d'environnement afin de ne JAMAIS apparaître en clair
+dans le code source (bonne pratique de cybersécurité : principe du secret
+hors du code, conforme aux recommandations OWASP).
+
+Auteur  : Étudiant Master 2 RIT
+Projet  : Mémoire - Automatisation de la supervision réseau
+"""
+
+import os
+from dotenv import load_dotenv
+
+# Chargement du fichier .env situé à la racine du projet (variables locales).
+# En production, ces variables sont injectées par le système (systemd, Docker...).
+load_dotenv()
+
+
+class Config:
+    """Classe de configuration commune à l'ensemble de l'application."""
+
+    # ------------------------------------------------------------------ #
+    # Configuration de l'application Flask                                #
+    # ------------------------------------------------------------------ #
+    # Clé secrète utilisée pour signer les sessions et jetons CSRF.
+    SECRET_KEY = os.getenv("SECRET_KEY", "changez-moi-en-production")
+    DEBUG = os.getenv("FLASK_DEBUG", "False").lower() == "true"
+    HOST = os.getenv("FLASK_HOST", "0.0.0.0")
+    PORT = int(os.getenv("FLASK_PORT", "5000"))
+
+    # ------------------------------------------------------------------ #
+    # Configuration de la base de données MySQL                          #
+    # ------------------------------------------------------------------ #
+    DB_HOST = os.getenv("DB_HOST", "localhost")
+    DB_PORT = int(os.getenv("DB_PORT", "3306"))
+    DB_NAME = os.getenv("DB_NAME", "supervision")
+    DB_USER = os.getenv("DB_USER", "supervisor")
+    DB_PASSWORD = os.getenv("DB_PASSWORD", "supervision_pass")
+
+    # ------------------------------------------------------------------ #
+    # Paramètres de supervision (sondes)                                 #
+    # ------------------------------------------------------------------ #
+    # Nombre de paquets ICMP envoyés à chaque test de ping.
+    PING_COUNT = int(os.getenv("PING_COUNT", "3"))
+    # Délai d'attente (en secondes) avant de considérer un hôte injoignable.
+    PING_TIMEOUT = int(os.getenv("PING_TIMEOUT", "2"))
+    # Nombre d'échecs consécutifs avant de déclencher une alerte (anti-faux positif).
+    FAILURE_THRESHOLD = int(os.getenv("FAILURE_THRESHOLD", "2"))
+
+    # ------------------------------------------------------------------ #
+    # Configuration des alertes E-mail (SMTP)                            #
+    # ------------------------------------------------------------------ #
+    SMTP_HOST = os.getenv("SMTP_HOST", "smtp.gmail.com")
+    SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
+    SMTP_USER = os.getenv("SMTP_USER", "")
+    SMTP_PASSWORD = os.getenv("SMTP_PASSWORD", "")
+    ALERT_EMAIL_FROM = os.getenv("ALERT_EMAIL_FROM", "supervision@exemple.com")
+    # Liste des destinataires séparés par des virgules.
+    ALERT_EMAIL_TO = os.getenv("ALERT_EMAIL_TO", "admin@exemple.com").split(",")
+
+    # ------------------------------------------------------------------ #
+    # Configuration du bot Telegram                                      #
+    # ------------------------------------------------------------------ #
+    TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
+    TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "")
+
+    # ------------------------------------------------------------------ #
+    # Journalisation                                                     #
+    # ------------------------------------------------------------------ #
+    LOG_DIR = os.getenv("LOG_DIR", "logs")
+    LOG_FILE = os.getenv("LOG_FILE", "supervision.log")
+    LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
+
+
+# Instance unique réutilisée dans toute l'application.
+config = Config()
