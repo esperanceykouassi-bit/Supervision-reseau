@@ -37,7 +37,7 @@
 [Grade — NOM Prénom du Directeur de mémoire]
 
 **Encadreur professionnel :**
-[NOM Prénom — Fonction, Structure d'accueil]
+[NOM Prénom — Fonction, OPEN MOISE]
 
 ---
 
@@ -87,7 +87,7 @@ Je remercie également l'ensemble du **corps enseignant du département RIT** po
 la formation de qualité dispensée durant ces années d'études, qui constitue le
 socle de ce travail.
 
-Ma reconnaissance va aussi à la **structure d'accueil [Nom de l'entreprise]** et
+Ma reconnaissance va aussi à la **structure d'accueil OPEN MOISE** et
 à mon encadreur professionnel **[NOM Prénom]**, pour m'avoir permis de confronter
 mes acquis théoriques aux réalités du terrain.
 
@@ -201,6 +201,7 @@ Zabbix, monitoring, DevOps, fault detection, real-time alerting.
 - Objectifs
 - Hypothèses
 - Méthodologie
+- Présentation de la structure d'accueil (OPEN MOISE)
 - **Chapitre 1 :** Revue de littérature
 - **Chapitre 2 :** Étude de l'existant
 - **Chapitre 3 :** Analyse et conception
@@ -417,8 +418,8 @@ développement d'un module, test, intégration, puis itération.
 
 - **Recherche documentaire** : ouvrages, articles scientifiques, documentation
   technique et standards (RFC) relatifs à la supervision réseau.
-- **Observation** : analyse des pratiques de supervision manuelle dans la
-  structure d'accueil.
+- **Observation** : analyse des pratiques de supervision manuelle au sein de la
+  structure d'accueil, OPEN MOISE.
 - **Expérimentation** : déploiement du prototype dans un environnement de test
   (réseau local et machines virtuelles) et collecte automatisée des métriques
   via les journaux du système.
@@ -432,6 +433,69 @@ Les résultats sont présentés sous forme de **tableaux** et de **graphiques** 
 d'en faciliter l'interprétation et de **valider ou réfuter les hypothèses**. La
 conception du système est, quant à elle, formalisée à l'aide de la notation
 **UML** et de la méthode **MERISE** pour la base de données.
+
+---
+
+# PRÉSENTATION DE LA STRUCTURE D'ACCUEIL : OPEN MOISE
+
+> *Cette section présente le cadre institutionnel dans lequel le projet a été
+> réalisé. Les informations entre crochets `[...]` sont à compléter avec les
+> données officielles fournies par l'entreprise (organigramme, plaquette,
+> registre du commerce…).*
+
+## A. Présentation générale
+
+**OPEN MOISE** est une **entreprise de services du numérique (ESN)** spécialisée
+dans [domaines d'activité : infogérance, intégration de solutions réseau et
+systèmes, développement logiciel, conseil en transformation numérique…]. Créée
+en **[année]** et implantée à **[ville / pays]**, elle accompagne ses clients —
+**[PME, grandes entreprises, administrations…]** — dans la conception, le
+déploiement et l'exploitation de leurs infrastructures informatiques.
+
+| Élément | Information |
+|---------|-------------|
+| Raison sociale | OPEN MOISE |
+| Forme juridique | [SARL / SA / SAS…] |
+| Date de création | [année] |
+| Siège social | [adresse, ville] |
+| Secteur d'activité | Services numériques (ESN) |
+| Effectif | [nombre] collaborateurs |
+| Dirigeant | [NOM Prénom] |
+
+## B. Mission et domaines d'activité
+
+La mission d'OPEN MOISE est de **garantir à ses clients un système d'information
+performant, disponible et sécurisé**. Ses principaux domaines d'intervention sont :
+
+- **Infogérance et supervision** : exploitation et surveillance des
+  infrastructures réseau et systèmes des clients ;
+- **Intégration réseau & systèmes** : déploiement d'équipements, de serveurs et
+  de solutions de connectivité ;
+- **Développement et conseil** : applications métier, automatisation,
+  accompagnement à la transformation numérique ;
+- **Cybersécurité** : protection et continuité des services.
+
+## C. Organisation
+
+OPEN MOISE s'organise autour de **[directions / pôles : Direction technique,
+Pôle infogérance, Pôle développement, Support…]**. Le présent projet a été
+mené au sein du **[pôle / service d'accueil, ex. Pôle Infrastructures &
+Supervision]**, sous la responsabilité de **[NOM Prénom — fonction]**.
+
+> *Insérer ici l'organigramme de l'entreprise (Annexe).*
+
+## D. Justification du projet au sein d'OPEN MOISE
+
+En tant qu'ESN assurant l'**infogérance** et la **supervision** des
+infrastructures de ses clients, OPEN MOISE est directement concernée par la
+problématique de ce mémoire : **détecter au plus tôt les pannes** des parcs
+qu'elle exploite et **réduire le temps d'intervention** de ses équipes
+d'astreinte. La solution développée constitue donc un **outil interne à forte
+valeur ajoutée** pour l'entreprise : elle lui permet d'**industrialiser** sa
+supervision, d'**améliorer la qualité de service** rendue à ses clients
+(respect des engagements de niveau de service / SLA) et de **maîtriser ses
+coûts** grâce à l'usage exclusif de technologies open-source. Ce projet répond
+ainsi à un besoin **réel et stratégique** de la structure d'accueil.
 
 ---
 

@@ -39,7 +39,7 @@ Durée cible : 15-20 min d'exposé + questions.
 
 **[NOM Prénom]** — Master 2 RIT
 Sous la direction de **[Directeur de mémoire]**
-Structure d'accueil : **[Entreprise]** — Année académique 2025–2026
+Structure d'accueil : **OPEN MOISE** — Année académique 2025–2026
 
 <!-- Bonjour Mesdames et Messieurs les membres du jury. Je vous remercie de
 votre présence. Je vais vous présenter mon mémoire-projet : une solution
@@ -93,6 +93,26 @@ instantanément** les administrateurs — entièrement avec des outils open-sour
 en stage - les pannes détectées trop tard - et une conviction : on peut
 résoudre ce problème sans budget colossal grâce à l'open-source. C'est à la
 fois un défi d'ingénieur et une opportunité de marché. -->
+
+---
+
+## Présentation de la structure d'accueil — OPEN MOISE
+
+**OPEN MOISE** — Entreprise de Services du Numérique (**ESN**)
+
+- 🏢 Activités : **infogérance**, intégration réseau & systèmes, développement, cybersécurité
+- 🎯 Mission : garantir aux clients un SI **performant, disponible et sécurisé**
+- 👥 [Effectif] collaborateurs · implantée à [ville] · depuis [année]
+- 🧩 Projet mené au sein du **[Pôle Infrastructures & Supervision]**
+
+> En tant qu'ESN qui **supervise les réseaux de ses clients**, OPEN MOISE est
+> directement concernée : ce projet est un **outil interne stratégique** pour
+> tenir ses engagements de service (**SLA**) et maîtriser ses coûts.
+
+<!-- Quelques mots sur mon entreprise d'accueil, OPEN MOISE. C'est une ESN qui
+assure notamment l'infogérance et la supervision des réseaux de ses clients.
+Mon projet répond donc à un besoin direct de l'entreprise : détecter plus vite
+les pannes des parcs qu'elle exploite et respecter ses engagements de service. -->
 
 ---
 

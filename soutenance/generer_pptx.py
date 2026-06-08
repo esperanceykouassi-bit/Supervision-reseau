@@ -185,7 +185,7 @@ tb = zone_texte(s, Inches(0.8), Inches(5.4), Inches(11.7), Inches(1.6))
 for i, (txt, sz, g) in enumerate([
     ("[NOM Prénom] — Master 2 RIT", 20, True),
     ("Sous la direction de [Directeur de mémoire]", 16, False),
-    ("Structure d'accueil : [Entreprise]  •  Année académique 2025–2026", 14, False),
+    ("Structure d'accueil : OPEN MOISE  •  Année académique 2025–2026", 14, False),
 ]):
     p = tf2 = (s.shapes[-1].text_frame.paragraphs[0] if i == 0 else s.shapes[-1].text_frame.add_paragraph())
     p.alignment = PP_ALIGN.CENTER
@@ -246,6 +246,30 @@ notes(s, "J'ai choisi ce thème car il croise une réalité observée en stage -
          "pannes détectées trop tard - et une conviction : on peut résoudre ce "
          "problème sans budget colossal grâce à l'open-source. C'est à la fois un "
          "défi d'ingénieur et une opportunité de marché.")
+
+# ====================================================================== #
+#  PRÉSENTATION DE LA STRUCTURE D'ACCUEIL — OPEN MOISE                   #
+# ====================================================================== #
+s = ajouter_diapo(); fond(s)
+bandeau_titre(s, None, "Structure d'accueil — OPEN MOISE")
+puces(s, [
+    ("OPEN MOISE — Entreprise de Services du Numérique (ESN)", 0, True, BLEU_FONCE),
+    ("", 0, False, GRIS),
+    ("Activités : infogérance, intégration réseau & systèmes, développement, "
+     "cybersécurité", 1, False, GRIS),
+    ("Mission : garantir un SI performant, disponible et sécurisé à ses clients", 1, False, GRIS),
+    ("[Effectif] collaborateurs · implantée à [ville] · depuis [année]", 1, False, GRIS),
+    ("Projet mené au sein du [Pôle Infrastructures & Supervision]", 1, False, GRIS),
+], y=Inches(1.5), h=Inches(3.6), taille=20)
+encadre(s, "ESN qui supervise les réseaux de ses clients, OPEN MOISE est "
+           "directement concernée : ce projet est un outil interne stratégique pour "
+           "tenir ses engagements de service (SLA) et maîtriser ses coûts.",
+        y=Inches(5.5), h=Inches(1.3))
+notes(s, "Quelques mots sur mon entreprise d'accueil, OPEN MOISE : une ESN qui "
+         "assure notamment l'infogérance et la supervision des réseaux de ses "
+         "clients. Mon projet répond donc à un besoin direct de l'entreprise : "
+         "détecter plus vite les pannes des parcs qu'elle exploite et respecter ses "
+         "engagements de service.")
 
 # ====================================================================== #
 #  1 — CONTEXTE ET PROBLÈME                                             #
