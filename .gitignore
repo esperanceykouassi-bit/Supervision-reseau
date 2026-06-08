@@ -41,3 +41,5 @@ architecture/diagrammes/*.svg
 *.pdf
 *.docx
 *.pptx
+# Exception : le support de soutenance PowerPoint est un livrable versionné
+!soutenance/presentation-projet.pptx
