@@ -914,6 +914,9 @@ confirmée → alerte ; retour en ligne → rétablissement), figure 5.
 Il présente le modèle du domaine : classes `Equipement`, `Journal`, `Alerte`,
 `Utilisateur`, `Statistique`, et classes de service `SondeICMP`,
 `SondeService`, `GestionnaireAlertes`, `CanalEmail`, `CanalTelegram` (figure 6).
+Les associations expriment qu'un équipement *génère* des journaux et *déclenche*
+des alertes, qu'un **utilisateur** *supervise* plusieurs équipements (relation
+plusieurs-à-plusieurs) et *acquitte* plusieurs alertes (relation 1..n).
 
 ![Figure 6 — Diagramme de classes](../architecture/diagrammes/diagramme-classes.png)
 
@@ -941,17 +944,23 @@ Données (MCD)** vers le **Modèle Logique (MLD)**, puis le modèle physique
 
 ### 6.5.1 Modèle Conceptuel de Données (MCD)
 
-Le MCD décrit les entités et leurs associations : un **équipement** *génère*
-plusieurs **journaux** et *déclenche* plusieurs **alertes** ; les
-**utilisateurs** et les **statistiques** complètent le modèle (figure 9).
+Le MCD décrit les entités et leurs associations (figure 9) : un **équipement**
+*génère* plusieurs **journaux** et *déclenche* plusieurs **alertes** ; un
+**utilisateur** *supervise* plusieurs équipements — relation
+**plusieurs-à-plusieurs** (0,n)–(1,n) — et *acquitte* plusieurs **alertes** —
+relation (1,n). La **statistique** complète le modèle.
 
 ![Figure 9 — Modèle Conceptuel de Données (MCD)](../database/mcd.png)
 
 ### 6.5.2 Modèle Logique de Données (MLD)
 
-Le MLD traduit le MCD en **cinq tables relationnelles** avec clés primaires
-(PK) et étrangères (FK) : `utilisateurs`, `equipements`, `journaux`, `alertes`,
-`statistiques` (figure 10).
+Le MLD traduit le MCD en tables relationnelles avec clés primaires (PK) et
+étrangères (FK) — figure 10. La relation plusieurs-à-plusieurs « supervise » est,
+conformément aux règles de transformation MERISE, **résolue par une table
+associative** `responsabilite` (clé primaire composite). On obtient ainsi
+**six tables** : `utilisateurs`, `equipements`, `journaux`, `alertes`,
+`responsabilite` et `statistiques`. La relation « acquitte » se matérialise par
+la clé étrangère `acquittee_par` dans la table `alertes`.
 
 ![Figure 10 — Modèle Logique de Données (MLD)](../database/mld.png)
 
@@ -1164,7 +1173,7 @@ fermeture systématique des connexions, même en cas d'exception.
 
 ## 7.11 Description des tables de la base de données
 
-La base `supervision` comporte cinq tables :
+La base `supervision` comporte **six tables** :
 
 - **`utilisateurs`** : comptes d'accès au tableau de bord. Le mot de passe est
   stocké uniquement sous forme de **hachage** ; un champ `role` distingue
@@ -1177,7 +1186,13 @@ La base `supervision` comporte cinq tables :
   disponibilité et constitue la **preuve de SLA**.
 - **`alertes`** : alertes émises, avec type, sévérité, canal de diffusion, état
   d'**acquittement** et dates. Elle porte la logique anti-spam (recherche d'une
-  alerte active du même type).
+  alerte active du même type) et trace, via `acquittee_par`, l'**utilisateur**
+  qui a pris en charge l'alerte.
+- **`responsabilite`** : table associative reliant `utilisateurs` et
+  `equipements`. Elle matérialise la relation **« supervise »**
+  (plusieurs-à-plusieurs) : un technicien est responsable de plusieurs
+  équipements, et un équipement peut être suivi par plusieurs techniciens. Sa
+  clé primaire est **composite** (`utilisateur_id`, `equipement_id`).
 - **`statistiques`** : agrégats journaliers (instantanés) pour les rapports de
   tendance.
 

@@ -78,6 +78,8 @@ class CanalTelegram {
 
 Equipement "1" o-- "0..*" Journal : génère >
 Equipement "1" o-- "0..*" Alerte : déclenche >
+Utilisateur "0..*" -- "1..*" Equipement : supervise >
+Utilisateur "1" o-- "0..*" Alerte : acquitte >
 Equipement ..> SondeICMP : utilise
 Equipement ..> SondeService : utilise
 GestionnaireAlertes ..> Alerte : crée

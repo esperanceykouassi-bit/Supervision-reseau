@@ -189,15 +189,75 @@ def get_alertes(limit=100, non_acquittees=False):
         return cursor.fetchall()
 
 
-def acquitter_alerte(alerte_id):
-    """Marque une alerte comme traitée par un administrateur."""
+def acquitter_alerte(alerte_id, utilisateur_id=None):
+    """Marque une alerte comme traitée et enregistre l'utilisateur qui l'acquitte.
+
+    Le champ `acquittee_par` matérialise la relation « UN UTILISATEUR acquitte
+    PLUSIEURS alertes » (1,n) : on trace qui a pris en charge l'incident.
+    """
     with get_connection() as conn:
         cursor = conn.cursor()
         cursor.execute(
-            "UPDATE alertes SET acquittee = 1, date_acquittement = %s WHERE id = %s",
-            (datetime.now(), alerte_id),
+            """UPDATE alertes
+               SET acquittee = 1, date_acquittement = %s, acquittee_par = %s
+               WHERE id = %s""",
+            (datetime.now(), utilisateur_id, alerte_id),
         )
         conn.commit()
+
+
+# ---------------------------------------------------------------------- #
+# Relation UTILISATEUR <-> EQUIPEMENT (table « responsabilite »)         #
+# ---------------------------------------------------------------------- #
+def affecter_equipement(utilisateur_id, equipement_id):
+    """Affecte un équipement à un utilisateur (relation « supervise »)."""
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(
+            """INSERT IGNORE INTO responsabilite (utilisateur_id, equipement_id)
+               VALUES (%s, %s)""",
+            (utilisateur_id, equipement_id),
+        )
+        conn.commit()
+
+
+def retirer_affectation(utilisateur_id, equipement_id):
+    """Retire l'affectation d'un équipement à un utilisateur."""
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(
+            "DELETE FROM responsabilite WHERE utilisateur_id = %s AND equipement_id = %s",
+            (utilisateur_id, equipement_id),
+        )
+        conn.commit()
+
+
+def get_equipements_utilisateur(utilisateur_id):
+    """Retourne les équipements supervisés par un utilisateur donné."""
+    with get_connection() as conn:
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute(
+            """SELECT e.* FROM equipements e
+               JOIN responsabilite r ON r.equipement_id = e.id
+               WHERE r.utilisateur_id = %s
+               ORDER BY e.nom""",
+            (utilisateur_id,),
+        )
+        return cursor.fetchall()
+
+
+def get_responsables_equipement(equipement_id):
+    """Retourne les utilisateurs responsables d'un équipement donné."""
+    with get_connection() as conn:
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute(
+            """SELECT u.id, u.identifiant, u.nom_complet FROM utilisateurs u
+               JOIN responsabilite r ON r.utilisateur_id = u.id
+               WHERE r.equipement_id = %s
+               ORDER BY u.identifiant""",
+            (equipement_id,),
+        )
+        return cursor.fetchall()
 
 
 def derniere_alerte_active(equipement_id, type_alerte):

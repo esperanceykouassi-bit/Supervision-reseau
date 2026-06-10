@@ -49,6 +49,8 @@ erDiagram
 
     EQUIPEMENT ||--o{ JOURNAL : "génère"
     EQUIPEMENT ||--o{ ALERTE : "déclenche"
+    UTILISATEUR ||--o{ ALERTE : "acquitte"
+    UTILISATEUR }o--o{ EQUIPEMENT : "supervise"
 ```
 
 ### Description des entités et associations
@@ -57,7 +59,13 @@ erDiagram
   de journal (cardinalité 1,n) ; chaque journal appartient à un seul équipement.
 - **EQUIPEMENT** *déclenche* **ALERTE** : un équipement peut déclencher
   plusieurs alertes ; chaque alerte concerne un seul équipement.
-- **UTILISATEUR** : entité indépendante (gestion des accès au tableau de bord).
+- **UTILISATEUR** *supervise* **EQUIPEMENT** : relation **plusieurs-à-plusieurs**
+  (0,n)–(1,n). Un technicien (utilisateur) supervise plusieurs équipements, et
+  un équipement peut être pris en charge par plusieurs techniciens. Cette
+  association se matérialise par une **table associative** (`responsabilite`).
+- **UTILISATEUR** *acquitte* **ALERTE** : relation (1,n). Un utilisateur peut
+  acquitter plusieurs alertes ; chaque alerte est acquittée par au plus un
+  utilisateur (champ `acquittee_par`).
 - **STATISTIQUE** : agrégat journalier calculé, sans clé étrangère directe
   (instantané global du parc).
 
@@ -81,10 +89,17 @@ JOURNAL (id, #equipement_id, statut, latence_ms, message, date_evenement)
     Clé primaire : id
     Clé étrangère : equipement_id → EQUIPEMENT(id)
 
-ALERTE (id, #equipement_id, type_alerte, severite, message, canal,
-        acquittee, date_alerte, date_acquittement)
+ALERTE (id, #equipement_id, #acquittee_par, type_alerte, severite, message,
+        canal, acquittee, date_alerte, date_acquittement)
     Clé primaire : id
     Clé étrangère : equipement_id → EQUIPEMENT(id)
+    Clé étrangère : acquittee_par → UTILISATEUR(id)   -- « acquitte » (1,n)
+
+RESPONSABILITE (#utilisateur_id, #equipement_id, date_affectation)
+    Clé primaire : (utilisateur_id, equipement_id)    -- clé composite
+    Clé étrangère : utilisateur_id → UTILISATEUR(id)
+    Clé étrangère : equipement_id  → EQUIPEMENT(id)
+    -- Table associative résolvant la relation « supervise » (n,m)
 
 STATISTIQUE (id, date_stat, total_equipements, equipements_up,
              equipements_down, taux_disponibilite, latence_moyenne, nombre_alertes)
@@ -92,6 +107,11 @@ STATISTIQUE (id, date_stat, total_equipements, equipements_up,
 ```
 
 > Légende : `#` = clé étrangère.
+
+La relation **plusieurs-à-plusieurs** entre `UTILISATEUR` et `EQUIPEMENT` est,
+conformément aux règles de transformation MERISE, **résolue par une table
+associative** `RESPONSABILITE` dont la clé primaire est la **concaténation** des
+clés étrangères des deux entités.
 
 ## 3. Modèle Physique de Données (MPD)
 
@@ -113,3 +133,8 @@ Le MPD est l'implémentation concrète dans MySQL : voir le fichier
 3. Une alerte non acquittée bloque l'émission d'une alerte identique (anti-spam).
 4. Le retour en ligne d'un équipement acquitte automatiquement ses alertes de panne.
 5. Le mot de passe d'un utilisateur n'est jamais stocké en clair.
+6. Un utilisateur (technicien) peut **superviser plusieurs équipements**, et un
+   équipement peut être supervisé par **plusieurs utilisateurs** (relation n,m
+   via `responsabilite`).
+7. Lorsqu'un utilisateur **acquitte** une alerte, son identité est tracée dans
+   `acquittee_par` (responsabilité de la prise en charge).

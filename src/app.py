@@ -56,6 +56,7 @@ def login():
         utilisateur = _verifier_identifiants(identifiant, mot_de_passe)
         if utilisateur:
             session["utilisateur"] = utilisateur["identifiant"]
+            session["user_id"] = utilisateur["id"]
             session["role"] = utilisateur["role"]
             logger.info("Connexion réussie : %s", identifiant)
             return redirect(request.args.get("next") or url_for("dashboard"))
@@ -141,8 +142,8 @@ def alertes_page():
 @app.route("/alertes/acquitter/<int:alerte_id>", methods=["POST"])
 @login_required
 def acquitter(alerte_id):
-    """Acquitte (marque comme traitée) une alerte."""
-    database.acquitter_alerte(alerte_id)
+    """Acquitte (marque comme traitée) une alerte en traçant l'utilisateur."""
+    database.acquitter_alerte(alerte_id, utilisateur_id=session.get("user_id"))
     flash("Alerte acquittée.", "success")
     return redirect(url_for("alertes_page"))
 

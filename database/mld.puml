@@ -54,8 +54,16 @@ entity "ALERTE" as alerte {
   message : VARCHAR
   canal : VARCHAR
   acquittee : TINYINT
+  **FK** acquittee_par : INT (NULL)
   date_alerte : DATETIME
   date_acquittement : DATETIME
+}
+
+entity "RESPONSABILITE" as resp {
+  **PK,FK** utilisateur_id : INT
+  **PK,FK** equipement_id : INT
+  --
+  date_affectation : DATETIME
 }
 
 entity "STATISTIQUE" as stat {
@@ -72,5 +80,8 @@ entity "STATISTIQUE" as stat {
 
 equip ||--o{ journal
 equip ||--o{ alerte
+user ||--o{ alerte : "acquitte"
+user ||--o{ resp
+equip ||--o{ resp
 
 @enduml

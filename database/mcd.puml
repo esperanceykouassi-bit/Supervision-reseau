@@ -54,5 +54,7 @@ entity "STATISTIQUE" as stat {
 
 equip ||--o{ journal : "génère\n(1,n)"
 equip ||--o{ alerte : "déclenche\n(1,n)"
+user }o--o{ equip : "supervise\n(0,n)-(1,n)"
+user ||--o{ alerte : "acquitte\n(0,n)"
 
 @enduml

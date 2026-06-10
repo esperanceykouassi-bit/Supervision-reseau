@@ -85,11 +85,32 @@ CREATE TABLE IF NOT EXISTS alertes (
     message            VARCHAR(255),
     canal              VARCHAR(50),             -- EMAIL+TELEGRAM
     acquittee          TINYINT(1) NOT NULL DEFAULT 0,
+    acquittee_par      INT,                     -- utilisateur ayant acquitté l'alerte
     date_alerte        DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     date_acquittement  DATETIME,
     INDEX idx_acquittee (acquittee),
     INDEX idx_equip (equipement_id),
     CONSTRAINT fk_alerte_equip FOREIGN KEY (equipement_id)
+        REFERENCES equipements(id) ON DELETE CASCADE,
+    -- Relation « UN UTILISATEUR acquitte PLUSIEURS alertes » (1,n).
+    CONSTRAINT fk_alerte_user FOREIGN KEY (acquittee_par)
+        REFERENCES utilisateurs(id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------- --
+--  Table : responsabilite (association UTILISATEUR <-> EQUIPEMENT)       --
+--  Matérialise la relation « plusieurs-à-plusieurs » : un utilisateur    --
+--  (technicien) SUPERVISE plusieurs équipements, et un équipement peut   --
+--  être pris en charge par plusieurs utilisateurs.                       --
+-- ---------------------------------------------------------------------- --
+CREATE TABLE IF NOT EXISTS responsabilite (
+    utilisateur_id   INT NOT NULL,
+    equipement_id    INT NOT NULL,
+    date_affectation DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (utilisateur_id, equipement_id),     -- clé primaire composite
+    CONSTRAINT fk_resp_user FOREIGN KEY (utilisateur_id)
+        REFERENCES utilisateurs(id) ON DELETE CASCADE,
+    CONSTRAINT fk_resp_equip FOREIGN KEY (equipement_id)
         REFERENCES equipements(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
@@ -139,3 +160,12 @@ VALUES
     ('Imprimante-RH',       '192.168.1.30',  'Imprimante','Bureau RH',       NULL,    'INCONNU'),
     ('Pare-feu',            '192.168.1.254', 'Firewall', 'Salle technique',  NULL,    'INCONNU')
 ON DUPLICATE KEY UPDATE nom = VALUES(nom);
+
+-- Affectations d'exemple (relation « supervise ») : l'administrateur est
+-- responsable de quelques équipements. On résout les identifiants par sous-requête
+-- pour ne pas dépendre de l'ordre d'auto-incrémentation.
+INSERT IGNORE INTO responsabilite (utilisateur_id, equipement_id)
+SELECT u.id, e.id
+FROM utilisateurs u
+JOIN equipements e ON e.adresse_ip IN ('192.168.1.1', '192.168.1.10', '192.168.1.11')
+WHERE u.identifiant = 'admin';

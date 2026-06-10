@@ -197,7 +197,7 @@ fermeture systématique des connexions, même en cas d'exception.
 
 ## 7.11 Description des tables de la base de données
 
-La base `supervision` comporte cinq tables :
+La base `supervision` comporte **six tables** :
 
 - **`utilisateurs`** : comptes d'accès au tableau de bord. Le mot de passe est
   stocké uniquement sous forme de **hachage** ; un champ `role` distingue
@@ -210,7 +210,13 @@ La base `supervision` comporte cinq tables :
   disponibilité et constitue la **preuve de SLA**.
 - **`alertes`** : alertes émises, avec type, sévérité, canal de diffusion, état
   d'**acquittement** et dates. Elle porte la logique anti-spam (recherche d'une
-  alerte active du même type).
+  alerte active du même type) et trace, via `acquittee_par`, l'**utilisateur**
+  qui a pris en charge l'alerte.
+- **`responsabilite`** : table associative reliant `utilisateurs` et
+  `equipements`. Elle matérialise la relation **« supervise »**
+  (plusieurs-à-plusieurs) : un technicien est responsable de plusieurs
+  équipements, et un équipement peut être suivi par plusieurs techniciens. Sa
+  clé primaire est **composite** (`utilisateur_id`, `equipement_id`).
 - **`statistiques`** : agrégats journaliers (instantanés) pour les rapports de
   tendance.
 
