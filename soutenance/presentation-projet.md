@@ -363,22 +363,43 @@ rétablissement automatique. J'ai un plan B en captures et vidéo. -->
 
 ---
 
-## 8. Démonstration — captures clés
+## 8. Démonstration — Tableau de bord temps réel
 
-> *Insérer ici les captures réelles :*
+![Tableau de bord](captures/capture-dashboard.png)
 
-| Écran | Ce qu'il prouve |
-|-------|-----------------|
-| 🔐 Connexion | Accès sécurisé |
-| 📊 Tableau de bord | Supervision temps réel, KPI, anneau de disponibilité |
-| 🖧 Équipements | Inventaire + découverte automatique |
-| 🔔 Alertes | Historique + acquittement |
-| 📱 Notification Telegram | Alerte push reçue sur smartphone |
-| 📈 Rapports | Statistiques & graphiques exportables |
+> Vue d'ensemble OPEN MOISE : KPI, anneau de disponibilité (75 %), alertes
+> actives et état de chaque équipement supervisé.
 
-<!-- Ces captures matérialisent chaque fonctionnalité clé. La plus parlante est
-la notification Telegram reçue sur le téléphone : c'est la preuve concrète de la
-valeur ajoutée pour l'administrateur. -->
+<!-- Voici le tableau de bord réel : en un coup d'œil, l'équipe d'OPEN MOISE voit
+les équipements en ligne, le taux de disponibilité, les alertes actives et
+l'état détaillé du parc. Ici deux équipements sont en panne, signalés en rouge. -->
+
+---
+
+## 8. Démonstration — détection et alerte instantanée
+
+| Notification Telegram (astreinte) | Historique des alertes |
+|:---:|:---:|
+| ![Telegram](captures/capture-telegram.png) | ![Alertes](captures/capture-alertes.png) |
+
+> Chaîne complète : panne détectée → alerte e-mail + Telegram en **< 2 min** →
+> acquittement → **preuve de SLA** dans l'historique.
+
+<!-- La détection déclenche en moins de deux minutes une alerte multi-canal. À
+gauche, la notification Telegram reçue par l'astreinte d'OPEN MOISE ; à droite,
+l'historique qui assure la traçabilité et sert de preuve de SLA au client. -->
+
+---
+
+## 8. Démonstration — gestion des équipements
+
+![Équipements](captures/capture-equipements.png)
+
+> Inventaire du parc client : découverte automatique, statut, service supervisé
+> et emplacement.
+
+<!-- La page de gestion des équipements présente l'inventaire du parc client,
+alimenté automatiquement par la découverte réseau. -->
 
 ---
 

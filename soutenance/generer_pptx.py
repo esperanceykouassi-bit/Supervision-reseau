@@ -644,23 +644,68 @@ notes(s, "Pour la démonstration, je propose un scénario vivant tel qu'OPEN MOI
          "une panne, et vous verrez l'astreinte alertée par Telegram en temps réel. "
          "Puis je rétablis. J'ai un plan B en captures et vidéo.")
 
-# ---- Démonstration : captures ----
+# ---- Démonstration : le TABLEAU DE BORD (capture hero) ----
+diapo_image(8, "Démonstration — Tableau de bord temps réel",
+            "soutenance/captures/capture-dashboard.png",
+            legende="Vue d'ensemble OPEN MOISE : KPI, anneau de disponibilité (75 %), "
+                    "alertes actives et état de chaque équipement supervisé.",
+            note_txt="Voici le tableau de bord réel : en un coup d'œil, l'équipe "
+                     "d'OPEN MOISE voit le nombre d'équipements en ligne, le taux de "
+                     "disponibilité, les alertes actives et l'état détaillé du parc. "
+                     "Ici, deux équipements sont en panne (DOWN), signalés en rouge.")
+
+# ---- Démonstration : DÉTECTION + ALERTE (telegram + historique) ----
 s = ajouter_diapo(); fond(s)
-bandeau_titre(s, 8, "Démonstration — captures clés")
+bandeau_titre(s, 8, "Démonstration — détection et alerte instantanée")
+# Notification Telegram (portrait) à gauche
+_ch = os.path.join(RACINE, "soutenance/captures/capture-telegram.png")
+w, h = _dim_ajustee(_ch, int(Inches(3.0)), int(Inches(5.2)))
+s.shapes.add_picture(_ch, Inches(0.7), Inches(1.45), width=w, height=h)
+tb = zone_texte(s, Inches(0.5), Inches(6.75), Inches(3.4), Inches(0.5))
+p = tb.text_frame.paragraphs[0]; p.alignment = PP_ALIGN.CENTER
+r = p.add_run(); r.text = "Notification Telegram (astreinte OPEN MOISE)"
+style_run(r, 12, True, BLEU_FONCE)
+# Historique des alertes (paysage) à droite
+_ca = os.path.join(RACINE, "soutenance/captures/capture-alertes.png")
+w2, h2 = _dim_ajustee(_ca, int(Inches(8.3)), int(Inches(3.4)))
+s.shapes.add_picture(_ca, Inches(4.4), Inches(1.7), width=w2, height=h2)
+tb = zone_texte(s, Inches(4.4), Inches(1.45), Inches(8.3), Inches(0.35))
+p = tb.text_frame.paragraphs[0]; p.alignment = PP_ALIGN.CENTER
+r = p.add_run(); r.text = "Historique des alertes (traçabilité + acquittement)"
+style_run(r, 12, True, BLEU_FONCE)
+encadre(s, "Chaîne complète : panne détectée → alerte e-mail + Telegram en < 2 min → "
+           "acquittement → preuve de SLA dans l'historique.", x=Inches(4.4),
+        y=Inches(5.5), w=Inches(8.3), h=Inches(1.2))
+notes(s, "La détection déclenche en moins de deux minutes une alerte multi-canal. À "
+         "gauche, la notification Telegram telle que la reçoit l'astreinte d'OPEN "
+         "MOISE sur son smartphone. À droite, l'historique des alertes, qui assure la "
+         "traçabilité et sert de preuve du respect des SLA auprès du client.")
+
+# ---- Démonstration : page Équipements ----
+diapo_image(8, "Démonstration — gestion des équipements",
+            "soutenance/captures/capture-equipements.png",
+            legende="Inventaire du parc client : découverte automatique, statut, "
+                    "service supervisé et emplacement.",
+            note_txt="La page de gestion des équipements présente l'inventaire du parc "
+                     "client, alimenté automatiquement par la découverte réseau. "
+                     "OPEN MOISE y ajoute ou retire des équipements en quelques clics.")
+
+# ---- Démonstration : ce que chaque écran prouve (récap) ----
+s = ajouter_diapo(); fond(s)
+bandeau_titre(s, 8, "Démonstration — ce que chaque écran prouve")
 tableau(s, [
-    ["Écran", "Ce qu'il prouve"],
-    ["Connexion", "Accès sécurisé"],
+    ["Écran", "Ce qu'il prouve pour OPEN MOISE"],
     ["Tableau de bord", "Supervision temps réel, KPI, anneau de disponibilité"],
-    ["Équipements", "Inventaire + découverte automatique"],
-    ["Alertes", "Historique + acquittement"],
-    ["Notification Telegram", "Alerte push reçue sur smartphone"],
-    ["Rapports", "Statistiques & graphiques exportables"],
-], y=Inches(1.5), h=Inches(3.8), taille=16)
-encadre(s, "À insérer : les captures d'écran réelles de l'application déployée chez OPEN MOISE.",
-        y=Inches(5.7), h=Inches(0.9))
-notes(s, "Ces captures matérialisent chaque fonctionnalité clé. La plus parlante "
-         "est la notification Telegram reçue sur le téléphone : la preuve concrète "
-         "de la valeur ajoutée pour les équipes d'astreinte d'OPEN MOISE.")
+    ["Équipements", "Inventaire + découverte automatique des parcs clients"],
+    ["Alertes", "Traçabilité + acquittement (preuve de SLA)"],
+    ["Notification Telegram", "Astreinte alertée sur smartphone en < 2 min"],
+    ["Rapports", "Statistiques & rapports de disponibilité exportables"],
+], y=Inches(1.5), h=Inches(3.4), taille=16)
+encadre(s, "Toutes ces captures proviennent de l'application réellement développée "
+           "(Flask + Bootstrap), avec un parc client d'exemple.", y=Inches(5.4), h=Inches(1.0))
+notes(s, "En résumé, chaque écran de l'application apporte une preuve concrète de "
+         "valeur pour OPEN MOISE, de la supervision temps réel jusqu'à la preuve de "
+         "SLA exportable pour le client.")
 
 # ====================================================================== #
 #  9 — MARKETING, VENTE & CONCURRENCE                                   #
