@@ -148,7 +148,8 @@ dossier `src/` : moteur `supervisor.py`, application `app.py`, modules (sondes,
 découverte, journalisation, alertes), templates et fichiers statiques.
 
 **Annexe C — Script de création de la base de données.** Script SQL complet
-(`database/schema.sql`) : création de la base, des cinq tables, des contraintes,
+(`database/schema.sql`) : création de la base, des six tables (dont la table
+associative `responsabilite`), des contraintes,
 de l'utilisateur applicatif et des données d'amorçage.
 
 **Annexe D — Diagrammes UML et MERISE.** Sources PlantUML des sept diagrammes

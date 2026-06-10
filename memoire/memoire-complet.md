@@ -960,10 +960,12 @@ contente de **lire** la base, ce qui garde l'interface légère et réactive.
 
 ## 4.11 Base de données (`database/schema.sql`)
 
-La base comporte cinq tables — `utilisateurs`, `equipements`, `journaux`,
-`alertes`, `statistiques` — avec contraintes d'intégrité référentielle, index de
-performance et suppression en cascade. La conception (MCD/MLD/MPD) est détaillée
-dans `database/mcd-mld.md`.
+La base comporte six tables — `utilisateurs`, `equipements`, `journaux`,
+`alertes`, `responsabilite` (table associative reliant utilisateurs et
+équipements) et `statistiques` — avec contraintes d'intégrité référentielle,
+index de performance et suppression en cascade. La conception (MCD/MLD/MPD),
+incluant les relations « supervise » (utilisateur–équipement) et « acquitte »
+(utilisateur–alerte), est détaillée dans `database/mcd-mld.md`.
 
 ## 4.12 Ordonnancement (`cron/supervision.cron`)
 

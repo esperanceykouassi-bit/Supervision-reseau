@@ -534,7 +534,7 @@ puces(s, [
     ("Conception formalisée :", 0, True, BLEU_FONCE),
     ("UML : 7 diagrammes (contexte, cas d'usage, séquence, activité, classes, "
      "composants, déploiement)", 1, False, GRIS),
-    ("MERISE : MCD → MLD → base MySQL (5 tables)", 1, False, GRIS),
+    ("MERISE : MCD → MLD → base MySQL (6 tables, dont une associative)", 1, False, GRIS),
     ("Architecture en 5 couches", 1, False, GRIS),
 ], y=Inches(1.5), h=Inches(5.2), taille=19)
 notes(s, "Le projet est faisable sur les trois plans : technique - le prototype "
@@ -566,13 +566,14 @@ diapo_grille_images(6, "Conception UML — les 7 diagrammes", [
             "pleine page figurent en annexe pour le détail.")
 
 # ---- MERISE : MCD -> MLD ----
-diapo_deux_images(6, "MERISE : du MCD au MLD (base MySQL, 5 tables)",
+diapo_deux_images(6, "MERISE : du MCD au MLD (base MySQL, 6 tables)",
                   "database/mcd.png", "MCD — Modèle Conceptuel",
                   "database/mld.png", "MLD — Modèle Logique",
                   note_txt="Pour la base de données, j'ai suivi la méthode MERISE : "
-                           "du modèle conceptuel - les entités et leurs associations - "
-                           "vers le modèle logique - les cinq tables relationnelles "
-                           "avec leurs clés - implémenté ensuite en MySQL.")
+                           "du modèle conceptuel - les entités et leurs associations, "
+                           "dont la relation utilisateur-équipement - vers le modèle "
+                           "logique - six tables, dont une table associative - "
+                           "implémenté ensuite en MySQL.")
 
 # ====================================================================== #
 #  7 — FONCTIONNEMENT TECHNIQUE                                         #
@@ -882,8 +883,9 @@ for chemin, titre in _uml:
 
 # MLD pleine page (schéma relationnel détaillé)
 diapo_image(None, "Annexe — Modèle Logique de Données (MLD)", "database/mld.png",
-            legende="5 tables : utilisateurs, equipements, journaux, alertes, statistiques "
-                    "(clés primaires PK, clés étrangères FK).")
+            legende="6 tables : utilisateurs, equipements, journaux, alertes, "
+                    "responsabilite (associative), statistiques — avec clés primaires "
+                    "(PK) et étrangères (FK).")
 
 # ---------------------------------------------------------------------- #
 sortie = os.path.join(os.path.dirname(__file__), "presentation-projet.pptx")

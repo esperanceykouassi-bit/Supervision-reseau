@@ -264,7 +264,7 @@ maîtrisées, prototype **réalisé et testé**.
 
 **Conception formalisée :**
 - **UML** : 7 diagrammes (contexte, cas d'usage, séquence, activité, classes, composants, déploiement)
-- **MERISE** : MCD → MLD → base MySQL (équipements, journaux, alertes, utilisateurs, statistiques)
+- **MERISE** : MCD → MLD → base MySQL (6 tables : équipements, journaux, alertes, utilisateurs, **responsabilité**, statistiques)
 - **Architecture en 5 couches** : Système → Données → Traitement → Notification → Présentation
 
 <!-- Le projet est faisable sur les trois plans : technique - le prototype existe
