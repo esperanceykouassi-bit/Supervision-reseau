@@ -269,11 +269,77 @@ def page_telegram(chemin):
     print("Capture générée :", chemin)
 
 
+# ----------------------- Page : Connexion ------------------------------ #
+def page_login(chemin):
+    fig, ax = new_fig()
+    # carte de connexion centrée
+    cw, ch = 430, 360
+    cx, cy = (W - cw) / 2, 150
+    rrect(ax, cx, cy, cw, ch, WHITE, r=12, ec=BORDER, lw=1, z=1)
+    icone(ax, cx + cw / 2 - 135, cy + 38, PRIMARY, 24)
+    txt(ax, cx + cw / 2 + 15, cy + 50, "SupervisionNet", 20, "#0d3b66", True, ha="center")
+    # champ identifiant
+    txt(ax, cx + 40, cy + 110, "Identifiant", 13, TXT, True)
+    rrect(ax, cx + 40, cy + 124, cw - 80, 40, "#f8f9fa", r=6, ec=BORDER, lw=1, z=2)
+    txt(ax, cx + 56, cy + 145, "admin", 13, "#495057")
+    # champ mot de passe
+    txt(ax, cx + 40, cy + 184, "Mot de passe", 13, TXT, True)
+    rrect(ax, cx + 40, cy + 198, cw - 80, 40, "#f8f9fa", r=6, ec=BORDER, lw=1, z=2)
+    txt(ax, cx + 56, cy + 219, "••••••••", 14, "#495057")
+    # bouton
+    rrect(ax, cx + 40, cy + 256, cw - 80, 44, PRIMARY, r=6, z=2)
+    txt(ax, cx + cw / 2, cy + 279, "Se connecter", 14, WHITE, True, ha="center")
+    txt(ax, cx + cw / 2, cy + 322, "Identifiants par défaut : admin / admin123",
+        11, MUTED, ha="center")
+    fig.savefig(chemin, dpi=100); plt.close(fig)
+    print("Capture générée :", chemin)
+
+
+# ----------------------- Page : Rapports ------------------------------- #
+def page_rapports(chemin):
+    fig, ax = new_fig()
+    navbar(ax, "Rapports")
+    icone(ax, 24, 70, "#0d3b66", 18); txt(ax, 52, 78, "Rapports et statistiques", 21, "#0d3b66", True)
+    # 3 cartes KPI
+    cartes = [("Taux de disponibilité", "75.0 %", SUCCESS),
+              ("Latence moyenne", "2.2 ms", PRIMARY),
+              ("Alertes actives", "2", DANGER)]
+    m, gap = 24, 18
+    cw = (W - 2 * m - 2 * gap) / 3
+    for i, (t, v, c) in enumerate(cartes):
+        cx = m + i * (cw + gap)
+        rrect(ax, cx, 102, cw, 92, WHITE, r=10, ec=BORDER, lw=1, z=1)
+        txt(ax, cx + 20, 128, t, 12, MUTED, True)
+        txt(ax, cx + 20, 168, v, 30, c, True)
+    # carte graphique latences
+    gy, gh = 214, 430
+    rrect(ax, m, gy, W - 2 * m, gh, WHITE, r=10, ec=BORDER, lw=1, z=1)
+    txt(ax, m + 20, gy + 28, "Latence par équipement (ms)", 13, TXT, True)
+    # axes du graphe à barres
+    axb = fig.add_axes([(m + 40) / W, 1 - (gy + gh - 30) / H, (W - 2 * m - 90) / W, (gh - 90) / H])
+    noms = [e[0] for e in EQUIPEMENTS]
+    lat = [float(e[4].split()[0]) if e[3] == "UP" else 0 for e in EQUIPEMENTS]
+    axb.bar(range(len(noms)), lat, color=PRIMARY, width=0.6)
+    axb.set_xticks(range(len(noms)))
+    axb.set_xticklabels([n[:10] for n in noms], rotation=25, ha="right", fontsize=8)
+    axb.set_ylabel("ms", fontsize=9)
+    for sp in ["top", "right"]:
+        axb.spines[sp].set_visible(False)
+    axb.tick_params(labelsize=8)
+    # bouton export
+    rrect(ax, W - 268, gy + gh + 12, 240, 36, "#6c757d", r=6, z=2)
+    txt(ax, W - 148, gy + gh + 31, "Imprimer / Exporter PDF", 10.5, WHITE, True, ha="center")
+    fig.savefig(chemin, dpi=100); plt.close(fig)
+    print("Capture générée :", chemin)
+
+
 if __name__ == "__main__":
     base = os.path.join(os.path.dirname(os.path.abspath(__file__)), "captures")
     os.makedirs(base, exist_ok=True)
 
+    page_login(os.path.join(base, "capture-login.png"))
     page_dashboard(os.path.join(base, "capture-dashboard.png"))
+    page_rapports(os.path.join(base, "capture-rapports.png"))
 
     sev_color = lambda v: {"CRITIQUE": DANGER, "AVERTISSEMENT": WARNING, "INFO": PRIMARY}.get(v, MUTED)
     statut_color = lambda v: SUCCESS if v == "UP" else DANGER

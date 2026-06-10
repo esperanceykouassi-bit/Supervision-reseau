@@ -42,5 +42,6 @@ architecture/diagrammes/*.svg
 *.pdf
 *.docx
 *.pptx
-# Exception : le support de soutenance PowerPoint est un livrable versionné
+# Exceptions : livrables versionnés (présentation + mémoire Word)
 !soutenance/presentation-projet.pptx
+!memoire/memoire-projet-OPEN-MOISE.docx
