@@ -1,0 +1,23 @@
+@startuml diagramme-contexte
+' Diagramme de contexte UML : le système et ses acteurs externes
+skinparam backgroundColor #FFFFFF
+skinparam actorStyle awesome
+left to right direction
+
+actor "Administrateur\nréseau" as admin
+actor "Équipements réseau\n(routeurs, switches,\nserveurs...)" as equip
+actor "Serveur SMTP" as smtp
+actor "Service Telegram" as tg
+
+usecase "SYSTÈME DE\nSUPERVISION RÉSEAU\nAUTOMATISÉE" as SYS #0d6efd;line:003366;text:white
+
+admin --> SYS : Gère les équipements\nConsulte le tableau de bord\nAcquitte les alertes
+SYS --> admin : État, statistiques, rapports
+SYS --> equip : Sondes ICMP / TCP
+equip --> SYS : Réponses (UP/DOWN, latence)
+SYS --> smtp : Envoie e-mails d'alerte
+SYS --> tg : Envoie notifications push
+smtp ..> admin : Délivre l'e-mail
+tg ..> admin : Notifie sur smartphone
+
+@enduml

@@ -13,10 +13,15 @@ Utilisation :
     python generer_pptx.py
 """
 
+import os
 from pptx import Presentation
 from pptx.util import Inches, Pt, Emu
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
+from PIL import Image
+
+# Racine du dépôt (pour retrouver les images des diagrammes).
+RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # ---------------------------------------------------------------------- #
 # Charte graphique                                                       #
@@ -166,6 +171,87 @@ def encadre(slide, texte, x=Inches(0.7), y=Inches(5.9),
     p = tf.paragraphs[0]
     r = p.add_run(); r.text = texte
     style_run(r, 17, True, BLEU_FONCE, italique=True)
+
+
+def _dim_ajustee(chemin, max_w, max_h):
+    """Retourne (largeur, hauteur) en EMU pour faire tenir l'image en gardant
+    le ratio d'aspect dans la boîte (max_w x max_h)."""
+    iw, ih = Image.open(chemin).size
+    aspect = iw / ih
+    w = max_w
+    h = int(w / aspect)
+    if h > max_h:
+        h = max_h
+        w = int(h * aspect)
+    return w, h
+
+
+def diapo_image(numero, titre, chemin, legende="", note_txt="",
+                max_w=Inches(11.8), max_h=Inches(5.3), top=Inches(1.35),
+                fond_clair=True):
+    """Crée une diapositive « titre + image centrée » (diagramme pleine page)."""
+    s = ajouter_diapo(); fond(s, BLANC if fond_clair else GRIS_CLAIR)
+    bandeau_titre(s, numero, titre)
+    chemin = os.path.join(RACINE, chemin)
+    w, h = _dim_ajustee(chemin, int(max_w), int(max_h))
+    left = int((int(LARGEUR) - w) / 2)
+    s.shapes.add_picture(chemin, left, top, width=w, height=h)
+    if legende:
+        tb = zone_texte(s, Inches(0.5), Inches(6.75), Inches(12.3), Inches(0.5))
+        p = tb.text_frame.paragraphs[0]; p.alignment = PP_ALIGN.CENTER
+        r = p.add_run(); r.text = legende
+        style_run(r, 13, False, GRIS, italique=True)
+    if note_txt:
+        notes(s, note_txt)
+    return s
+
+
+def diapo_deux_images(numero, titre, g_chemin, g_lbl, d_chemin, d_lbl, note_txt=""):
+    """Crée une diapositive avec deux images côte à côte (ex. MCD | MLD)."""
+    s = ajouter_diapo(); fond(s)
+    bandeau_titre(s, numero, titre)
+    for chemin, lbl, x in [(g_chemin, g_lbl, Inches(0.4)),
+                           (d_chemin, d_lbl, Inches(6.9))]:
+        # libellé
+        tb = zone_texte(s, x, Inches(1.3), Inches(6.0), Inches(0.4))
+        p = tb.text_frame.paragraphs[0]; p.alignment = PP_ALIGN.CENTER
+        r = p.add_run(); r.text = lbl
+        style_run(r, 16, True, BLEU_FONCE)
+        # image
+        ch = os.path.join(RACINE, chemin)
+        w, h = _dim_ajustee(ch, int(Inches(5.9)), int(Inches(5.0)))
+        left = int(x) + int((int(Inches(6.0)) - w) / 2)
+        s.shapes.add_picture(ch, left, Inches(1.75), width=w, height=h)
+    if note_txt:
+        notes(s, note_txt)
+    return s
+
+
+def diapo_grille_images(numero, titre, items, note_txt=""):
+    """Grille d'aperçus (4 colonnes). items = liste de (chemin, label)."""
+    s = ajouter_diapo(); fond(s)
+    bandeau_titre(s, numero, titre)
+    cols = 4
+    cell_w = Inches(3.0)
+    cell_h = Inches(2.35)
+    x0, y0 = Inches(0.35), Inches(1.45)
+    gx, gy = Inches(0.18), Inches(0.55)
+    for idx, (chemin, label) in enumerate(items):
+        col = idx % cols
+        row = idx // cols
+        cx = int(x0) + col * (int(cell_w) + int(gx))
+        cy = int(y0) + row * (int(cell_h) + int(gy))
+        ch = os.path.join(RACINE, chemin)
+        w, h = _dim_ajustee(ch, int(cell_w), int(cell_h))
+        left = cx + int((int(cell_w) - w) / 2)
+        s.shapes.add_picture(ch, left, cy, width=w, height=h)
+        tb = zone_texte(s, cx, cy + int(cell_h) + Inches(0.02), cell_w, Inches(0.4))
+        p = tb.text_frame.paragraphs[0]; p.alignment = PP_ALIGN.CENTER
+        r = p.add_run(); r.text = label
+        style_run(r, 11, True, BLEU_FONCE)
+    if note_txt:
+        notes(s, note_txt)
+    return s
 
 
 # ====================================================================== #
@@ -448,31 +534,37 @@ notes(s, "Le projet est faisable sur les trois plans : technique - le prototype 
          "rigoureusement conçu le système en UML et MERISE, sur une architecture en "
          "cinq couches.")
 
-# ---- Architecture (schéma) ----
-s = ajouter_diapo(); fond(s)
-bandeau_titre(s, 6, "Architecture de la solution")
-couches = [
-    ("PRÉSENTATION", "Tableau de bord Flask + Bootstrap + Chart.js", BLEU),
-    ("NOTIFICATION", "E-mail (SMTP)  +  Telegram (push mobile)", RGBColor(0x39,0x8A,0xC8)),
-    ("TRAITEMENT", "Moteur Python + Cron (sondes ICMP / TCP)", RGBColor(0x2A,0x6F,0x97)),
-    ("DONNÉES", "Base MySQL (historique, alertes, configuration)", RGBColor(0x1B,0x4F,0x72)),
-    ("SYSTÈME", "Serveur Linux Ubuntu", BLEU_FONCE),
-]
-y = Inches(1.55)
-for nom, desc, coul in couches:
-    boite = rectangle(s, Inches(1.2), y, Inches(10.9), Inches(0.82), coul)
-    tf = boite.text_frame; tf.vertical_anchor = MSO_ANCHOR.MIDDLE; tf.margin_left = Inches(0.3)
-    p = tf.paragraphs[0]
-    r = p.add_run(); r.text = nom + "   "
-    style_run(r, 16, True, BLANC)
-    r = p.add_run(); r.text = "— " + desc
-    style_run(r, 15, False, RGBColor(0xE8,0xEE,0xF4))
-    y = y + Inches(0.95)
-encadre(s, "Choix clé : découplage moteur de collecte (Cron) ↔ interface (Flask) → "
-           "la surveillance continue même si le tableau de bord est arrêté.", y=Inches(6.35), h=Inches(0.95))
-notes(s, "Voici l'architecture en cinq couches. Le choix d'ingénierie le plus "
-         "important est le découplage entre la collecte et l'affichage : ils "
-         "communiquent uniquement par la base, ce qui rend le système robuste.")
+# ---- Architecture en 5 couches (IMAGE générée) ----
+diapo_image(6, "Architecture en 5 couches",
+            "architecture/architecture-5couches.png",
+            legende="Découplage Moteur (Cron) ↔ Interface (Flask) : la surveillance "
+                    "continue même si le tableau de bord est arrêté.",
+            note_txt="Voici l'architecture en cinq couches. Le choix d'ingénierie le "
+                     "plus important est le découplage entre la collecte et "
+                     "l'affichage : ils communiquent uniquement par la base de "
+                     "données, ce qui rend le système robuste.")
+
+# ---- UML : 7 diagrammes (grille d'aperçu) ----
+diapo_grille_images(6, "Conception UML — les 7 diagrammes", [
+    ("architecture/diagrammes/diagramme-contexte.png", "1. Contexte"),
+    ("architecture/diagrammes/cas-utilisation.png", "2. Cas d'utilisation"),
+    ("architecture/diagrammes/diagramme-sequence.png", "3. Séquence"),
+    ("architecture/diagrammes/diagramme-activite.png", "4. Activité"),
+    ("architecture/diagrammes/diagramme-classes.png", "5. Classes"),
+    ("architecture/diagrammes/diagramme-composants.png", "6. Composants"),
+    ("architecture/diagrammes/diagramme-deploiement.png", "7. Déploiement"),
+], note_txt="J'ai formalisé toute la conception avec sept diagrammes UML, du "
+            "diagramme de contexte au diagramme de déploiement. Les versions "
+            "pleine page figurent en annexe pour le détail.")
+
+# ---- MERISE : MCD -> MLD ----
+diapo_deux_images(6, "MERISE : du MCD au MLD (base MySQL, 5 tables)",
+                  "database/mcd.png", "MCD — Modèle Conceptuel",
+                  "database/mld.png", "MLD — Modèle Logique",
+                  note_txt="Pour la base de données, j'ai suivi la méthode MERISE : "
+                           "du modèle conceptuel - les entités et leurs associations - "
+                           "vers le modèle logique - les cinq tables relationnelles "
+                           "avec leurs clés - implémenté ensuite en MySQL.")
 
 # ====================================================================== #
 #  7 — FONCTIONNEMENT TECHNIQUE                                         #
@@ -695,8 +787,41 @@ style_run(r, 16, True, BLANC)
 notes(s, "Je vous remercie de votre attention et je suis prêt à répondre à toutes "
          "vos questions, qu'elles soient techniques ou sur le volet économique.")
 
+# ====================================================================== #
+#  ANNEXES — diagrammes détaillés (diapos de secours pour le Q&A)        #
+# ====================================================================== #
+# Intercalaire
+s = ajouter_diapo(); fond(s, BLEU_FONCE)
+tb = zone_texte(s, Inches(1.0), Inches(3.0), Inches(11.3), Inches(1.5))
+tf = tb.text_frame; tf.vertical_anchor = MSO_ANCHOR.MIDDLE
+p = tf.paragraphs[0]; p.alignment = PP_ALIGN.CENTER
+r = p.add_run(); r.text = "ANNEXES — Diagrammes de conception détaillés"
+style_run(r, 30, True, BLANC)
+p = tf.add_paragraph(); p.alignment = PP_ALIGN.CENTER
+r = p.add_run(); r.text = "Diapositives de secours pour les questions du jury"
+style_run(r, 16, False, RGBColor(0xDD, 0xE6, 0xF2), italique=True)
+notes(s, "Voici en annexe les diagrammes détaillés, que je peux afficher pour "
+         "répondre précisément à vos questions sur la conception.")
+
+# UML pleine page (1 par diapo)
+_uml = [
+    ("architecture/diagrammes/diagramme-contexte.png", "Annexe — Diagramme de contexte"),
+    ("architecture/diagrammes/cas-utilisation.png", "Annexe — Diagramme de cas d'utilisation"),
+    ("architecture/diagrammes/diagramme-sequence.png", "Annexe — Diagramme de séquence"),
+    ("architecture/diagrammes/diagramme-activite.png", "Annexe — Diagramme d'activité"),
+    ("architecture/diagrammes/diagramme-classes.png", "Annexe — Diagramme de classes"),
+    ("architecture/diagrammes/diagramme-composants.png", "Annexe — Diagramme de composants"),
+    ("architecture/diagrammes/diagramme-deploiement.png", "Annexe — Diagramme de déploiement"),
+]
+for chemin, titre in _uml:
+    diapo_image(None, titre, chemin)
+
+# MLD pleine page (schéma relationnel détaillé)
+diapo_image(None, "Annexe — Modèle Logique de Données (MLD)", "database/mld.png",
+            legende="5 tables : utilisateurs, equipements, journaux, alertes, statistiques "
+                    "(clés primaires PK, clés étrangères FK).")
+
 # ---------------------------------------------------------------------- #
-import os
 sortie = os.path.join(os.path.dirname(__file__), "presentation-projet.pptx")
 prs.save(sortie)
 print(f"PowerPoint généré : {sortie}  ({len(prs.slides.__iter__.__self__._sldIdLst)} diapositives)")

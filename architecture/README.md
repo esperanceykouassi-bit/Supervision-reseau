@@ -33,3 +33,35 @@ plantuml diagrammes/*.puml         # produit les .png à côté des .puml
 
 Les diagrammes de contexte et le schéma réseau utilisent **Mermaid**
 (rendu nativement par GitHub/GitLab et la plupart des éditeurs Markdown).
+
+## Galerie des diagrammes générés (PNG)
+
+Les images PNG sont déjà générées et versionnées (régénérables à tout moment).
+
+### Architecture en 5 couches
+![Architecture en 5 couches](architecture-5couches.png)
+
+### Les 7 diagrammes UML
+
+| | |
+|---|---|
+| **1. Contexte** | **2. Cas d'utilisation** |
+| ![](diagrammes/diagramme-contexte.png) | ![](diagrammes/cas-utilisation.png) |
+| **3. Séquence** | **4. Activité** |
+| ![](diagrammes/diagramme-sequence.png) | ![](diagrammes/diagramme-activite.png) |
+| **5. Classes** | **6. Composants** |
+| ![](diagrammes/diagramme-classes.png) | ![](diagrammes/diagramme-composants.png) |
+| **7. Déploiement** | |
+| ![](diagrammes/diagramme-deploiement.png) | |
+
+> Le modèle MERISE (MCD / MLD) est généré dans le dossier
+> [`../database/`](../database/) (`mcd.png`, `mld.png`).
+
+### Régénérer toutes les images
+
+```bash
+# 7 diagrammes UML + MERISE (nécessite Java + Graphviz)
+java -jar plantuml.jar architecture/diagrammes/*.puml database/*.puml
+# Schéma d'architecture 5 couches (nécessite matplotlib)
+python architecture/generer_architecture_5couches.py
+```

@@ -1,0 +1,76 @@
+@startuml mld
+' Modèle Logique de Données (MLD) - tables relationnelles + clés
+skinparam backgroundColor #FFFFFF
+skinparam linetype ortho
+hide circle
+skinparam class {
+  BackgroundColor #FFFFFF
+  BorderColor #0d3b66
+  HeaderBackgroundColor #0d3b66
+  ArrowColor #0d6efd
+}
+
+entity "UTILISATEUR" as user {
+  **PK** id : INT
+  --
+  identifiant : VARCHAR
+  mot_de_passe_hash : VARCHAR
+  nom_complet : VARCHAR
+  email : VARCHAR
+  role : ENUM
+  actif : TINYINT
+}
+
+entity "EQUIPEMENT" as equip {
+  **PK** id : INT
+  --
+  nom : VARCHAR
+  adresse_ip : VARCHAR (UNIQUE)
+  type_equipement : VARCHAR
+  emplacement : VARCHAR
+  service_supervise : VARCHAR
+  statut : ENUM
+  latence_ms : FLOAT
+  derniere_verification : DATETIME
+  actif : TINYINT
+}
+
+entity "JOURNAL" as journal {
+  **PK** id : BIGINT
+  **FK** equipement_id : INT
+  --
+  statut : ENUM
+  latence_ms : FLOAT
+  message : VARCHAR
+  date_evenement : DATETIME
+}
+
+entity "ALERTE" as alerte {
+  **PK** id : BIGINT
+  **FK** equipement_id : INT
+  --
+  type_alerte : VARCHAR
+  severite : ENUM
+  message : VARCHAR
+  canal : VARCHAR
+  acquittee : TINYINT
+  date_alerte : DATETIME
+  date_acquittement : DATETIME
+}
+
+entity "STATISTIQUE" as stat {
+  **PK** id : BIGINT
+  --
+  date_stat : DATE (UNIQUE)
+  total_equipements : INT
+  equipements_up : INT
+  equipements_down : INT
+  taux_disponibilite : FLOAT
+  latence_moyenne : FLOAT
+  nombre_alertes : INT
+}
+
+equip ||--o{ journal
+equip ||--o{ alerte
+
+@enduml

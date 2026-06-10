@@ -10,6 +10,8 @@ Physique (MPD)** matérialisé par le script `schema.sql`.
 Le MCD décrit les **entités** et leurs **associations**, indépendamment de
 toute technologie.
 
+![Modèle Conceptuel de Données](mcd.png)
+
 ```mermaid
 erDiagram
     UTILISATEUR {
@@ -63,6 +65,8 @@ erDiagram
 
 Le MLD traduit le MCD en tables relationnelles. Les associations « 1,n » se
 matérialisent par une **clé étrangère** côté « n ».
+
+![Modèle Logique de Données](mld.png)
 
 ```
 UTILISATEUR (id, identifiant, mot_de_passe_hash, nom_complet, email, role, actif, date_creation)

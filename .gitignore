@@ -33,9 +33,10 @@ logs/
 *.swp
 .DS_Store
 
-# Images générées des diagrammes (régénérables depuis les .puml)
-architecture/diagrammes/*.png
+# Images SVG des diagrammes (régénérables depuis les .puml)
 architecture/diagrammes/*.svg
+# Les PNG des diagrammes UML/architecture sont des LIVRABLES versionnés
+# (utilisés dans le mémoire et la présentation) : on les conserve.
 
 # Exports de documents générés
 *.pdf

@@ -6,6 +6,8 @@ réduction du temps d'intervention, exclusivité de l'open-source).
 
 ## 1. Vue en couches
 
+![Architecture en 5 couches](architecture-5couches.png)
+
 ```
 ┌──────────────────────────────────────────────────────────────────┐
 │  COUCHE PRÉSENTATION                                               │
