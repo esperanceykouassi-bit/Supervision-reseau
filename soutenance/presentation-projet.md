@@ -59,11 +59,11 @@ pensée comme un véritable produit, du besoin du marché jusqu'au modèle
 2. Objectifs et résultats attendus
 3. Démarche méthodologique
 4. État des lieux & solution proposée
-5. Axe de différenciation (innovation)
+5. L'axe de différenciation (innovation technologique)
 6. Étude de faisabilité & conception
-7. Fonctionnement technique
+7. Fonctionnement de la solution : point de vue technique
 8. **Démonstration**
-9. Valorisation pour OPEN MOISE & concurrence
+9. Marketing, vente et concurrence
 10. Prévisions financières
 11. Limites & perspectives
 
@@ -255,7 +255,7 @@ réunit ces atouts. La notification Telegram native est mon vrai marqueur. -->
 
 ---
 
-## 6. Étude de faisabilité & conception
+## 6. Étude de faisabilité et conception de la solution
 
 **Faisabilité technique** ✅ — briques matures (Linux, Python, MySQL), compétences
 maîtrisées, prototype **réalisé et testé**.
@@ -299,7 +299,7 @@ uniquement par la base, ce qui rend le système robuste. -->
 
 ---
 
-## 7. Fonctionnement technique — le cycle automatisé
+## 7. Fonctionnement de la solution : point de vue technique
 
 ```
   ┌──────────┐   toutes les 2 min   ┌──────────────┐
@@ -382,7 +382,7 @@ valeur ajoutée pour l'administrateur. -->
 
 ---
 
-## 9. Valorisation pour OPEN MOISE & concurrence
+## 9. Marketing, vente et concurrence
 
 **Double valeur pour OPEN MOISE :**
 - 🛠️ **Outil interne** : industrialise la supervision, fiabilise les **SLA**, réduit l'astreinte

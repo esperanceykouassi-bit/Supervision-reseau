@@ -292,21 +292,21 @@ gauche = [
     ("1.  Contexte et identification du problème", 0, False, GRIS),
     ("2.  Objectifs et résultats attendus", 0, False, GRIS),
     ("3.  Démarche méthodologique", 0, False, GRIS),
-    ("4.  État des lieux & solution proposée", 0, False, GRIS),
-    ("5.  Axe de différenciation (innovation)", 0, False, GRIS),
-    ("6.  Étude de faisabilité & conception", 0, False, GRIS),
+    ("4.  État des lieux des solutions existantes et solution proposée", 0, False, GRIS),
+    ("5.  L'axe de différenciation (innovation technologique)", 0, False, GRIS),
+    ("6.  Étude de faisabilité et conception de la solution", 0, False, GRIS),
 ]
 droite = [
-    ("7.  Fonctionnement technique", 0, False, GRIS),
+    ("7.  Fonctionnement de la solution : point de vue technique", 0, False, GRIS),
     ("8.  Démonstration", 0, True, ROUGE),
-    ("9.  Valorisation pour OPEN MOISE & concurrence", 0, False, GRIS),
+    ("9.  Marketing, vente et concurrence", 0, False, GRIS),
     ("10. Prévisions financières", 0, False, GRIS),
-    ("11. Limites & perspectives", 0, False, GRIS),
+    ("11. Limites du projet et perspectives", 0, False, GRIS),
     ("", 0, False, GRIS),
     ("Conclusion", 0, True, BLEU_FONCE),
 ]
-puces(s, gauche, x=Inches(0.7), y=Inches(1.6), w=Inches(6.0), taille=20, interligne=12)
-puces(s, droite, x=Inches(6.9), y=Inches(1.6), w=Inches(6.0), taille=20, interligne=12)
+puces(s, gauche, x=Inches(0.6), y=Inches(1.6), w=Inches(6.3), taille=16, interligne=14)
+puces(s, droite, x=Inches(7.0), y=Inches(1.6), w=Inches(6.0), taille=16, interligne=14)
 notes(s, "Mon exposé suit le fil d'un projet d'entreprise : je pars du problème du "
          "marché, je présente la solution et sa technique, je la démontre, puis "
          "j'aborde son modèle économique avant de conclure sur les perspectives.")
@@ -504,7 +504,7 @@ notes(s, "Ma réponse au besoin d'OPEN MOISE : une solution complète mais lég�
 #  5 — DIFFÉRENCIATION                                                  #
 # ====================================================================== #
 s = ajouter_diapo(); fond(s)
-bandeau_titre(s, 5, "Axe de différenciation (innovation)")
+bandeau_titre(s, 5, "L'axe de différenciation (innovation technologique)")
 tableau(s, [
     ["Différenciateur", "Bénéfice pour OPEN MOISE"],
     ["Alerte Telegram native", "Astreinte alertée partout, sans coût de notification"],
@@ -524,7 +524,7 @@ notes(s, "Mon innovation ne réside pas dans un protocole nouveau, mais dans un 
 #  6 — FAISABILITÉ & CONCEPTION                                        #
 # ====================================================================== #
 s = ajouter_diapo(); fond(s)
-bandeau_titre(s, 6, "Étude de faisabilité & conception")
+bandeau_titre(s, 6, "Étude de faisabilité et conception de la solution")
 puces(s, [
     ("Faisabilité technique ✓ — briques matures, compétences déjà présentes "
      "chez OPEN MOISE, prototype réalisé et testé.", 0, False, VERT),
@@ -578,7 +578,7 @@ diapo_deux_images(6, "MERISE : du MCD au MLD (base MySQL, 5 tables)",
 #  7 — FONCTIONNEMENT TECHNIQUE                                         #
 # ====================================================================== #
 s = ajouter_diapo(); fond(s)
-bandeau_titre(s, 7, "Fonctionnement technique — le cycle automatisé")
+bandeau_titre(s, 7, "Fonctionnement de la solution : point de vue technique")
 etapes = [
     "1.  CRON déclenche le moteur toutes les 2 minutes",
     "2.  Charge les équipements (MySQL) puis sonde ICMP (ping) + TCP (service)",
@@ -666,7 +666,7 @@ notes(s, "Ces captures matérialisent chaque fonctionnalité clé. La plus parla
 #  9 — MARKETING, VENTE & CONCURRENCE                                   #
 # ====================================================================== #
 s = ajouter_diapo(); fond(s)
-bandeau_titre(s, 9, "Valorisation pour OPEN MOISE & concurrence")
+bandeau_titre(s, 9, "Marketing, vente et concurrence")
 puces(s, [
     ("Double valeur pour OPEN MOISE :", 0, True, BLEU_FONCE),
     ("Outil INTERNE : industrialise la supervision, fiabilise les SLA, réduit l'astreinte", 1, False, GRIS),
