@@ -35,7 +35,7 @@ Durée cible : 15-20 min d'exposé + questions.
 
 # Automatisation de la Supervision et de la Détection des Pannes Réseau
 
-### Une solution open-source pour une infrastructure toujours disponible
+### Une solution open-source déployée au sein d'OPEN MOISE (ESN d'infogérance)
 
 **[NOM Prénom]** — Master 2 RIT
 Sous la direction de **[Directeur de mémoire]**
@@ -63,7 +63,7 @@ pensée comme un véritable produit, du besoin du marché jusqu'au modèle
 6. Étude de faisabilité & conception
 7. Fonctionnement technique
 8. **Démonstration**
-9. Marketing, vente & concurrence
+9. Valorisation pour OPEN MOISE & concurrence
 10. Prévisions financières
 11. Limites & perspectives
 
@@ -77,22 +77,23 @@ j'aborde son modèle économique avant de conclure sur les perspectives. -->
 
 ## Introduction — L'annonce du sujet
 
-**Le sujet :** concevoir, réaliser et valoriser un système qui **surveille un
-réseau en continu**, **détecte automatiquement les pannes** et **alerte
-instantanément** les administrateurs — entièrement avec des outils open-source.
+**Le sujet :** concevoir, réaliser et déployer **chez OPEN MOISE** un système qui
+**surveille en continu les réseaux supervisés**, **détecte automatiquement les
+pannes** et **alerte instantanément** les équipes — entièrement open-source.
 
 **Pourquoi ce thème ?**
-- 🌐 Le réseau est devenu le **système nerveux** de toute organisation
-- ⏱️ Une **minute** d'indisponibilité peut coûter très cher
-- 🧑‍💻 Vécu de terrain : pannes découvertes **trop tard**, par les utilisateurs
-- 💡 Conviction : l'**open-source** rend la supervision accessible à **tous**
+- 🌐 Le réseau est le **système nerveux** des clients d'OPEN MOISE
+- ⏱️ Une **minute** d'indisponibilité menace les engagements de service (**SLA**)
+- 🧑‍💻 Vécu de terrain chez OPEN MOISE : pannes des parcs clients découvertes
+  **trop tard**, souvent signalées par le client
+- 💡 Conviction : l'**open-source** permet d'**industrialiser** la supervision sans licence
 
-> Allier une **expertise réseau** à une **démarche entrepreneuriale**.
+> Répondre à un besoin réel d'**OPEN MOISE** en alliant expertise réseau et
+> démarche entrepreneuriale.
 
-<!-- J'ai choisi ce thème car il croise une réalité technique que j'ai observée
-en stage - les pannes détectées trop tard - et une conviction : on peut
-résoudre ce problème sans budget colossal grâce à l'open-source. C'est à la
-fois un défi d'ingénieur et une opportunité de marché. -->
+<!-- J'ai choisi ce thème car il croise une réalité observée chez OPEN MOISE -
+les pannes des réseaux clients détectées trop tard - et une conviction : on peut
+industrialiser la supervision sans budget colossal grâce à l'open-source. -->
 
 ---
 
@@ -118,19 +119,19 @@ les pannes des parcs qu'elle exploite et respecter ses engagements de service. -
 
 ## 1. Contexte et identification du problème
 
-**Contexte :** densification des réseaux (cloud, virtualisation, IoT) face à des
-exigences de disponibilité de plus en plus fortes (objectif « 99,9 % »).
+**Contexte :** OPEN MOISE, **ESN d'infogérance**, exploite et supervise les
+réseaux de plusieurs clients sous **engagements contractuels** (SLA, « 99,9 % »).
 
-**Constat de terrain (PME / administrations) :**
-- Supervision **manuelle** et **épisodique** (`ping` à la main)
-- Pannes signalées par les **utilisateurs** → réaction **tardive**
-- **Aucune traçabilité** des incidents, pas d'historique exploitable
-- Solutions pro jugées **trop chères** ou **trop complexes**
+**Constat de terrain chez OPEN MOISE :**
+- Supervision largement **manuelle** et **épisodique** (`ping` à la main)
+- Pannes des parcs clients signalées **par le client** → réaction **tardive**
+- **Aucune traçabilité** des incidents → **SLA difficiles à prouver**
+- Solutions du marché jugées **trop chères** ou **trop lourdes** à déployer
 
-<!-- Le contexte est celui de réseaux toujours plus complexes et critiques.
-Pourtant, sur le terrain, beaucoup de structures surveillent encore à la main.
-Résultat : on apprend la panne par les plaintes, on ne garde aucune trace, et
-les outils du marché paraissent inaccessibles. -->
+<!-- Le contexte est celui d'OPEN MOISE : une ESN qui supervise les réseaux de
+ses clients sous engagement de service. Or cette supervision est encore largement
+manuelle. Résultat : on apprend la panne par le client lui-même, sans trace
+exploitable, ce qui met en péril le respect des SLA. -->
 
 ---
 
@@ -138,12 +139,12 @@ les outils du marché paraissent inaccessibles. -->
 
 <!-- _class: lead -->
 
-> ### « Comment **détecter en temps réel** les pannes d'un réseau et **réduire le temps d'intervention** des administrateurs, à l'aide d'une solution **automatisée, fiable et économiquement accessible** ? »
+> ### « Comment **OPEN MOISE** peut-elle **détecter en temps réel** les pannes des réseaux qu'elle supervise et **réduire le temps d'intervention** de ses équipes, à l'aide d'une solution **automatisée, fiable et économiquement accessible** ? »
 
 **Sous-questions :**
-- Comment automatiser une surveillance **continue** et **fiable** (sans fausses alertes) ?
-- Comment **notifier** l'administrateur **où qu'il soit**, instantanément ?
-- Comment offrir cette valeur à un **coût quasi nul** ?
+- Comment automatiser une surveillance **continue** et **fiable** des parcs clients ?
+- Comment **alerter les équipes d'astreinte** d'OPEN MOISE, **où qu'elles soient** ?
+- Comment offrir cette valeur **sans alourdir les coûts** d'OPEN MOISE ?
 
 <!-- Tout le projet répond à cette question centrale, que je formule clairement :
 détecter en temps réel et réduire le temps d'intervention, avec une solution
@@ -381,30 +382,29 @@ valeur ajoutée pour l'administrateur. -->
 
 ---
 
-## 9. Marketing, vente et concurrence
+## 9. Valorisation pour OPEN MOISE & concurrence
 
-**Cible :** PME, écoles, administrations, cybercafés, hébergeurs, **MSP** (infogérants).
+**Double valeur pour OPEN MOISE :**
+- 🛠️ **Outil interne** : industrialise la supervision, fiabilise les **SLA**, réduit l'astreinte
+- 💼 **Nouvelle offre** : **« Supervision managée »** vendue aux clients d'OPEN MOISE
 
-**Proposition de valeur :** *« Supervisez votre réseau et soyez alerté sur votre
-téléphone en cas de panne — sans licence, sans complexité. »*
+**Proposition de valeur d'OPEN MOISE à ses clients :** *« OPEN MOISE surveille
+votre réseau 24/7 et intervient avant que vous ne constatiez la panne. »*
 
-**Modèle économique (open-core) :**
-- 🆓 **Cœur open-source gratuit** (adoption & confiance)
-- 💼 **Services** : installation, formation, support (abonnement)
-- ⭐ **Édition Pro** : SNMP, multi-sites, IA prédictive, rapports avancés
+**Monétisation :**
+- 📅 **Abonnement** mensuel de supervision managée (par site / par équipement)
+- ⭐ **Option Pro** : SNMP, multi-sites, IA prédictive, rapports SLA avancés
 
-**Canaux :** GitHub/communauté · réseau d'infogérants · bouche-à-oreille · démo.
-
-<!-- Côté business, je vise les structures sans gros budget IT et les
-infogérants. Mon modèle est l'open-core : le cœur est gratuit pour créer
-l'adoption, et je monétise les services - installation, formation, support - et
-une édition Pro avec SNMP et IA. -->
+<!-- Pour OPEN MOISE, la solution a une double valeur : en interne, elle
+industrialise la supervision et fiabilise les SLA ; en externe, elle devient une
+nouvelle offre de supervision managée facturée aux clients. C'est à la fois une
+économie et une source de revenus récurrents. -->
 
 ---
 
 ## 9. Positionnement concurrentiel
 
-| Critère | Nagios/Zabbix | PRTG/SolarWinds | **Notre solution** |
+| Critère | Nagios/Zabbix | PRTG/SolarWinds | **Solution OPEN MOISE** |
 |---------|:-------------:|:---------------:|:------------------:|
 | Prix | Gratuit mais coûteux à exploiter | **€€€** | **Gratuit + services** |
 | Simplicité | Faible | Élevée | **Élevée** |
@@ -412,8 +412,9 @@ une édition Pro avec SNMP et IA. -->
 | Alerte mobile native | Plugin | Appli | **Telegram natif** |
 | Sur-mesure / ouvert | Limité | Non | **Total** |
 
-> **Stratégie :** ne pas affronter les géants sur le haut de gamme, mais
-> **dominer le segment délaissé** des petites structures (stratégie « océan bleu »).
+> **Stratégie d'OPEN MOISE :** ne pas affronter les géants sur le haut de gamme,
+> mais **se différencier sur le segment des PME** avec une offre managée simple
+> et sans licence (stratégie « océan bleu »).
 
 <!-- Je ne prétends pas battre Zabbix sur les très grandes infrastructures. Ma
 stratégie est celle de l'océan bleu : occuper le segment que les géants
@@ -421,49 +422,49 @@ négligent - les petites structures - avec un produit simple, léger et gratuit.
 
 ---
 
-## 10. Prévisions financières
+## 10. Prévisions financières (OPEN MOISE)
 
-**Coûts de mise en place (estimation) :**
+**Investissement d'OPEN MOISE :**
 
 | Poste | Coût |
 |-------|------|
 | Licences logicielles | **0 €** (100 % open-source) |
-| Serveur (VM / mini-PC) | ~150–300 € (ou mutualisé) |
-| Déploiement (temps) | Interne / ~1 j de prestation |
-| **Total entrée** | **≈ 200 € (matériel)** |
+| Serveur / VM (mutualisé) | ~150–300 € |
+| Développement & déploiement | Interne (déjà réalisé) |
+| **Total d'entrée** | **≈ 200 €** |
 
-**Modèle de revenus (scénario prestataire, an 1) :**
+**Revenus & gains pour OPEN MOISE (an 1) :**
 
-| Source | Hypothèse | Revenu annuel |
-|--------|-----------|---------------|
-| Installation+formation | 10 clients × 300 € | 3 000 € |
-| Support (abonnement) | 10 clients × 40 €/mois | 4 800 € |
-| Édition Pro | 3 clients × 500 € | 1 500 € |
+| Source | Hypothèse | Montant |
+|--------|-----------|---------|
+| Supervision managée | 10 clients × 40 €/mois | 4 800 € |
+| Mise en service client | 10 × 300 € | 3 000 € |
+| Option Pro (SNMP/IA) | 3 × 500 € | 1 500 € |
+| Pénalités SLA évitées | estimation | + gains |
 | **Total an 1** | | **≈ 9 300 €** |
 
-<!-- Financièrement, l'entrée est quasi nulle : pas de licence, juste un petit
-serveur. Côté revenus, même avec des hypothèses prudentes - une dizaine de
-clients en services - on dépasse 9 000 € la première année. Le ROI pour le
-client, lui, vient de la réduction des coûts d'indisponibilité. -->
+<!-- Pour OPEN MOISE, l'investissement est quasi nul : pas de licence, un serveur
+mutualisé, un développement déjà réalisé en interne. Le retour est double :
+revenus récurrents via l'offre managée, et économies internes. -->
 
 ---
 
-## 10. Retour sur investissement (côté client)
+## 10. Double retour pour OPEN MOISE
 
-**1 heure d'indisponibilité évitée** peut représenter **des centaines à des
-milliers d'euros** (perte de productivité, de chiffre d'affaires, d'image).
+**1 heure d'indisponibilité client évitée** = pénalités **SLA** évitées + image
+préservée + fidélisation du client.
 
 ```
-Coût solution (≈ 200 €)  ≪  Coût d'UNE panne prolongée évitée
+Investissement OPEN MOISE (≈ 200 €)  ≪  Revenus récurrents + pénalités SLA évitées
 ```
 
-> En faisant passer la détection de **~1 h à < 2 min**, la solution
-> **s'autofinance dès le premier incident majeur évité**.
+> Détection ramenée de **~1 h à < 2 min** → OPEN MOISE **tient ses SLA**,
+> **réduit son astreinte** et **facture une nouvelle offre** : l'investissement
+> est **amorti dès le premier client**.
 
-<!-- L'argument financier décisif pour le client : la solution coûte environ
-200 €, alors qu'une seule heure de panne en coûte bien plus. En réduisant le
-temps de détection d'une heure à deux minutes, elle est rentabilisée dès le
-premier incident évité. -->
+<!-- L'argument décisif pour OPEN MOISE : un investissement d'environ 200 € qui
+génère des revenus récurrents et évite des pénalités SLA. La solution est
+rentabilisée dès le premier client de l'offre managée. -->
 
 ---
 
@@ -491,20 +492,16 @@ une supervision prédictive qui anticipe les pannes. -->
 
 ## Conclusion
 
-✅ Un **produit fonctionnel**, testé, **100 % open-source**
-✅ Détection **temps réel** (**< 2 min**) & temps d'intervention **réduit**
-✅ Un **modèle économique** viable (open-core) sur un **segment délaissé**
+✅ Pour **OPEN MOISE** : un outil **fonctionnel**, testé, **100 % open-source**
+✅ Détection **temps réel** (**< 2 min**) → **SLA clients** mieux respectés
+✅ **Double valeur** : économies internes + nouvelle **offre managée**
 ✅ Une **base extensible** vers l'IA et la maintenance prédictive
 
-> ### De la supervision **réactive** vers une supervision **proactive, accessible et intelligente.**
+> ### Pour OPEN MOISE, l'automatisation transforme la supervision en **avantage concurrentiel** : de la réaction subie vers un **service proactif, fiable et rentable**.
 
-**L'automatisation transforme la disponibilité réseau en avantage à la portée
-de toutes les organisations.**
-
-<!-- En conclusion, ce projet livre un produit réel et performant, doublé d'un
-modèle économique crédible, et ouvert vers l'avenir de la supervision : le
-prédictif. J'ai montré qu'on pouvait rendre la haute disponibilité accessible à
-tous. -->
+<!-- En conclusion, ce projet dote OPEN MOISE d'un outil réel et performant, qui
+fiabilise ses engagements de service, génère des économies et ouvre une nouvelle
+offre commerciale. Pour l'entreprise, c'est un avantage concurrentiel concret. -->
 
 ---
 

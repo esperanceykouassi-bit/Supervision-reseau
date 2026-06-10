@@ -265,7 +265,7 @@ p = tf.paragraphs[0]; p.alignment = PP_ALIGN.CENTER
 r = p.add_run(); r.text = "Automatisation de la Supervision et de la\nDétection des Pannes Réseau"
 style_run(r, 36, True, BLANC)
 p2 = tf.add_paragraph(); p2.alignment = PP_ALIGN.CENTER
-r = p2.add_run(); r.text = "Une solution open-source pour une infrastructure toujours disponible"
+r = p2.add_run(); r.text = "Une solution open-source déployée au sein d'OPEN MOISE (ESN d'infogérance)"
 style_run(r, 18, False, RGBColor(0xDD, 0xE6, 0xF2), italique=True)
 tb = zone_texte(s, Inches(0.8), Inches(5.4), Inches(11.7), Inches(1.6))
 for i, (txt, sz, g) in enumerate([
@@ -299,7 +299,7 @@ gauche = [
 droite = [
     ("7.  Fonctionnement technique", 0, False, GRIS),
     ("8.  Démonstration", 0, True, ROUGE),
-    ("9.  Marketing, vente & concurrence", 0, False, GRIS),
+    ("9.  Valorisation pour OPEN MOISE & concurrence", 0, False, GRIS),
     ("10. Prévisions financières", 0, False, GRIS),
     ("11. Limites & perspectives", 0, False, GRIS),
     ("", 0, False, GRIS),
@@ -317,21 +317,23 @@ notes(s, "Mon exposé suit le fil d'un projet d'entreprise : je pars du problèm
 s = ajouter_diapo(); fond(s)
 bandeau_titre(s, None, "Introduction — L'annonce du sujet")
 puces(s, [
-    ("Le sujet : concevoir, réaliser et valoriser un système qui surveille un "
-     "réseau en continu, détecte automatiquement les pannes et alerte "
-     "instantanément les administrateurs — 100 % open-source.", 0, False, GRIS),
+    ("Le sujet : concevoir, réaliser et déployer chez OPEN MOISE un système qui "
+     "surveille en continu les réseaux supervisés, détecte automatiquement les "
+     "pannes et alerte instantanément les équipes — 100 % open-source.", 0, False, GRIS),
     ("", 0, False, GRIS),
     ("Pourquoi ce thème ?", 0, True, BLEU_FONCE),
-    ("Le réseau est devenu le « système nerveux » de toute organisation", 1, False, GRIS),
-    ("Une minute d'indisponibilité peut coûter très cher", 1, False, GRIS),
-    ("Vécu de terrain : pannes découvertes trop tard, par les utilisateurs", 1, False, GRIS),
-    ("Conviction : l'open-source rend la supervision accessible à tous", 1, False, GRIS),
-], y=Inches(1.5), h=Inches(4.0), taille=20)
-encadre(s, "Allier une expertise réseau à une démarche entrepreneuriale.", y=Inches(6.0))
-notes(s, "J'ai choisi ce thème car il croise une réalité observée en stage - les "
-         "pannes détectées trop tard - et une conviction : on peut résoudre ce "
-         "problème sans budget colossal grâce à l'open-source. C'est à la fois un "
-         "défi d'ingénieur et une opportunité de marché.")
+    ("Le réseau est le « système nerveux » des clients d'OPEN MOISE", 1, False, GRIS),
+    ("Une minute d'indisponibilité menace les engagements de service (SLA)", 1, False, GRIS),
+    ("Vécu de terrain chez OPEN MOISE : pannes des parcs clients découvertes "
+     "trop tard, souvent signalées par le client lui-même", 1, False, GRIS),
+    ("Conviction : l'open-source permet d'industrialiser la supervision sans licence", 1, False, GRIS),
+], y=Inches(1.5), h=Inches(4.0), taille=19)
+encadre(s, "Répondre à un besoin réel d'OPEN MOISE en alliant expertise réseau et "
+           "démarche entrepreneuriale.", y=Inches(6.0))
+notes(s, "J'ai choisi ce thème car il croise une réalité observée chez OPEN MOISE - "
+         "les pannes des réseaux clients détectées trop tard - et une conviction : "
+         "on peut industrialiser la supervision sans budget colossal grâce à "
+         "l'open-source. C'est un besoin direct de mon entreprise d'accueil.")
 
 # ====================================================================== #
 #  PRÉSENTATION DE LA STRUCTURE D'ACCUEIL — OPEN MOISE                   #
@@ -363,19 +365,20 @@ notes(s, "Quelques mots sur mon entreprise d'accueil, OPEN MOISE : une ESN qui "
 s = ajouter_diapo(); fond(s)
 bandeau_titre(s, 1, "Contexte et identification du problème")
 puces(s, [
-    ("Contexte : densification des réseaux (cloud, virtualisation, IoT) face à "
-     "des exigences de disponibilité de plus en plus fortes (« 99,9 % »).", 0, False, GRIS),
+    ("Contexte : OPEN MOISE, ESN d'infogérance, exploite et supervise les "
+     "réseaux de plusieurs clients, avec des engagements de disponibilité "
+     "contractuels (SLA, « 99,9 % »).", 0, False, GRIS),
     ("", 0, False, GRIS),
-    ("Constat de terrain (PME / administrations) :", 0, True, BLEU_FONCE),
-    ("Supervision manuelle et épisodique (ping à la main)", 1, False, GRIS),
-    ("Pannes signalées par les utilisateurs → réaction tardive", 1, False, GRIS),
-    ("Aucune traçabilité des incidents, pas d'historique exploitable", 1, False, GRIS),
-    ("Solutions professionnelles jugées trop chères ou trop complexes", 1, False, GRIS),
-], y=Inches(1.5), h=Inches(4.8), taille=20)
-notes(s, "Le contexte : des réseaux toujours plus complexes et critiques. Pourtant, "
-         "sur le terrain, beaucoup surveillent encore à la main. Résultat : on "
-         "apprend la panne par les plaintes, sans aucune trace, et les outils du "
-         "marché paraissent inaccessibles.")
+    ("Constat de terrain chez OPEN MOISE :", 0, True, BLEU_FONCE),
+    ("Supervision largement manuelle et épisodique (ping à la main)", 1, False, GRIS),
+    ("Pannes des parcs clients signalées par le client → réaction tardive", 1, False, GRIS),
+    ("Aucune traçabilité des incidents → SLA difficiles à prouver", 1, False, GRIS),
+    ("Solutions du marché jugées trop chères ou trop lourdes à déployer", 1, False, GRIS),
+], y=Inches(1.5), h=Inches(4.8), taille=19)
+notes(s, "Le contexte est celui d'OPEN MOISE : une ESN qui supervise les réseaux de "
+         "ses clients sous engagement de service. Or cette supervision est encore "
+         "largement manuelle. Résultat : on apprend la panne par le client lui-même, "
+         "sans trace exploitable, ce qui met en péril le respect des SLA.")
 
 # ---- PROBLÉMATIQUE (diapo dédiée) ----
 s = ajouter_diapo(); fond(s, BLEU_FONCE)
@@ -387,27 +390,28 @@ boite = rectangle(s, Inches(1.0), Inches(1.7), Inches(11.3), Inches(2.6), BLANC)
 tf = boite.text_frame; tf.word_wrap = True; tf.vertical_anchor = MSO_ANCHOR.MIDDLE
 tf.margin_left = Inches(0.4); tf.margin_right = Inches(0.4)
 p = tf.paragraphs[0]; p.alignment = PP_ALIGN.CENTER
-r = p.add_run(); r.text = ("« Comment détecter en temps réel les pannes d'un réseau et "
-                           "réduire le temps d'intervention des administrateurs, à l'aide "
-                           "d'une solution automatisée, fiable et économiquement accessible ? »")
-style_run(r, 22, True, BLEU_FONCE, italique=True)
+r = p.add_run(); r.text = ("« Comment OPEN MOISE peut-elle détecter en temps réel les "
+                           "pannes des réseaux qu'elle supervise et réduire le temps "
+                           "d'intervention de ses équipes, à l'aide d'une solution "
+                           "automatisée, fiable et économiquement accessible ? »")
+style_run(r, 21, True, BLEU_FONCE, italique=True)
 tb = zone_texte(s, Inches(1.0), Inches(4.6), Inches(11.3), Inches(2.5))
 tf = tb.text_frame
 items = [
     ("Sous-questions :", True, BLEU),
-    ("Comment automatiser une surveillance continue et fiable (sans fausses alertes) ?", False, BLANC),
-    ("Comment notifier l'administrateur où qu'il soit, instantanément ?", False, BLANC),
-    ("Comment offrir cette valeur à un coût quasi nul ?", False, BLANC),
+    ("Comment automatiser une surveillance continue et fiable des parcs clients ?", False, BLANC),
+    ("Comment alerter les équipes d'astreinte d'OPEN MOISE, où qu'elles soient ?", False, BLANC),
+    ("Comment offrir cette valeur sans alourdir les coûts d'OPEN MOISE ?", False, BLANC),
 ]
 for i, (txt, g, c) in enumerate(items):
     p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
     p.space_after = Pt(8)
     r = p.add_run(); r.text = ("" if i == 0 else "•  ") + txt
     style_run(r, 18, g, c)
-notes(s, "Tout le projet répond à cette question centrale, que je formule "
-         "clairement : détecter en temps réel et réduire le temps d'intervention, "
-         "avec une solution automatisée, fiable ET accessible financièrement. Les "
-         "trois sous-questions guident ma conception.")
+notes(s, "Tout le projet répond à cette question centrale, formulée du point de vue "
+         "d'OPEN MOISE : détecter en temps réel les pannes des réseaux supervisés et "
+         "réduire le temps d'intervention des équipes, avec une solution automatisée, "
+         "fiable et accessible. Les trois sous-questions guident ma conception.")
 
 # ====================================================================== #
 #  2 — OBJECTIFS ET RÉSULTATS                                           #
@@ -423,8 +427,9 @@ tableau(s, [
     ["Améliorer la disponibilité", "+2 pts  (~97,5 % → ~99,5 %)"],
     ["Maîtriser le coût", "0 € de licence (open-source)"],
 ], y=Inches(1.5), h=Inches(3.8), taille=17, surligne_derniere_col=True)
-encadre(s, "Objectif général : livrer un produit fonctionnel, mesurablement plus "
-           "performant que la supervision manuelle, pour un coût négligeable.", y=Inches(5.7), h=Inches(1.1))
+encadre(s, "Objectif général : doter OPEN MOISE d'un outil fonctionnel, "
+           "mesurablement plus performant que sa supervision manuelle actuelle, "
+           "pour un coût négligeable.", y=Inches(5.7), h=Inches(1.1))
 notes(s, "Mes objectifs sont chiffrés, donc vérifiables. Le cœur : faire chuter le "
          "temps de détection de l'ordre de l'heure à moins de deux minutes, et le "
          "temps de réaction à moins de cinq minutes, sans coût de licence.")
@@ -469,28 +474,31 @@ tableau(s, [
     ["SolarWinds", "Propriétaire", "Haut de gamme", "Très coûteux"],
 ], y=Inches(1.5), h=Inches(3.4), taille=15)
 encadre(s, "Le vide identifié : rien de léger + gratuit + simple + sur mesure, avec "
-           "notification mobile native, pour les petites structures.", y=Inches(5.4), h=Inches(1.1))
+           "notification mobile native, adapté à OPEN MOISE et à ses clients PME.", y=Inches(5.4), h=Inches(1.1))
 notes(s, "J'ai analysé les références du marché : soit des usines à gaz puissantes "
-         "mais complexes, soit des produits simples mais propriétaires et chers. Il "
-         "existe un vide pour une solution légère, gratuite et sur mesure.")
+         "mais complexes, soit des produits simples mais propriétaires et chers. "
+         "Pour OPEN MOISE et ses clients PME, il existe un vide pour une solution "
+         "légère, gratuite et sur mesure.")
 
 # ---- Solution proposée ----
 s = ajouter_diapo(); fond(s)
 bandeau_titre(s, 4, "Solution proposée")
 puces(s, [
-    ("Un système automatisé, modulaire et 100 % open-source qui :", 0, True, BLEU_FONCE),
-    ("découvre automatiquement les équipements du réseau", 1, False, GRIS),
+    ("Un outil de supervision pour OPEN MOISE, automatisé, modulaire et "
+     "100 % open-source, qui :", 0, True, BLEU_FONCE),
+    ("découvre automatiquement les équipements des réseaux clients", 1, False, GRIS),
     ("sonde en continu la disponibilité (ICMP) et les services (TCP)", 1, False, GRIS),
-    ("confirme la panne (anti-faux positif) et journalise tout", 1, False, GRIS),
-    ("alerte en temps réel par e-mail ET Telegram (push mobile)", 1, False, GRIS),
-    ("offre un tableau de bord web temps réel + rapports", 1, False, GRIS),
-], y=Inches(1.5), h=Inches(3.6), taille=20)
+    ("confirme la panne (anti-faux positif) et journalise tout (preuve de SLA)", 1, False, GRIS),
+    ("alerte les équipes d'OPEN MOISE par e-mail ET Telegram (push mobile)", 1, False, GRIS),
+    ("offre un tableau de bord web temps réel + rapports clients", 1, False, GRIS),
+], y=Inches(1.5), h=Inches(3.6), taille=19)
 encadre(s, "Stack : Ubuntu · Python · Cron · MySQL · Flask · Bootstrap · Bot Telegram",
         y=Inches(5.6), h=Inches(1.0), fond_c=BLEU_FONCE, barre=BLEU)
 # corrige couleur texte de l'encadré (fond foncé)
-notes(s, "Ma réponse à ce vide : une solution complète mais légère. Elle découvre, "
-         "surveille, confirme, journalise, alerte et affiche - le tout assemblé à "
-         "partir de briques open-source éprouvées.")
+notes(s, "Ma réponse au besoin d'OPEN MOISE : une solution complète mais légère. "
+         "Elle découvre, surveille, confirme, journalise, alerte les équipes et "
+         "affiche - le tout assemblé à partir de briques open-source éprouvées, et "
+         "la journalisation sert aussi de preuve du respect des SLA.")
 
 # ====================================================================== #
 #  5 — DIFFÉRENCIATION                                                  #
@@ -498,15 +506,15 @@ notes(s, "Ma réponse à ce vide : une solution complète mais légère. Elle d�
 s = ajouter_diapo(); fond(s)
 bandeau_titre(s, 5, "Axe de différenciation (innovation)")
 tableau(s, [
-    ["Différenciateur", "Bénéfice client"],
-    ["Alerte Telegram native", "Notification push gratuite, admin alerté partout"],
-    ["Ultra-légère", "Tourne sur un mini-serveur / VM 1 vCPU"],
-    ["Code 100 % ouvert & maîtrisé", "Personnalisation totale, zéro vendor lock-in"],
-    ["« Plug & supervise »", "Découverte auto. + déploiement en < 30 min"],
-    ["Prête pour l'IA", "Historique structuré → maintenance prédictive"],
-], y=Inches(1.5), h=Inches(3.4), taille=16)
-encadre(s, "L'innovation n'est pas une brique isolée, mais l'ASSEMBLAGE : simplicité "
-           "+ gratuité + notification mobile + extensibilité IA.", y=Inches(5.4), h=Inches(1.1))
+    ["Différenciateur", "Bénéfice pour OPEN MOISE"],
+    ["Alerte Telegram native", "Astreinte alertée partout, sans coût de notification"],
+    ["Ultra-légère", "1 VM par client / mutualisée : coûts d'exploitation réduits"],
+    ["Code 100 % ouvert & maîtrisé", "Adaptable à chaque client, zéro vendor lock-in"],
+    ["« Plug & supervise »", "Onboarding d'un nouveau client en < 30 min"],
+    ["Prête pour l'IA", "Historique structuré → futur service prédictif vendable"],
+], y=Inches(1.5), h=Inches(3.4), taille=15)
+encadre(s, "Pour OPEN MOISE, l'innovation est l'ASSEMBLAGE : simplicité + gratuité + "
+           "notification mobile + extensibilité IA → un avantage concurrentiel.", y=Inches(5.4), h=Inches(1.1))
 notes(s, "Mon innovation ne réside pas dans un protocole nouveau, mais dans un "
          "positionnement unique : combiner simplicité, gratuité, alerte mobile "
          "instantanée et ouverture vers l'IA. Là où chaque concurrent impose un "
@@ -518,10 +526,10 @@ notes(s, "Mon innovation ne réside pas dans un protocole nouveau, mais dans un 
 s = ajouter_diapo(); fond(s)
 bandeau_titre(s, 6, "Étude de faisabilité & conception")
 puces(s, [
-    ("Faisabilité technique ✓ — briques matures, compétences maîtrisées, "
-     "prototype réalisé et testé.", 0, False, VERT),
-    ("Faisabilité économique ✓ — coût de licence nul, matériel minimal.", 0, False, VERT),
-    ("Faisabilité organisationnelle ✓ — déploiement et prise en main rapides.", 0, False, VERT),
+    ("Faisabilité technique ✓ — briques matures, compétences déjà présentes "
+     "chez OPEN MOISE, prototype réalisé et testé.", 0, False, VERT),
+    ("Faisabilité économique ✓ — coût de licence nul, matériel mutualisé OPEN MOISE.", 0, False, VERT),
+    ("Faisabilité organisationnelle ✓ — intégrable au processus d'astreinte d'OPEN MOISE.", 0, False, VERT),
     ("", 0, False, GRIS),
     ("Conception formalisée :", 0, True, BLEU_FONCE),
     ("UML : 7 diagrammes (contexte, cas d'usage, séquence, activité, classes, "
@@ -615,12 +623,12 @@ p = tf.paragraphs[0]; p.alignment = PP_ALIGN.CENTER
 r = p.add_run(); r.text = "8.  DÉMONSTRATION — scénario en direct"
 style_run(r, 30, True, BLANC)
 etapes = [
-    "Tableau de bord — vue temps réel : équipements UP, KPI, graphiques",
-    "Je débranche / éteins un équipement supervisé",
+    "Tableau de bord OPEN MOISE — parc client supervisé en temps réel (UP/KPI)",
+    "Je simule une panne sur un équipement d'un réseau client",
     "Au cycle suivant → le statut bascule en DOWN (badge rouge)",
-    "L'alerte arrive : e-mail + notification Telegram sur le téléphone",
-    "Je rallume → notification de rétablissement + acquittement auto",
-    "Page Rapports : historique, taux de disponibilité, latences",
+    "L'astreinte OPEN MOISE est alertée : e-mail + Telegram sur le téléphone",
+    "Je rétablis → notification de rétablissement + acquittement auto",
+    "Page Rapports : preuve de disponibilité / SLA à présenter au client",
 ]
 tb = zone_texte(s, Inches(1.0), Inches(2.0), Inches(11.3), Inches(4.2))
 tf = tb.text_frame
@@ -631,10 +639,10 @@ for i, e in enumerate(etapes):
     style_run(r, 20, False, BLANC)
 encadre(s, "Plan B : captures d'écran + courte vidéo si la démo live est impossible.",
         y=Inches(6.4), h=Inches(0.8), fond_c=BLEU, barre=BLANC)
-notes(s, "Pour la démonstration, je propose un scénario vivant : je montre le "
-         "tableau de bord, j'éteins un équipement devant vous, et vous verrez "
-         "l'alerte Telegram arriver sur mon téléphone en temps réel. Puis je le "
-         "rallume pour montrer le rétablissement. J'ai un plan B en captures et vidéo.")
+notes(s, "Pour la démonstration, je propose un scénario vivant tel qu'OPEN MOISE "
+         "l'utiliserait : je montre le tableau de bord d'un parc client, je simule "
+         "une panne, et vous verrez l'astreinte alertée par Telegram en temps réel. "
+         "Puis je rétablis. J'ai un plan B en captures et vidéo.")
 
 # ---- Démonstration : captures ----
 s = ajouter_diapo(); fond(s)
@@ -648,85 +656,91 @@ tableau(s, [
     ["Notification Telegram", "Alerte push reçue sur smartphone"],
     ["Rapports", "Statistiques & graphiques exportables"],
 ], y=Inches(1.5), h=Inches(3.8), taille=16)
-encadre(s, "À insérer : les captures d'écran réelles de l'application déployée.",
+encadre(s, "À insérer : les captures d'écran réelles de l'application déployée chez OPEN MOISE.",
         y=Inches(5.7), h=Inches(0.9))
 notes(s, "Ces captures matérialisent chaque fonctionnalité clé. La plus parlante "
          "est la notification Telegram reçue sur le téléphone : la preuve concrète "
-         "de la valeur ajoutée pour l'administrateur.")
+         "de la valeur ajoutée pour les équipes d'astreinte d'OPEN MOISE.")
 
 # ====================================================================== #
 #  9 — MARKETING, VENTE & CONCURRENCE                                   #
 # ====================================================================== #
 s = ajouter_diapo(); fond(s)
-bandeau_titre(s, 9, "Marketing, vente et concurrence")
+bandeau_titre(s, 9, "Valorisation pour OPEN MOISE & concurrence")
 puces(s, [
-    ("Cible : PME, écoles, administrations, cybercafés, hébergeurs, MSP (infogérants).", 0, False, GRIS),
+    ("Double valeur pour OPEN MOISE :", 0, True, BLEU_FONCE),
+    ("Outil INTERNE : industrialise la supervision, fiabilise les SLA, réduit l'astreinte", 1, False, GRIS),
+    ("Nouvelle OFFRE : « Supervision managée » vendue aux clients d'OPEN MOISE", 1, False, GRIS),
     ("", 0, False, GRIS),
-    ("Proposition de valeur :", 0, True, BLEU_FONCE),
-    ("« Supervisez votre réseau et soyez alerté sur votre téléphone en cas de "
-     "panne — sans licence, sans complexité. »", 1, False, BLEU),
+    ("Proposition de valeur d'OPEN MOISE à ses clients :", 0, True, BLEU_FONCE),
+    ("« OPEN MOISE surveille votre réseau 24/7 et intervient avant que vous ne "
+     "constatiez la panne. »", 1, False, BLEU),
     ("", 0, False, GRIS),
-    ("Modèle économique (open-core) :", 0, True, BLEU_FONCE),
-    ("Cœur open-source gratuit (adoption & confiance)", 1, False, GRIS),
-    ("Services : installation, formation, support (abonnement)", 1, False, GRIS),
-    ("Édition Pro : SNMP, multi-sites, IA prédictive, rapports avancés", 1, False, GRIS),
-], y=Inches(1.5), h=Inches(5.0), taille=18)
-notes(s, "Côté business, je vise les structures sans gros budget IT et les "
-         "infogérants. Mon modèle est l'open-core : le cœur est gratuit pour créer "
-         "l'adoption, et je monétise les services et une édition Pro avec SNMP et IA.")
+    ("Monétisation (offre de service) :", 0, True, BLEU_FONCE),
+    ("Abonnement mensuel de supervision managée (par site / par équipement)", 1, False, GRIS),
+    ("Option Pro : SNMP, multi-sites, IA prédictive, rapports SLA avancés", 1, False, GRIS),
+], y=Inches(1.45), h=Inches(5.2), taille=17)
+notes(s, "Pour OPEN MOISE, la solution a une double valeur : en interne, elle "
+         "industrialise la supervision et fiabilise les SLA ; en externe, elle "
+         "devient une nouvelle offre de supervision managée facturée aux clients. "
+         "C'est à la fois une économie et une source de revenus récurrents.")
 
 # ---- Positionnement concurrentiel ----
 s = ajouter_diapo(); fond(s)
 bandeau_titre(s, 9, "Positionnement concurrentiel")
 tableau(s, [
-    ["Critère", "Nagios/Zabbix", "PRTG/SolarWinds", "Notre solution"],
+    ["Critère", "Nagios/Zabbix", "PRTG/SolarWinds", "Solution OPEN MOISE"],
     ["Prix", "Gratuit mais coûteux", "€€€", "Gratuit + services"],
     ["Simplicité", "Faible", "Élevée", "Élevée"],
     ["Légèreté", "Moyenne/Faible", "Faible", "Très élevée"],
     ["Alerte mobile native", "Plugin", "Appli", "Telegram natif"],
     ["Sur-mesure / ouvert", "Limité", "Non", "Total"],
 ], y=Inches(1.5), h=Inches(3.4), taille=15, surligne_derniere_col=True)
-encadre(s, "Stratégie : ne pas affronter les géants sur le haut de gamme, mais "
-           "dominer le segment délaissé des petites structures (« océan bleu »).",
+encadre(s, "Stratégie d'OPEN MOISE : ne pas affronter les géants sur le haut de gamme, "
+           "mais se différencier sur le segment des PME avec une offre managée simple "
+           "et sans licence (« océan bleu »).",
         y=Inches(5.4), h=Inches(1.1))
-notes(s, "Je ne prétends pas battre Zabbix sur les très grandes infrastructures. Ma "
-         "stratégie est celle de l'océan bleu : occuper le segment que les géants "
-         "négligent - les petites structures - avec un produit simple et gratuit.")
+notes(s, "OPEN MOISE ne cherche pas à battre Zabbix sur les très grandes "
+         "infrastructures. Sa stratégie est l'océan bleu : se différencier auprès de "
+         "ses clients PME avec une offre de supervision managée simple et sans "
+         "licence, là où les géants sont trop chers ou trop lourds.")
 
 # ====================================================================== #
 #  10 — PRÉVISIONS FINANCIÈRES                                          #
 # ====================================================================== #
 s = ajouter_diapo(); fond(s)
-bandeau_titre(s, 10, "Prévisions financières")
+bandeau_titre(s, 10, "Prévisions financières (OPEN MOISE)")
 tb = zone_texte(s, Inches(0.7), Inches(1.35), Inches(5.9), Inches(0.5))
 p = tb.text_frame.paragraphs[0]
-r = p.add_run(); r.text = "Coûts de mise en place"
+r = p.add_run(); r.text = "Investissement d'OPEN MOISE"
 style_run(r, 17, True, BLEU_FONCE)
 tableau(s, [
     ["Poste", "Coût"],
     ["Licences logicielles", "0 € (open-source)"],
-    ["Serveur (VM / mini-PC)", "~150–300 €"],
-    ["Déploiement (temps)", "~1 j de prestation"],
-    ["Total entrée", "≈ 200 €"],
+    ["Serveur / VM (mutualisé)", "~150–300 €"],
+    ["Développement & déploiement", "Interne (réalisé)"],
+    ["Total d'entrée", "≈ 200 €"],
 ], x=Inches(0.7), y=Inches(1.9), w=Inches(5.9), h=Inches(2.6), taille=15)
 tb = zone_texte(s, Inches(6.9), Inches(1.35), Inches(5.9), Inches(0.5))
 p = tb.text_frame.paragraphs[0]
-r = p.add_run(); r.text = "Revenus (scénario prestataire, an 1)"
-style_run(r, 17, True, BLEU_FONCE)
+r = p.add_run(); r.text = "Revenus & gains pour OPEN MOISE (an 1)"
+style_run(r, 16, True, BLEU_FONCE)
 tableau(s, [
-    ["Source", "Hypothèse", "Revenu"],
-    ["Installation+formation", "10 × 300 €", "3 000 €"],
-    ["Support (abonnement)", "10 × 40 €/mois", "4 800 €"],
-    ["Édition Pro", "3 × 500 €", "1 500 €"],
+    ["Source", "Hypothèse", "Montant"],
+    ["Supervision managée", "10 clients × 40 €/mois", "4 800 €"],
+    ["Mise en service client", "10 × 300 €", "3 000 €"],
+    ["Option Pro (SNMP/IA)", "3 × 500 €", "1 500 €"],
+    ["Pénalités SLA évitées", "estimation", "+ gains"],
     ["Total an 1", "", "≈ 9 300 €"],
-], x=Inches(6.9), y=Inches(1.9), w=Inches(5.9), h=Inches(2.6), taille=14, surligne_derniere_col=True)
-encadre(s, "ROI client : 1 h de panne évitée ≫ coût de la solution (≈ 200 €). "
-           "Elle s'autofinance dès le premier incident majeur évité.", y=Inches(5.7), h=Inches(1.1))
-notes(s, "Financièrement, l'entrée est quasi nulle : pas de licence, juste un petit "
-         "serveur. Côté revenus, même avec des hypothèses prudentes, on dépasse "
-         "9 000 € la première année. Pour le client, le retour vient de la réduction "
-         "des coûts d'indisponibilité : la solution est rentabilisée dès le premier "
-         "incident majeur évité.")
+], x=Inches(6.9), y=Inches(1.9), w=Inches(5.9), h=Inches(2.9), taille=13, surligne_derniere_col=True)
+encadre(s, "Double retour pour OPEN MOISE : revenus récurrents (offre managée) + "
+           "économies internes (moins d'astreinte, pénalités SLA évitées). "
+           "Investissement ≈ 200 € amorti dès le 1er client.", y=Inches(5.9), h=Inches(1.0))
+notes(s, "Pour OPEN MOISE, l'investissement est quasi nul : pas de licence, un "
+         "serveur mutualisé, un développement déjà réalisé en interne. Le retour est "
+         "double : des revenus récurrents via l'offre de supervision managée, et des "
+         "économies internes - moins de temps d'astreinte et des pénalités SLA "
+         "évitées. L'investissement est amorti dès le premier client.")
 
 # ====================================================================== #
 #  11 — LIMITES & PERSPECTIVES                                          #
@@ -740,16 +754,16 @@ puces(s, [
     ("Alertes dépendantes de la connectivité sortante", 1, False, GRIS),
     ("« Qui surveille le surveillant ? » → besoin de redondance", 1, False, GRIS),
     ("", 0, False, GRIS),
-    ("Perspectives :", 0, True, VERT),
-    ("Intégration SNMP (performances détaillées)", 1, False, GRIS),
-    ("Machine Learning : détection d'anomalies", 1, False, GRIS),
-    ("Maintenance prédictive (anticiper la panne) · Auto-remédiation (AIOps)", 1, False, GRIS),
-    ("Conteneurisation (Docker/K8s) · Canaux SMS, Slack, Teams", 1, False, GRIS),
+    ("Perspectives (feuille de route OPEN MOISE) :", 0, True, VERT),
+    ("Intégration SNMP (performances détaillées des équipements clients)", 1, False, GRIS),
+    ("Machine Learning : détection d'anomalies sur l'historique multi-clients", 1, False, GRIS),
+    ("Maintenance prédictive vendable comme offre premium · Auto-remédiation (AIOps)", 1, False, GRIS),
+    ("Portail multi-clients · Conteneurisation (Docker/K8s) · SMS, Slack, Teams", 1, False, GRIS),
 ], y=Inches(1.4), h=Inches(5.4), taille=18, interligne=6)
 notes(s, "Je reste lucide sur les limites : pas encore de SNMP, réactivité bornée à "
          "deux minutes, et la question du superviseur lui-même. Mais ces limites "
-         "tracent ma feuille de route : SNMP, puis l'IA pour passer d'une "
-         "supervision réactive à une supervision prédictive.")
+         "tracent la feuille de route d'OPEN MOISE : SNMP, puis l'IA pour offrir à "
+         "ses clients une supervision prédictive premium.")
 
 # ====================================================================== #
 #  CONCLUSION                                                           #
@@ -757,19 +771,19 @@ notes(s, "Je reste lucide sur les limites : pas encore de SNMP, réactivité bor
 s = ajouter_diapo(); fond(s)
 bandeau_titre(s, None, "Conclusion")
 puces(s, [
-    ("Un produit fonctionnel, testé, 100 % open-source", 0, True, VERT),
-    ("Détection temps réel (< 2 min) & temps d'intervention réduit", 0, True, VERT),
-    ("Un modèle économique viable (open-core) sur un segment délaissé", 0, True, VERT),
+    ("Pour OPEN MOISE : un outil fonctionnel, testé, 100 % open-source", 0, True, VERT),
+    ("Détection temps réel (< 2 min) → SLA clients mieux respectés", 0, True, VERT),
+    ("Double valeur : économies internes + nouvelle offre managée", 0, True, VERT),
     ("Une base extensible vers l'IA et la maintenance prédictive", 0, True, VERT),
-], y=Inches(1.6), h=Inches(2.8), taille=22, interligne=14)
-encadre(s, "De la supervision réactive vers une supervision proactive, accessible "
-           "et intelligente. L'automatisation transforme la disponibilité réseau en "
-           "avantage à la portée de toutes les organisations.",
+], y=Inches(1.6), h=Inches(2.8), taille=21, interligne=14)
+encadre(s, "Pour OPEN MOISE, l'automatisation transforme la supervision en avantage "
+           "concurrentiel : de la réaction subie vers un service proactif, fiable et "
+           "rentable pour ses clients.",
         y=Inches(5.0), h=Inches(1.6), fond_c=BLEU_FONCE, barre=BLEU)
-notes(s, "En conclusion, ce projet livre un produit réel et performant, doublé d'un "
-         "modèle économique crédible, et ouvert vers l'avenir de la supervision : le "
-         "prédictif. J'ai montré qu'on pouvait rendre la haute disponibilité "
-         "accessible à tous.")
+notes(s, "En conclusion, ce projet dote OPEN MOISE d'un outil réel et performant, "
+         "qui fiabilise ses engagements de service, génère des économies et ouvre "
+         "une nouvelle offre commerciale. Pour l'entreprise, c'est un avantage "
+         "concurrentiel concret et durable.")
 
 # ---- Remerciements ----
 s = ajouter_diapo(); fond(s, BLEU_FONCE)
