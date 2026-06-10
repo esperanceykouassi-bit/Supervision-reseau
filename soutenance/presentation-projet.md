@@ -162,7 +162,7 @@ guident ma conception. -->
 | Automatiser la surveillance | **0 intervention humaine** sur la collecte |
 | Assurer la traçabilité | **100 %** des événements journalisés |
 | Améliorer la disponibilité | **+2 pts** (≈97,5 % → ≈99,5 %) |
-| Maîtriser le coût | **0 €** de licence (open-source) |
+| Maîtriser le coût | **0 FCFA** de licence (open-source) |
 
 > **Objectif général :** livrer un produit fonctionnel, mesurablement plus
 > performant que la supervision manuelle, pour un coût négligeable.
@@ -427,7 +427,7 @@ nouvelle offre de supervision managée facturée aux clients. C'est à la fois u
 
 | Critère | Nagios/Zabbix | PRTG/SolarWinds | **Solution OPEN MOISE** |
 |---------|:-------------:|:---------------:|:------------------:|
-| Prix | Gratuit mais coûteux à exploiter | **€€€** | **Gratuit + services** |
+| Prix | Gratuit mais coûteux à exploiter | **Très coûteux** | **Gratuit + services** |
 | Simplicité | Faible | Élevée | **Élevée** |
 | Légèreté | Moyenne/Faible | Faible | **Très élevée** |
 | Alerte mobile native | Plugin | Appli | **Telegram natif** |
@@ -449,20 +449,20 @@ négligent - les petites structures - avec un produit simple, léger et gratuit.
 
 | Poste | Coût |
 |-------|------|
-| Licences logicielles | **0 €** (100 % open-source) |
-| Serveur / VM (mutualisé) | ~150–300 € |
+| Licences logicielles | **0 FCFA** (100 % open-source) |
+| Serveur / VM (mutualisé) | ~100 000 – 200 000 FCFA |
 | Développement & déploiement | Interne (déjà réalisé) |
-| **Total d'entrée** | **≈ 200 €** |
+| **Total d'entrée** | **≈ 130 000 FCFA** |
 
 **Revenus & gains pour OPEN MOISE (an 1) :**
 
 | Source | Hypothèse | Montant |
 |--------|-----------|---------|
-| Supervision managée | 10 clients × 40 €/mois | 4 800 € |
-| Mise en service client | 10 × 300 € | 3 000 € |
-| Option Pro (SNMP/IA) | 3 × 500 € | 1 500 € |
+| Supervision managée | 10 clients × 25 000 FCFA/mois | 3 000 000 FCFA |
+| Mise en service client | 10 × 200 000 FCFA | 2 000 000 FCFA |
+| Option Pro (SNMP/IA) | 3 × 325 000 FCFA | 975 000 FCFA |
 | Pénalités SLA évitées | estimation | + gains |
-| **Total an 1** | | **≈ 9 300 €** |
+| **Total an 1** | | **≈ 6 000 000 FCFA** |
 
 <!-- Pour OPEN MOISE, l'investissement est quasi nul : pas de licence, un serveur
 mutualisé, un développement déjà réalisé en interne. Le retour est double :
@@ -476,14 +476,14 @@ revenus récurrents via l'offre managée, et économies internes. -->
 préservée + fidélisation du client.
 
 ```
-Investissement OPEN MOISE (≈ 200 €)  ≪  Revenus récurrents + pénalités SLA évitées
+Investissement OPEN MOISE (≈ 130 000 FCFA)  ≪  Revenus récurrents + pénalités SLA évitées
 ```
 
 > Détection ramenée de **~1 h à < 2 min** → OPEN MOISE **tient ses SLA**,
 > **réduit son astreinte** et **facture une nouvelle offre** : l'investissement
 > est **amorti dès le premier client**.
 
-<!-- L'argument décisif pour OPEN MOISE : un investissement d'environ 200 € qui
+<!-- L'argument décisif pour OPEN MOISE : un investissement d'environ 130 000 FCFA qui
 génère des revenus récurrents et évite des pénalités SLA. La solution est
 rentabilisée dès le premier client de l'offre managée. -->
 

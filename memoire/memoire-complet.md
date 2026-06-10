@@ -226,7 +226,7 @@ dégradation de l'image de marque et, dans certains secteurs critiques, mettre e
 jeu la sécurité des personnes.
 
 Selon plusieurs études du secteur, le coût moyen d'une heure d'indisponibilité
-informatique se chiffre en milliers, voire en dizaines de milliers d'euros pour
+informatique se chiffre en millions, voire en dizaines de millions de francs CFA pour
 les grandes entreprises. Ce constat place la **continuité de service** au cœur
 des préoccupations des directions des systèmes d'information. Pour garantir cette
 continuité, les administrateurs réseau doivent en permanence **surveiller** l'état
@@ -701,7 +701,7 @@ de gamme destinée aux grandes infrastructures.
 - **Avantages :** très complète, cartographie automatique, analyses avancées.
 - **Inconvénients :** **coûteuse**, lourde, propriétaire ; éditeur ayant connu
   des incidents de sécurité notables (chaîne d'approvisionnement, 2020).
-- **Coût :** **licence élevée** (plusieurs milliers d'euros).
+- **Coût :** **licence élevée** (plusieurs millions de francs CFA).
 
 ## 2.8 Tableau comparatif
 
@@ -1083,7 +1083,7 @@ améliore mécaniquement le taux de disponibilité observé :
 |-----------|----------|:-------:|
 | **H1** — Réduction du MTTD | 60 min → < 2 min | **Confirmée** |
 | **H2** — Réduction du MTTR | 45 min → < 5 min | **Confirmée** |
-| **H3** — Coût quasi nul (open-source) | 0 € de licence | **Confirmée** |
+| **H3** — Coût quasi nul (open-source) | 0 FCFA de licence | **Confirmée** |
 | **H4** — Traçabilité et disponibilité | Historique + 99,5 % | **Confirmée** |
 
 L'ensemble des hypothèses étant validé, l'**hypothèse générale** est confirmée :

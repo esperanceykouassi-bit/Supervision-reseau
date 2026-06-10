@@ -200,7 +200,7 @@ la parallélisation rend le scan d'un réseau entier très rapide. -->
 | Temps de détection (MTTD) | ~30–60 min | **< 2 min** |
 | Temps de réaction (MTTR) | ~45 min | **< 5 min** |
 | Taux de disponibilité | ~97,5 % | **~99,5 %** |
-| Coût de licence | — | **0 €** |
+| Coût de licence | — | **0 FCFA** |
 
 → **Les 4 hypothèses sont confirmées**
 

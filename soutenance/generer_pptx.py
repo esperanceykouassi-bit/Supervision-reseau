@@ -425,7 +425,7 @@ tableau(s, [
     ["Automatiser la surveillance", "0 intervention humaine sur la collecte"],
     ["Assurer la traçabilité", "100 % des événements journalisés"],
     ["Améliorer la disponibilité", "+2 pts  (~97,5 % → ~99,5 %)"],
-    ["Maîtriser le coût", "0 € de licence (open-source)"],
+    ["Maîtriser le coût", "0 FCFA de licence (open-source)"],
 ], y=Inches(1.5), h=Inches(3.8), taille=17, surligne_derniere_col=True)
 encadre(s, "Objectif général : doter OPEN MOISE d'un outil fonctionnel, "
            "mesurablement plus performant que sa supervision manuelle actuelle, "
@@ -735,7 +735,7 @@ s = ajouter_diapo(); fond(s)
 bandeau_titre(s, 9, "Positionnement concurrentiel")
 tableau(s, [
     ["Critère", "Nagios/Zabbix", "PRTG/SolarWinds", "Solution OPEN MOISE"],
-    ["Prix", "Gratuit mais coûteux", "€€€", "Gratuit + services"],
+    ["Prix", "Gratuit mais coûteux", "Très coûteux", "Gratuit + services"],
     ["Simplicité", "Faible", "Élevée", "Élevée"],
     ["Légèreté", "Moyenne/Faible", "Faible", "Très élevée"],
     ["Alerte mobile native", "Plugin", "Appli", "Telegram natif"],
@@ -761,10 +761,10 @@ r = p.add_run(); r.text = "Investissement d'OPEN MOISE"
 style_run(r, 17, True, BLEU_FONCE)
 tableau(s, [
     ["Poste", "Coût"],
-    ["Licences logicielles", "0 € (open-source)"],
-    ["Serveur / VM (mutualisé)", "~150–300 €"],
+    ["Licences logicielles", "0 FCFA (open-source)"],
+    ["Serveur / VM (mutualisé)", "~100 000 – 200 000 FCFA"],
     ["Développement & déploiement", "Interne (réalisé)"],
-    ["Total d'entrée", "≈ 200 €"],
+    ["Total d'entrée", "≈ 130 000 FCFA"],
 ], x=Inches(0.7), y=Inches(1.9), w=Inches(5.9), h=Inches(2.6), taille=15)
 tb = zone_texte(s, Inches(6.9), Inches(1.35), Inches(5.9), Inches(0.5))
 p = tb.text_frame.paragraphs[0]
@@ -772,15 +772,20 @@ r = p.add_run(); r.text = "Revenus & gains pour OPEN MOISE (an 1)"
 style_run(r, 16, True, BLEU_FONCE)
 tableau(s, [
     ["Source", "Hypothèse", "Montant"],
-    ["Supervision managée", "10 clients × 40 €/mois", "4 800 €"],
-    ["Mise en service client", "10 × 300 €", "3 000 €"],
-    ["Option Pro (SNMP/IA)", "3 × 500 €", "1 500 €"],
+    ["Supervision managée", "10 clients × 25 000 FCFA/mois", "3 000 000 FCFA"],
+    ["Mise en service client", "10 × 200 000 FCFA", "2 000 000 FCFA"],
+    ["Option Pro (SNMP/IA)", "3 × 325 000 FCFA", "975 000 FCFA"],
     ["Pénalités SLA évitées", "estimation", "+ gains"],
-    ["Total an 1", "", "≈ 9 300 €"],
+    ["Total an 1", "", "≈ 6 000 000 FCFA"],
 ], x=Inches(6.9), y=Inches(1.9), w=Inches(5.9), h=Inches(2.9), taille=13, surligne_derniere_col=True)
 encadre(s, "Double retour pour OPEN MOISE : revenus récurrents (offre managée) + "
            "économies internes (moins d'astreinte, pénalités SLA évitées). "
-           "Investissement ≈ 200 € amorti dès le 1er client.", y=Inches(5.9), h=Inches(1.0))
+           "Investissement ≈ 130 000 FCFA amorti dès le 1er client.", y=Inches(5.85), h=Inches(0.95))
+txt2 = zone_texte(s, Inches(0.7), Inches(6.95), Inches(12.0), Inches(0.35))
+p = txt2.text_frame.paragraphs[0]
+r = p.add_run(); r.text = ("Montants en francs CFA (XOF) — hypothèses indicatives à ajuster. "
+                           "Parité fixe : 1 € = 655,957 FCFA.")
+style_run(r, 10, False, GRIS, italique=True)
 notes(s, "Pour OPEN MOISE, l'investissement est quasi nul : pas de licence, un "
          "serveur mutualisé, un développement déjà réalisé en interne. Le retour est "
          "double : des revenus récurrents via l'offre de supervision managée, et des "
