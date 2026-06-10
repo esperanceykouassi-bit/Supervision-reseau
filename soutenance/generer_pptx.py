@@ -24,15 +24,29 @@ from PIL import Image
 RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # ---------------------------------------------------------------------- #
-# Charte graphique                                                       #
+# Charte graphique — inspirée du modèle « Soutenance_Supervision_Reseau » #
+#   Bleu marine + sarcelle + menthe, fonds clairs, Cambria/Calibri.       #
 # ---------------------------------------------------------------------- #
-BLEU_FONCE = RGBColor(0x0D, 0x3B, 0x66)   # titres
-BLEU = RGBColor(0x0D, 0x6E, 0xFD)         # accents
-ROUGE = RGBColor(0xD6, 0x28, 0x28)        # emphase
-GRIS = RGBColor(0x33, 0x33, 0x33)         # texte
-GRIS_CLAIR = RGBColor(0xF1, 0xF3, 0xF5)   # fonds
-BLANC = RGBColor(0xFF, 0xFF, 0xFF)
-VERT = RGBColor(0x19, 0x87, 0x54)
+NAVY       = RGBColor(0x0A, 0x23, 0x42)   # marine principal (titres, panneaux)
+NAVY2      = RGBColor(0x13, 0x3B, 0x5C)   # marine décoratif
+TEAL_DK    = RGBColor(0x1C, 0x7C, 0x84)   # sarcelle (accents, sous-titres)
+TEAL       = RGBColor(0x2E, 0xC4, 0xB6)   # sarcelle vif (barres, icônes)
+MINT       = RGBColor(0x5F, 0xE3, 0xD3)   # menthe (numéros, kicker, accents)
+BG         = RGBColor(0xF4, 0xF8, 0xFB)   # fond clair des diapos
+TXT        = RGBColor(0x0F, 0x1B, 0x2D)   # texte courant
+MUTED      = RGBColor(0x64, 0x74, 0x8B)   # texte secondaire / pied de page
+LIGHTTXT   = RGBColor(0xC7, 0xD7, 0xE2)   # texte clair sur fond marine
+
+# Alias conservés pour ne pas casser le contenu existant
+BLEU_FONCE = NAVY        # structures / titres
+BLEU       = TEAL_DK     # accents (lisible sur fond clair)
+GRIS       = TXT         # texte courant
+GRIS_CLAIR = RGBColor(0xE8, 0xEE, 0xF4)   # lignes alternées / fonds doux
+BLANC      = RGBColor(0xFF, 0xFF, 0xFF)
+ROUGE      = RGBColor(0xD6, 0x28, 0x28)   # danger / sévérité critique
+VERT       = RGBColor(0x1C, 0x7C, 0x84)   # succès → harmonisé en sarcelle
+
+FOOTER_TXT = "Automatisation de la Supervision et de la Détection des Pannes Réseau — OPEN MOISE"
 
 # Format 16:9
 LARGEUR = Inches(13.333)
@@ -52,7 +66,7 @@ def ajouter_diapo():
     return prs.slides.add_slide(LAYOUT_VIDE)
 
 
-def fond(slide, couleur=BLANC):
+def fond(slide, couleur=BG):
     slide.background.fill.solid()
     slide.background.fill.fore_color.rgb = couleur
 
@@ -73,40 +87,70 @@ def zone_texte(slide, x, y, w, h):
     return tb
 
 
-def style_run(run, taille=18, gras=False, couleur=GRIS, italique=False):
+def style_run(run, taille=18, gras=False, couleur=GRIS, italique=False, police="Calibri"):
     run.font.size = Pt(taille)
     run.font.bold = gras
     run.font.italic = italique
     run.font.color.rgb = couleur
-    run.font.name = "Calibri"
+    run.font.name = police
 
 
 def notes(slide, texte):
     slide.notes_slide.notes_text_frame.text = texte
 
 
-def bandeau_titre(slide, numero, titre):
-    """Bandeau d'en-tête coloré avec numéro de section et titre."""
-    rectangle(slide, 0, 0, LARGEUR, Inches(1.15), BLEU_FONCE)
-    if numero:
-        # pastille numéro
-        from pptx.enum.shapes import MSO_SHAPE
-        past = slide.shapes.add_shape(MSO_SHAPE.OVAL, Inches(0.35), Inches(0.22),
-                                      Inches(0.72), Inches(0.72))
-        past.fill.solid(); past.fill.fore_color.rgb = BLEU
-        past.line.fill.background(); past.shadow.inherit = False
-        tf = past.text_frame; tf.word_wrap = False
-        p = tf.paragraphs[0]; p.alignment = PP_ALIGN.CENTER
-        r = p.add_run(); r.text = str(numero)
-        style_run(r, 26, True, BLANC)
-        tx = Inches(1.25)
-    else:
-        tx = Inches(0.5)
-    tb = zone_texte(slide, tx, Inches(0.18), LARGEUR - tx - Inches(0.3), Inches(0.8))
+def carre(slide, x, y, c, taille=Inches(0.5)):
+    """Petit carré arrondi de couleur `c` (badge / icône)."""
+    from pptx.enum.shapes import MSO_SHAPE
+    f = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, x, y, taille, taille)
+    f.fill.solid(); f.fill.fore_color.rgb = c
+    f.line.fill.background(); f.shadow.inherit = False
+    return f
+
+
+def cercle(slide, x, y, d, c):
+    """Cercle décoratif plein (pour la page de titre / dividers)."""
+    from pptx.enum.shapes import MSO_SHAPE
+    f = slide.shapes.add_shape(MSO_SHAPE.OVAL, x, y, d, d)
+    f.fill.solid(); f.fill.fore_color.rgb = c
+    f.line.fill.background(); f.shadow.inherit = False
+    return f
+
+
+def pied(slide):
+    """Pied de page : intitulé à gauche + numéro de diapo à droite."""
+    no = len(prs.slides._sldIdLst)  # index 1-based de la diapo courante
+    tb = zone_texte(slide, Inches(0.6), Inches(7.12), Inches(10.5), Inches(0.3))
+    p = tb.text_frame.paragraphs[0]
+    r = p.add_run(); r.text = FOOTER_TXT
+    style_run(r, 9, False, MUTED)
+    tn = zone_texte(slide, Inches(12.2), Inches(7.12), Inches(0.6), Inches(0.3))
+    p = tn.text_frame.paragraphs[0]; p.alignment = PP_ALIGN.RIGHT
+    r = p.add_run(); r.text = str(no)
+    style_run(r, 10, False, MUTED)
+
+
+def bandeau_titre(slide, numero, titre, sous_titre=None):
+    """En-tête : badge marine numéroté + titre Cambria + accent + pied de page.
+
+    Reproduit le motif du modèle de référence (fond clair, pas de bandeau plein).
+    """
+    # Badge carré marine avec le numéro (ou « • ») en menthe.
+    carre(slide, Inches(0.55), Inches(0.45), NAVY, taille=Inches(0.8))
+    bt = zone_texte(slide, Inches(0.55), Inches(0.45), Inches(0.8), Inches(0.8))
+    bt.text_frame.vertical_anchor = MSO_ANCHOR.MIDDLE
+    p = bt.text_frame.paragraphs[0]; p.alignment = PP_ALIGN.CENTER
+    r = p.add_run(); r.text = str(numero) if numero is not None else "•"
+    style_run(r, 28, True, MINT, police="Cambria")
+    # Titre (Cambria, marine).
+    tb = zone_texte(slide, Inches(1.6), Inches(0.45), Inches(11.1), Inches(0.8))
     tb.text_frame.vertical_anchor = MSO_ANCHOR.MIDDLE
     p = tb.text_frame.paragraphs[0]
     r = p.add_run(); r.text = titre
-    style_run(r, 30, True, BLANC)
+    style_run(r, 26, True, NAVY, police="Cambria")
+    # Accent sarcelle court sous le titre.
+    rectangle(slide, Inches(1.62), Inches(1.28), Inches(1.5), Inches(0.045), TEAL)
+    pied(slide)
 
 
 def puces(slide, items, x=Inches(0.7), y=Inches(1.5),
@@ -161,8 +205,15 @@ def tableau(slide, donnees, x=Inches(0.7), y=Inches(1.5),
 
 
 def encadre(slide, texte, x=Inches(0.7), y=Inches(5.9),
-            w=Inches(11.9), h=Inches(1.0), fond_c=GRIS_CLAIR, barre=BLEU):
-    """Encadré « citation / message clé » avec barre latérale."""
+            w=Inches(11.9), h=Inches(1.0), fond_c=None, barre=TEAL):
+    """Encadré « message clé » avec barre latérale sarcelle.
+
+    La couleur du texte s'adapte automatiquement à la clarté du fond.
+    """
+    if fond_c is None:
+        fond_c = RGBColor(0xEA, 0xF3, 0xF4)        # tuile très claire (défaut)
+    fonds_sombres = {NAVY, NAVY2, TEAL_DK}
+    couleur_txt = LIGHTTXT if fond_c in fonds_sombres else NAVY
     rectangle(slide, x, y, Inches(0.12), h, barre)
     boite = rectangle(slide, x + Inches(0.12), y, w - Inches(0.12), h, fond_c)
     tf = boite.text_frame; tf.word_wrap = True
@@ -170,7 +221,7 @@ def encadre(slide, texte, x=Inches(0.7), y=Inches(5.9),
     tf.margin_left = Inches(0.2)
     p = tf.paragraphs[0]
     r = p.add_run(); r.text = texte
-    style_run(r, 17, True, BLEU_FONCE, italique=True)
+    style_run(r, 16, True, couleur_txt, italique=True, police="Cambria")
 
 
 def _dim_ajustee(chemin, max_w, max_h):
@@ -190,17 +241,17 @@ def diapo_image(numero, titre, chemin, legende="", note_txt="",
                 max_w=Inches(11.8), max_h=Inches(5.3), top=Inches(1.35),
                 fond_clair=True):
     """Crée une diapositive « titre + image centrée » (diagramme pleine page)."""
-    s = ajouter_diapo(); fond(s, BLANC if fond_clair else GRIS_CLAIR)
+    s = ajouter_diapo(); fond(s, BG)
     bandeau_titre(s, numero, titre)
     chemin = os.path.join(RACINE, chemin)
     w, h = _dim_ajustee(chemin, int(max_w), int(max_h))
     left = int((int(LARGEUR) - w) / 2)
     s.shapes.add_picture(chemin, left, top, width=w, height=h)
     if legende:
-        tb = zone_texte(s, Inches(0.5), Inches(6.75), Inches(12.3), Inches(0.5))
+        tb = zone_texte(s, Inches(0.5), Inches(6.72), Inches(11.4), Inches(0.4))
         p = tb.text_frame.paragraphs[0]; p.alignment = PP_ALIGN.CENTER
         r = p.add_run(); r.text = legende
-        style_run(r, 13, False, GRIS, italique=True)
+        style_run(r, 12, False, MUTED, italique=True)
     if note_txt:
         notes(s, note_txt)
     return s
@@ -257,26 +308,41 @@ def diapo_grille_images(numero, titre, items, note_txt=""):
 # ====================================================================== #
 #  DIAPO 0 — TITRE                                                       #
 # ====================================================================== #
-s = ajouter_diapo(); fond(s, BLEU_FONCE)
-rectangle(s, 0, Inches(2.5), LARGEUR, Inches(2.6), BLEU)
-tb = zone_texte(s, Inches(0.8), Inches(2.65), Inches(11.7), Inches(2.3))
-tf = tb.text_frame; tf.vertical_anchor = MSO_ANCHOR.MIDDLE
-p = tf.paragraphs[0]; p.alignment = PP_ALIGN.CENTER
-r = p.add_run(); r.text = "Automatisation de la Supervision et de la\nDétection des Pannes Réseau"
-style_run(r, 36, True, BLANC)
-p2 = tf.add_paragraph(); p2.alignment = PP_ALIGN.CENTER
-r = p2.add_run(); r.text = "Une solution open-source déployée au sein d'OPEN MOISE (ESN d'infogérance)"
-style_run(r, 18, False, RGBColor(0xDD, 0xE6, 0xF2), italique=True)
-tb = zone_texte(s, Inches(0.8), Inches(5.4), Inches(11.7), Inches(1.6))
-for i, (txt, sz, g) in enumerate([
-    ("[NOM Prénom] — Master 2 RIT", 20, True),
-    ("Sous la direction de [Directeur de mémoire]", 16, False),
-    ("Structure d'accueil : OPEN MOISE  •  Année académique 2025–2026", 14, False),
+s = ajouter_diapo(); fond(s, NAVY)
+# Cercles décoratifs (coins)
+cercle(s, Inches(10.8), Inches(-1.4), Inches(3.8), NAVY2)
+cercle(s, Inches(11.9), Inches(-0.5), Inches(1.7), TEAL_DK)
+cercle(s, Inches(-1.0), Inches(5.3), Inches(3.4), NAVY2)
+cercle(s, Inches(0.8), Inches(1.1), Inches(1.0), TEAL)
+# Kicker
+tb = zone_texte(s, Inches(0.8), Inches(2.15), Inches(11.6), Inches(0.45))
+p = tb.text_frame.paragraphs[0]
+r = p.add_run(); r.text = "MÉMOIRE DE PROJET DE FIN D'ÉTUDES — MASTER 2 RIT"
+style_run(r, 15, True, MINT, police="Cambria")
+# Titre principal
+tb = zone_texte(s, Inches(0.8), Inches(2.6), Inches(11.7), Inches(1.9))
+tf = tb.text_frame; tf.word_wrap = True
+p = tf.paragraphs[0]
+r = p.add_run(); r.text = "Automatisation de la Supervision et de la Détection des Pannes Réseau"
+style_run(r, 42, True, BLANC, police="Cambria")
+# Barre d'accent
+rectangle(s, Inches(0.8), Inches(4.75), Inches(2.6), Inches(0.06), TEAL)
+# Sous-titre
+tb = zone_texte(s, Inches(0.8), Inches(4.95), Inches(11.5), Inches(0.6))
+p = tb.text_frame.paragraphs[0]
+r = p.add_run(); r.text = "Une solution open-source déployée au sein d'OPEN MOISE (ESN d'infogérance)"
+style_run(r, 16, False, LIGHTTXT)
+# Bloc auteur
+tb = zone_texte(s, Inches(0.8), Inches(6.05), Inches(11.6), Inches(1.1))
+tf = tb.text_frame
+for i, (txt, sz, g, c) in enumerate([
+    ("Présenté par : [NOM Prénom de l'étudiant]      Encadré par : [Directeur de mémoire]", 13, True, BLANC),
+    ("Structure d'accueil : OPEN MOISE", 12.5, False, LIGHTTXT),
+    ("Année académique 2025 – 2026", 12, True, MINT),
 ]):
-    p = tf2 = (s.shapes[-1].text_frame.paragraphs[0] if i == 0 else s.shapes[-1].text_frame.add_paragraph())
-    p.alignment = PP_ALIGN.CENTER
+    p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
     r = p.add_run(); r.text = txt
-    style_run(r, sz, g, BLANC)
+    style_run(r, sz, g, c)
 notes(s, "Bonjour Mesdames et Messieurs les membres du jury. Je vous remercie de "
          "votre présence. Je vais vous présenter mon mémoire-projet : une solution "
          "d'automatisation de la supervision et de la détection des pannes réseau, "
@@ -385,7 +451,7 @@ s = ajouter_diapo(); fond(s, BLEU_FONCE)
 tb = zone_texte(s, Inches(0.5), Inches(0.5), Inches(12.3), Inches(0.8))
 p = tb.text_frame.paragraphs[0]; p.alignment = PP_ALIGN.CENTER
 r = p.add_run(); r.text = "LA PROBLÉMATIQUE"
-style_run(r, 24, True, BLEU)
+style_run(r, 24, True, MINT, police="Cambria")
 boite = rectangle(s, Inches(1.0), Inches(1.7), Inches(11.3), Inches(2.6), BLANC)
 tf = boite.text_frame; tf.word_wrap = True; tf.vertical_anchor = MSO_ANCHOR.MIDDLE
 tf.margin_left = Inches(0.4); tf.margin_right = Inches(0.4)
@@ -394,11 +460,11 @@ r = p.add_run(); r.text = ("« Comment OPEN MOISE peut-elle détecter en temps r
                            "pannes des réseaux qu'elle supervise et réduire le temps "
                            "d'intervention de ses équipes, à l'aide d'une solution "
                            "automatisée, fiable et économiquement accessible ? »")
-style_run(r, 21, True, BLEU_FONCE, italique=True)
+style_run(r, 21, True, NAVY, italique=True, police="Cambria")
 tb = zone_texte(s, Inches(1.0), Inches(4.6), Inches(11.3), Inches(2.5))
 tf = tb.text_frame
 items = [
-    ("Sous-questions :", True, BLEU),
+    ("Sous-questions :", True, MINT),
     ("Comment automatiser une surveillance continue et fiable des parcs clients ?", False, BLANC),
     ("Comment alerter les équipes d'astreinte d'OPEN MOISE, où qu'elles soient ?", False, BLANC),
     ("Comment offrir cette valeur sans alourdir les coûts d'OPEN MOISE ?", False, BLANC),
@@ -616,13 +682,14 @@ notes(s, "La sécurité a été pensée dès la conception, pas ajoutée après 
 # ====================================================================== #
 #  8 — DÉMONSTRATION                                                    #
 # ====================================================================== #
-s = ajouter_diapo(); fond(s, BLEU_FONCE)
-rectangle(s, 0, Inches(0.6), LARGEUR, Inches(1.0), BLEU)
-tb = zone_texte(s, Inches(0.5), Inches(0.65), Inches(12.3), Inches(0.9))
+s = ajouter_diapo(); fond(s, NAVY)
+cercle(s, Inches(11.2), Inches(-1.2), Inches(3.2), NAVY2)
+rectangle(s, Inches(0.5), Inches(0.7), Inches(0.12), Inches(0.85), TEAL)
+tb = zone_texte(s, Inches(0.8), Inches(0.65), Inches(12.0), Inches(0.95))
 tf = tb.text_frame; tf.vertical_anchor = MSO_ANCHOR.MIDDLE
-p = tf.paragraphs[0]; p.alignment = PP_ALIGN.CENTER
+p = tf.paragraphs[0]
 r = p.add_run(); r.text = "8.  DÉMONSTRATION — scénario en direct"
-style_run(r, 30, True, BLANC)
+style_run(r, 30, True, BLANC, police="Cambria")
 etapes = [
     "Tableau de bord OPEN MOISE — parc client supervisé en temps réel (UP/KPI)",
     "Je simule une panne sur un équipement d'un réseau client",
@@ -837,18 +904,21 @@ notes(s, "En conclusion, ce projet dote OPEN MOISE d'un outil réel et performan
          "concurrentiel concret et durable.")
 
 # ---- Remerciements ----
-s = ajouter_diapo(); fond(s, BLEU_FONCE)
+s = ajouter_diapo(); fond(s, NAVY)
+cercle(s, Inches(10.9), Inches(-1.3), Inches(3.6), NAVY2)
+cercle(s, Inches(-1.0), Inches(5.4), Inches(3.2), NAVY2)
+cercle(s, Inches(11.9), Inches(-0.4), Inches(1.5), TEAL_DK)
 tb = zone_texte(s, Inches(1.0), Inches(2.8), Inches(11.3), Inches(2.0))
 tf = tb.text_frame; tf.vertical_anchor = MSO_ANCHOR.MIDDLE
 p = tf.paragraphs[0]; p.alignment = PP_ALIGN.CENTER
 r = p.add_run(); r.text = "Merci de votre attention"
-style_run(r, 40, True, BLANC)
+style_run(r, 40, True, BLANC, police="Cambria")
 p = tf.add_paragraph(); p.alignment = PP_ALIGN.CENTER
 r = p.add_run(); r.text = "Je me tiens à votre disposition pour vos questions"
-style_run(r, 20, False, RGBColor(0xDD,0xE6,0xF2), italique=True)
+style_run(r, 20, False, LIGHTTXT, italique=True)
 p = tf.add_paragraph(); p.alignment = PP_ALIGN.CENTER
-r = p.add_run(); r.text = "\n[NOM Prénom] — Master 2 RIT — 2026"
-style_run(r, 16, True, BLANC)
+r = p.add_run(); r.text = "\n[NOM Prénom] — Master 2 RIT — OPEN MOISE — 2026"
+style_run(r, 16, True, MINT)
 notes(s, "Je vous remercie de votre attention et je suis prêt à répondre à toutes "
          "vos questions, qu'elles soient techniques ou sur le volet économique.")
 
@@ -856,15 +926,18 @@ notes(s, "Je vous remercie de votre attention et je suis prêt à répondre à t
 #  ANNEXES — diagrammes détaillés (diapos de secours pour le Q&A)        #
 # ====================================================================== #
 # Intercalaire
-s = ajouter_diapo(); fond(s, BLEU_FONCE)
+s = ajouter_diapo(); fond(s, NAVY)
+cercle(s, Inches(11.0), Inches(-1.2), Inches(3.4), NAVY2)
+cercle(s, Inches(-0.9), Inches(5.5), Inches(3.0), NAVY2)
+rectangle(s, Inches(5.4), Inches(4.35), Inches(2.6), Inches(0.06), TEAL)
 tb = zone_texte(s, Inches(1.0), Inches(3.0), Inches(11.3), Inches(1.5))
 tf = tb.text_frame; tf.vertical_anchor = MSO_ANCHOR.MIDDLE
 p = tf.paragraphs[0]; p.alignment = PP_ALIGN.CENTER
 r = p.add_run(); r.text = "ANNEXES — Diagrammes de conception détaillés"
-style_run(r, 30, True, BLANC)
+style_run(r, 30, True, BLANC, police="Cambria")
 p = tf.add_paragraph(); p.alignment = PP_ALIGN.CENTER
 r = p.add_run(); r.text = "Diapositives de secours pour les questions du jury"
-style_run(r, 16, False, RGBColor(0xDD, 0xE6, 0xF2), italique=True)
+style_run(r, 16, False, LIGHTTXT, italique=True)
 notes(s, "Voici en annexe les diagrammes détaillés, que je peux afficher pour "
          "répondre précisément à vos questions sur la conception.")
 
