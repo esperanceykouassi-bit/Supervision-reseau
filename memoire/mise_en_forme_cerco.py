@@ -214,6 +214,14 @@ for st in doc.styles:
         st.font.bold = True
         st.font.size = Pt(tailles[st.name])
 
+# ---------------------------------------------------------------------- #
+# 6) Forcer Word à mettre à jour tous les champs (sommaire) à l'ouverture #
+# ---------------------------------------------------------------------- #
+settings = doc.settings.element
+upd = OxmlElement("w:updateFields")
+upd.set(qn("w:val"), "true")
+settings.insert(0, upd)
+
 doc.save(OUT)
 print("Mémoire mis en forme CERCO :", OUT)
 print("Pages liminaires + sommaire + en-tête/pied appliqués.")

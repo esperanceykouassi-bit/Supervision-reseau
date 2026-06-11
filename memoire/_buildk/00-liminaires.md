@@ -46,19 +46,17 @@
 
 <div align="center">
 
-*Je dédie ce travail :*
+*À mon père, Kouassi Kouassi Alphonse,*
+*dont la présence et l'amour ont guidé chacun de mes pas.*
 
-*À mes chers parents,*
-*pour leur amour, leurs sacrifices et leur soutien indéfectible ;*
+*À ma mère, Mukandangamiye Félicité,*
+*toi qui as espéré et cru, même quand tout semblait perdu.*
 
-*À toute ma famille et à mes proches,*
-*pour leurs encouragements constants ;*
+*À mes frères,*
+*et tout particulièrement à mon frère Kouassi Christian,*
+*pour votre affection indéfectible et votre foi en moi.*
 
-*À mes enseignants du département RIT,*
-*qui ont éclairé mon parcours ;*
-
-*À mes camarades de promotion,*
-*pour les moments de partage et d'entraide.*
+*— Ce travail vous est humblement et affectueusement dédié —*
 
 </div>
 
@@ -76,15 +74,30 @@ Conférences des Universités du CAMES en Génie Informatique, pour la qualité 
 son encadrement, sa disponibilité, ses orientations méthodologiques et la
 rigueur scientifique qu'il a su m'inculquer tout au long de ce travail.
 
-Je remercie l'ensemble du **corps professoral du département Réseaux
-Informatique et Télécommunication** pour la formation solide dispensée durant
-ces années d'études.
+Ma reconnaissance va également à **Monsieur Maxime LOKOSSOU**, assistant
+directeur de mémoire, dont les contributions ont été déterminantes dans la
+structuration de la démarche, ainsi qu'à **Monsieur MASSOLOKONON Tadagbe
+Landry** pour son soutien constant et ses précieux conseils.
 
-J'adresse également ma gratitude aux **membres du jury** pour l'honneur qu'ils
-me font d'évaluer ce mémoire, ainsi qu'à ma **famille** et à mes **amis** pour
-leur soutien moral constant.
+Une pensée fraternelle va à mes grands frères de cœur, **OUATTARA IVIDA Samuel**
+et **ADOU JESUS KANGA Jonas BEUGRE**, ainsi qu'à ma sœur de cœur **Seungri
+Adebayo**, pour leur soutien moral et leurs encouragements constants.
 
-À toutes et à tous, **merci**.
+Je remercie sincèrement ma collègue **Nora YAPO**, qui m'a initiée et guidée
+dans le domaine de la gestion de la clientèle, partageant avec générosité son
+expérience et son expertise professionnelle.
+
+Je remercie du fond du cœur ma **famille** — mon père, ma mère, mes sœurs et mon
+frère — pour leur soutien moral indéfectible, leur patience et leurs
+encouragements constants tout au long de ce parcours académique. Leur amour a
+été ma plus grande force.
+
+Un remerciement particulier va à toutes mes **camarades de promotion** avec
+lesquelles j'ai partagé les joies et les difficultés de ces années d'études.
+
+Enfin, je remercie toutes les personnes qui, de près ou de loin, ont contribué à
+la réalisation de ce mémoire. Que chacun trouve ici l'expression de ma profonde
+et sincère gratitude.
 
 ```{=openxml}
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
