@@ -29,7 +29,7 @@ DARK = "#212529"; BODY = "#f4f6f9"; LIGHT = "#f8f9fa"; MUTED = "#6c757d"
 WHITE = "#ffffff"; TXT = "#333333"; BORDER = "#e3e6ea"; PURPLE = "#6f42c1"
 W, H = 1366, 868  # dimensions « écran »
 
-# Données d'exemple réalistes (parc client supervisé par OPEN MOISE)
+# Données d'exemple réalistes (parc réseau supervisé)
 EQUIPEMENTS = [
     ("Routeur-Principal", "192.168.1.1",   "Routeur",    "UP",   "1.2 ms",  "11:24:58"),
     ("Switch-Etage1",     "192.168.1.2",   "Switch",     "UP",   "0.8 ms",  "11:24:58"),
@@ -231,8 +231,8 @@ def page_telegram(chemin):
     # en-tête chat
     ax.add_patch(Rectangle((0, 0), 460, 70, color="#17212b", zorder=1))
     ax.add_patch(Circle((40, 35), 20, color="#0d6efd", zorder=2))
-    txt(ax, 40, 36, "OM", 13, WHITE, True, ha="center")
-    txt(ax, 75, 28, "Supervision OPEN MOISE", 14, WHITE, True)
+    txt(ax, 40, 36, "SR", 13, WHITE, True, ha="center")
+    txt(ax, 75, 28, "Supervision Réseau", 14, WHITE, True)
     txt(ax, 75, 48, "bot", 11, "#6d7f8f")
     # bulle d'alerte
     bx, by, bw = 24, 110, 380

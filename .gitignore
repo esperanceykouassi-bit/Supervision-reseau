@@ -45,3 +45,4 @@ architecture/diagrammes/*.svg
 # Exceptions : livrables versionnés (présentation + mémoire Word)
 !soutenance/presentation-projet.pptx
 !memoire/memoire-projet-OPEN-MOISE.docx
+!memoire/memoire-KOUASSI-ESPERANCE.docx
