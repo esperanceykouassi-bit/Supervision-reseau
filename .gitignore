@@ -51,3 +51,4 @@ architecture/diagrammes/*.svg
 memoire/_body_cerco.*
 
 soutenance/video/_frames/
+!soutenance/Maquette-Prototype.pdf
