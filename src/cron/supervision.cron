@@ -1,0 +1,1 @@
+*/2 * * * * root cd /opt/supervision && venv/bin/python src/supervisor.py >> /var/log/supervision.log 2>&1
