@@ -1,74 +1,163 @@
 #!/usr/bin/env python3
 """
-supervisor.py - Point d'entrée CLI du système de supervision réseau.
+supervisor.py - Point d'entrée principal du daemon de supervision réseau.
 
-Usage:
-  python supervisor.py                        # un cycle de surveillance
-  python supervisor.py --decouvrir <subnet>   # découverte d'un sous-réseau
+Usage :
+    python src/supervisor.py [--discover <subnet>]
+
+Options :
+    --discover <subnet>   Lance une découverte réseau sur le sous-réseau indiqué
+                          avant la boucle de vérification habituelle.
+                          Exemple : --discover 192.168.1.0/24
+
+Sans option, effectue uniquement la vérification ICMP de tous les équipements
+enregistrés en base et envoie les alertes en attente.
 """
 
-import argparse
-import sys
 import os
+import sys
+import argparse
+from datetime import datetime
+
+# Assurer que le dossier src/ est dans le chemin Python
+_src_dir = os.path.dirname(os.path.abspath(__file__))
+if _src_dir not in sys.path:
+    sys.path.insert(0, _src_dir)
 
 from dotenv import load_dotenv
 
-load_dotenv(os.path.join(os.path.dirname(__file__), '.env'))
+# Charger .env depuis le répertoire src/
+load_dotenv(os.path.join(_src_dir, '.env'))
 
 from modules.db import get_connection
+from modules.monitor import verifier_equipements, calculer_disponibilite
 from modules.discovery import decouvrir_reseau, sauvegarder_equipements
-from modules.monitor import verifier_equipements
 from modules.notifier import traiter_alertes
 
 
-def main():
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+def _get_config() -> dict:
+    """Retourne la configuration depuis les variables d'environnement."""
+    return {
+        'SMTP_HOST':        os.environ.get('SMTP_HOST', ''),
+        'SMTP_PORT':        os.environ.get('SMTP_PORT', '587'),
+        'SMTP_USER':        os.environ.get('SMTP_USER', ''),
+        'SMTP_PASS':        os.environ.get('SMTP_PASS', ''),
+        'ALERT_EMAIL':      os.environ.get('ALERT_EMAIL', ''),
+        'TELEGRAM_TOKEN':   os.environ.get('TELEGRAM_TOKEN', ''),
+        'TELEGRAM_CHAT_ID': os.environ.get('TELEGRAM_CHAT_ID', ''),
+    }
+
+
+def _log(msg: str) -> None:
+    """Affiche un message horodaté sur la sortie standard."""
+    ts = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    print(f"[{ts}] {msg}", flush=True)
+
+
+# ---------------------------------------------------------------------------
+# Phases
+# ---------------------------------------------------------------------------
+
+def phase_decouverte(subnet: str, db) -> None:
+    """Scanne le sous-réseau et sauvegarde les hôtes découverts."""
+    _log(f"Découverte réseau sur {subnet} …")
+    try:
+        hotes = decouvrir_reseau(subnet)
+        _log(f"  → {len(hotes)} hôte(s) découvert(s).")
+        sauvegarder_equipements(hotes, db)
+        _log("  → Équipements sauvegardés en base.")
+    except ValueError as exc:
+        _log(f"  [ERREUR] {exc}")
+
+
+def phase_verification(db) -> None:
+    """Ping tous les équipements enregistrés et met à jour leur statut."""
+    _log("Vérification des équipements …")
+    verifier_equipements(db)
+    _log("  → Vérification terminée.")
+
+
+def phase_notifications(db, config: dict) -> None:
+    """Envoie les alertes non encore notifiées."""
+    _log("Traitement des alertes non envoyées …")
+    traiter_alertes(db, config)
+    _log("  → Traitement des alertes terminé.")
+
+
+def phase_rapport_disponibilite(db) -> None:
+    """Calcule et affiche la disponibilité de chaque équipement (7 derniers jours)."""
+    from modules.db import fetch_all
+    equipements = fetch_all("SELECT id, nom, ip FROM equipements", connection=db)
+    if not equipements:
+        _log("Aucun équipement enregistré.")
+        return
+
+    _log("Disponibilité (7 derniers jours) :")
+    for eq in equipements:
+        dispo = calculer_disponibilite(eq['id'], db, jours=7)
+        _log(f"  {eq['nom']} ({eq['ip']}) : {dispo:.2f} %")
+
+
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
+
+def main() -> None:
     parser = argparse.ArgumentParser(
-        description='Supervision Réseau — outil de surveillance CLI',
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog=__doc__,
+        description="Daemon de supervision réseau – vérification ICMP + alertes."
     )
     parser.add_argument(
-        '--decouvrir',
+        '--discover',
         metavar='SUBNET',
-        help='Découvrir les hôtes actifs sur un sous-réseau (ex: 192.168.1.0/24)',
+        default=None,
+        help="Sous-réseau CIDR à scanner avant la vérification (ex: 192.168.1.0/24).",
+    )
+    parser.add_argument(
+        '--rapport',
+        action='store_true',
+        default=False,
+        help="Afficher le rapport de disponibilité après la vérification.",
     )
     args = parser.parse_args()
+
+    _log("=== Démarrage du superviseur réseau ===")
+    config = _get_config()
 
     try:
         db = get_connection()
     except Exception as exc:
-        print(f"[ERREUR] Impossible de se connecter à la base de données : {exc}", file=sys.stderr)
+        _log(f"[FATAL] Impossible de se connecter à la base de données : {exc}")
         sys.exit(1)
 
-    if args.decouvrir:
-        print(f"[INFO] Découverte du sous-réseau : {args.decouvrir}")
-        try:
-            hosts = decouvrir_reseau(args.decouvrir)
-            sauvegarder_equipements(hosts, db)
-            print(f"[OK] {len(hosts)} équipement(s) découvert(s) et sauvegardé(s).")
-            for h in hosts:
-                print(f"     • {h['ip']:15s}  {h['nom']}")
-        except ValueError as exc:
-            print(f"[ERREUR] {exc}", file=sys.stderr)
-            sys.exit(1)
-    else:
-        print("[INFO] Démarrage du cycle de supervision …")
-        verifier_equipements(db)
-
-        config = {
-            key: os.environ.get(key)
-            for key in [
-                'SMTP_HOST', 'SMTP_PORT', 'SMTP_USER', 'SMTP_PASS',
-                'ALERT_EMAIL', 'TELEGRAM_TOKEN', 'TELEGRAM_CHAT_ID',
-            ]
-        }
-        nb = traiter_alertes(db, config)
-        print(f"[OK] Cycle de supervision terminé. {nb} alerte(s) envoyée(s).")
-
     try:
-        db.close()
-    except Exception:
-        pass
+        # 1. Découverte réseau (optionnelle)
+        if args.discover:
+            phase_decouverte(args.discover, db)
+
+        # 2. Vérification ICMP de tous les équipements
+        phase_verification(db)
+
+        # 3. Envoi des alertes
+        phase_notifications(db, config)
+
+        # 4. Rapport de disponibilité (optionnel)
+        if args.rapport:
+            phase_rapport_disponibilite(db)
+
+    except Exception as exc:
+        _log(f"[ERREUR] Exception non gérée : {exc}")
+        raise
+    finally:
+        try:
+            db.close()
+        except Exception:
+            pass
+
+    _log("=== Superviseur terminé avec succès ===")
 
 
 if __name__ == '__main__':
