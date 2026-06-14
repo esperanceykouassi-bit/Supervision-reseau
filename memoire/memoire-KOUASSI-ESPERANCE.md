@@ -87,6 +87,8 @@ Je remercie sincèrement ma collègue **Nora YAPO**, qui m'a initiée et guidée
 dans le domaine de la gestion de la clientèle, partageant avec générosité son
 expérience et son expertise professionnelle.
 
+J'exprime également ma gratitude à la direction et à l'équipe technique de l'entreprise **OPEN MOISE**, structure d'accueil de ce projet, pour leur confiance, leur disponibilité et l'accès au terrain qui ont rendu possible la conception et l'expérimentation de la solution **Awali**.
+
 Je remercie du fond du cœur ma **famille** — mon père, ma mère, mes sœurs et mon
 frère — pour leur soutien moral indéfectible, leur patience et leurs
 encouragements constants tout au long de ce parcours académique. Leur amour a
@@ -113,9 +115,7 @@ réseau demeure **manuelle et réactive** : on intervient une fois la panne
 survenue, parfois signalée par l'utilisateur lui-même, sans traçabilité
 exploitable.
 
-Ce mémoire propose la **conception, la réalisation et le déploiement** d'un
-système d'**automatisation de la supervision et de la détection des pannes
-réseau**, fondé **exclusivement sur des outils open-source** : serveur Linux
+Mené au sein de l'entreprise **OPEN MOISE** — première entreprise ivoirienne de production de solutions numériques —, ce mémoire propose la **conception, la réalisation et le déploiement** d'**Awali**, un système d'**automatisation de la supervision et de la détection des pannes réseau** fondé **exclusivement sur des outils open-source** : serveur Linux
 Ubuntu, moteur de collecte en **Python** ordonnancé par **Cron**, base de
 données **MySQL**, et **tableau de bord web** développé avec **Flask** et
 **Bootstrap**. Le système réalise la **découverte automatique** des équipements,
@@ -127,12 +127,9 @@ Telegram**.
 Les évaluations menées montrent que l'automatisation fait chuter le **temps
 moyen de détection** d'environ une heure à moins de **deux minutes**, réduit le
 **temps de réaction** des équipes et améliore le **taux de disponibilité** du
-parc supervisé, le tout pour un **coût de licence nul**. La solution, modulaire
-et extensible, prépare l'évolution vers une supervision **prédictive** assistée
-par l'intelligence artificielle.
+parc supervisé, le tout pour un **coût de licence nul**. Au-delà de l'outil interne, **Awali** fait passer OPEN MOISE d'une supervision réactive à une supervision **proactive** ; modulaire et extensible, la solution prépare l'évolution vers une supervision **prédictive** assistée par l'intelligence artificielle.
 
-**Mots-clés :** supervision réseau, automatisation, détection de pannes,
-open-source, Python, Flask, MySQL, Telegram, DevOps, SLA.
+**Mots-clés :** supervision réseau, automatisation, détection de pannes, open-source, Python, Flask, MySQL, Telegram, DevOps, SLA, OPEN MOISE, Awali.
 
 # ABSTRACT
 
@@ -143,9 +140,7 @@ small and medium-sized enterprises — network supervision remains **manual and
 reactive**: action is taken only after the failure occurs, sometimes reported by
 the user, with no usable traceability.
 
-This thesis proposes the **design, implementation and deployment** of an
-**automated network monitoring and fault-detection system**, based
-**exclusively on open-source tools**: a Linux Ubuntu server, a collection engine
+Carried out within the company **OPEN MOISE** — Ivory Coast's first digital-solutions manufacturer —, this thesis proposes the **design, implementation and deployment** of **Awali**, an **automated network monitoring and fault-detection system** based **exclusively on open-source tools**: a Linux Ubuntu server, a collection engine
 written in **Python** and scheduled by **Cron**, a **MySQL** database, and a
 **web dashboard** built with **Flask** and **Bootstrap**. The system performs
 **automatic device discovery**, availability **monitoring** (ICMP and TCP
@@ -158,8 +153,7 @@ time**, and improves the **availability rate** of the monitored network, all at
 **zero licensing cost**. The modular and extensible solution paves the way
 toward **predictive** monitoring supported by artificial intelligence.
 
-**Keywords:** network monitoring, automation, fault detection, open-source,
-Python, Flask, MySQL, Telegram, DevOps, SLA.
+**Keywords:** network monitoring, automation, fault detection, open-source, Python, Flask, MySQL, Telegram, DevOps, SLA, OPEN MOISE, Awali.
 
 ```{=openxml}
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
@@ -351,9 +345,12 @@ Cette expérience m'a appris que l'administration réseau ne se limite pas à la
 Sur le plan humain, cette mission m'a confortée dans ma vocation pour les métiers des réseaux et m'a donné une première expérience concrète du terrain, indispensable pour tout professionnel de l'informatique souhaitant avoir un impact réel sur les organisations.
 
 
+Rétrospectivement, c'est cette mission à l'IUGB qui a fait germer en moi l'intérêt pour la supervision automatisée. Devant la difficulté à détecter rapidement les pannes sur un parc de plusieurs dizaines d'équipements et de 86 points d'accès, j'ai compris qu'aucune équipe humaine ne pouvait, à elle seule, garantir une veille permanente et fiable. Il fallait un système capable de surveiller en continu, de détecter les anomalies avant même les utilisateurs et d'alerter instantanément les techniciens. Cette intuition, née sur le terrain, constitue le fil conducteur de mon mémoire.
+
+
 #### V. Expérience en gestion de la clientèle
 
-En parallèle de mon parcours académique et technique, j'ai eu l'opportunité d'acquérir une expérience professionnelle dans le domaine de la gestion de la clientèle, au sein de l'entreprise OPEN. Cette expérience, bien que différente dans sa nature de mes activités liées aux réseaux informatiques, s'est révélée d'une richesse considérable pour mon développement personnel et professionnel.
+En parallèle de mon parcours académique et technique, j'ai eu l'opportunité d'acquérir une expérience professionnelle dans le domaine de la gestion de la clientèle, au sein de l'entreprise **OPEN MOISE**. Cette expérience, bien que différente dans sa nature de mes activités liées aux réseaux informatiques, s'est révélée d'une richesse considérable pour mon développement personnel et professionnel.
 
 Travailler au contact direct des clients m'a permis de développer et d'affiner plusieurs compétences essentielles dans le monde professionnel d'aujourd'hui. La communication, d'abord : savoir écouter activement, reformuler les attentes du client, expliquer clairement des concepts parfois techniques et adapter son discours en fonction de son interlocuteur sont des aptitudes que j'ai considérablement renforcées au cours de cette expérience.
 
@@ -362,6 +359,11 @@ L'écoute active a été particulièrement mise en avant dans ce rôle. Comprend
 La gestion des relations professionnelles, dans ses dimensions à la fois relationnelles et organisationnelles, a également été au cœur de mon quotidien dans ce poste. Gérer des clients aux profils variés, parfois exigeants ou insatisfaits, en maintenant en toutes circonstances un niveau élevé de professionnalisme et de courtoisie, m'a dotée d'une solide maîtrise de moi-même et d'une grande capacité à gérer les situations de tension.
 
 Sur un plan plus profond, cette expérience m'a permis de mieux comprendre l'importance de l'utilisateur final dans la conception et la gestion des systèmes informatiques. Trop souvent, les professionnels des technologies de l'information ont tendance à raisonner en termes de performance technique, en oubliant que le véritable objectif de tout système informatique est de répondre aux besoins concrets des utilisateurs. Mon expérience en gestion de la clientèle m'a définitivement ancrée dans cette conviction : la dimension humaine doit être au centre de toute démarche technologique.
+
+
+C'est également au cours de cette immersion chez OPEN MOISE que j'ai pris la pleine mesure de la dépendance de l'entreprise à son réseau informatique. Première entreprise ivoirienne de production de solutions numériques — avec sa marketplace vocale MOISE, son système de paiement OpenPay et ses smartphones Open G —, OPEN MOISE ne peut tolérer la moindre interruption de service : une coupure réseau, c'est un paiement qui échoue, une commande perdue, un client mécontent. J'ai pourtant observé que la surveillance de ce réseau critique reposait encore sur des contrôles manuels et ponctuels, sans veille automatique ni traçabilité. Ce constat, vécu de l'intérieur, a directement nourri la problématique de ce mémoire et le choix de concevoir **Awali**, une solution de supervision automatisée pensée pour les réalités et les contraintes d'OPEN MOISE.
+
+Cette double exposition — la technique des réseaux d'un côté, la relation client de l'autre — m'a convaincue qu'un bon outil de supervision ne se mesure pas seulement à sa sophistication technique, mais à sa capacité à protéger concrètement l'activité de l'entreprise et l'expérience de ses utilisateurs finaux.
 
 
 #### VI. Engagement associatif et bénévolat
@@ -423,6 +425,9 @@ Ce thème est également en phase avec les grandes tendances technologiques actu
 En choisissant ce thème, j'ambitionne de produire un travail qui soit non seulement académiquement rigoureux, mais aussi pratiquement utile pour les organisations ivoiriennes et africaines désireuses de moderniser leurs pratiques de gestion réseau.
 
 
+L'opportunité de réaliser ce travail au sein d'OPEN MOISE a définitivement ancré ce choix : j'y ai trouvé un terrain réel, une entreprise innovante dont l'activité dépend étroitement de son réseau, et un besoin concret auquel ma solution, Awali, pouvait répondre. Travailler sur un cas d'usage authentique, plutôt que sur un exemple purement théorique, a donné à ce mémoire une portée pratique que je tenais absolument à lui conférer.
+
+
 #### IX. Projet professionnel
 
 À l'issue de ma formation en Master 2, mon projet professionnel est clairement défini, articulé autour de deux axes principaux : l'expertise technique dans les domaines des réseaux et de la cybersécurité, et la contribution au développement du secteur numérique en Côte d'Ivoire.
@@ -447,6 +452,15 @@ Voyager, pour moi, c'est bien plus que déplacer son corps d'un lieu à un autre
 Cette passion pour les voyages est profondément liée à mon rapport au monde professionnel. Les professionnels qui ont une expérience internationale, qui ont été confrontés à des contextes culturels différents, sont généralement plus créatifs, plus adaptables et plus capables de travailler en équipes multiculturelles. Je nourris l'ambition de développer cette dimension internationale tout au long de ma carrière.
 
 Sur le plan de la personnalité, je me définirais comme quelqu'un de déterminé, persévérant et empathique. Ma détermination s'est forgée dans les épreuves traversées — les difficultés financières, l'interruption des études — et s'exprime aujourd'hui dans mon engagement sans faille dans mes projets académiques et professionnels. Ma persévérance est le moteur qui m'a permis de ne jamais abandonner, même dans les moments les plus difficiles. Mon empathie, enfin, est ce qui me permet de comprendre les besoins des autres, qu'il s'agisse de clients, de collaborateurs ou d'utilisateurs, et de proposer des solutions adaptées à leurs réalités.
+
+
+#### XI. Ma vision pour le numérique ivoirien
+
+Au terme de ce parcours, une conviction m'anime : la Côte d'Ivoire dispose de tous les atouts pour devenir un pôle numérique de référence en Afrique de l'Ouest. La jeunesse de sa population, le dynamisme de son secteur privé et l'engagement des pouvoirs publics en faveur de la transformation digitale constituent un terreau fertile. Des entreprises comme OPEN MOISE, qui conçoivent et produisent localement des solutions numériques — marketplace, paiement mobile, terminaux —, démontrent qu'il est possible de créer de la valeur technologique sur le continent, par des Africains et pour les Africains.
+
+Je souhaite m'inscrire pleinement dans cette dynamique. Les infrastructures réseau et leur supervision en sont un maillon discret mais essentiel : sans réseau fiable, il n'y a ni commerce en ligne, ni paiement mobile, ni service public dématérialisé. En me spécialisant dans l'automatisation de la supervision et la sécurité des réseaux, je veux contribuer à bâtir des fondations numériques solides, sur lesquelles d'autres pourront édifier les services de demain.
+
+Cette vision dépasse ma seule trajectoire professionnelle. Elle s'accompagne d'une volonté de transmettre : former, accompagner et inspirer d'autres jeunes femmes à embrasser les métiers techniques du numérique, encore trop souvent perçus comme masculins. Si mon parcours, fait d'obstacles surmontés, peut servir d'exemple à une seule étudiante hésitant à se lancer, alors il aura déjà rempli une partie de sa mission.
 
 
 #### Conclusion
@@ -504,10 +518,7 @@ SolarWinds) ou open-source (Nagios, Zabbix, Centreon). Mais les premières sont
 mesurés. Il existe donc un **espace** pour une solution **légère, économique,
 sur mesure et entièrement maîtrisée**, bâtie à partir de briques open-source.
 
-C'est l'objet de ce mémoire-projet : **concevoir, réaliser et déployer un
-système d'automatisation de la supervision et de la détection des pannes
-réseau**, fondé exclusivement sur des outils open-source, et **le penser comme un
-véritable produit** — depuis le besoin du terrain jusqu'au modèle économique.
+C'est l'objet de ce mémoire-projet, mené au sein de l'entreprise **OPEN MOISE** : **concevoir, réaliser et déployer Awali**, un système d'automatisation de la supervision et de la détection des pannes réseau fondé exclusivement sur des outils open-source, et **le penser comme un véritable produit** — depuis le besoin réel du terrain d'OPEN MOISE jusqu'au modèle économique.
 Conformément au plan d'un mémoire-projet, le document s'organise ainsi : après
 l'identification du **problème** (chap. 1), nous précisons les **objectifs**
 (chap. 2) et la **démarche méthodologique** (chap. 3), puis nous réalisons
@@ -542,6 +553,18 @@ facteurs déterminants de différenciation, dans un marché où la maîtrise des
 **coûts** reste néanmoins primordiale. Ce double impératif — fiabilité *et*
 économie — oriente directement les choix de ce projet vers l'**open-source**.
 
+### 1.1.1 Présentation de la structure d'accueil : OPEN MOISE
+
+Ce projet a été conçu et expérimenté au sein de l'entreprise **OPEN MOISE**, première entreprise ivoirienne de **production de solutions numériques**. Son siège et ses bureaux administratifs sont situés à **Abidjan**, tandis que son unité de production est implantée au sein du **VITIB** (Village des Technologies de l'Information et de la Biotechnologie) à **Grand-Bassam**.
+
+L'activité d'OPEN MOISE s'articule autour de trois grandes offres :
+
+- la **marketplace vocale MOISE**, plateforme de commerce en ligne accessible à la voix ;
+- le système de **paiement mobile OpenPay**, qui traite les transactions financières des utilisateurs ;
+- la gamme de **smartphones « Open G »** (superphones), conçus et assemblés localement.
+
+Pour OPEN MOISE, le **réseau informatique constitue le véritable système nerveux** de l'entreprise : le service client, la comptabilité, la chaîne de production de l'usine et, surtout, les **transactions de paiement** reposent intégralement sur sa disponibilité. **Toute panne réseau se traduit immédiatement par des transactions bloquées, une production ralentie et un service client interrompu** — c'est-à-dire par une perte financière directe et une atteinte à l'image de l'entreprise. C'est précisément ce constat, vécu sur le terrain, qui a motivé la conception de la solution **Awali**, objet de ce mémoire.
+
 ## 1.2 La supervision réseau aujourd'hui
 
 La supervision consiste à surveiller en continu l'état et la performance des
@@ -560,7 +583,7 @@ n'assure une **veille permanente et automatique** de l'ensemble des équipements
 
 ## 1.3 Constat et formulation du problème
 
-De cette situation découlent plusieurs **dysfonctionnements** :
+Au sein d'OPEN MOISE, où la surveillance du réseau reposait encore sur des vérifications **manuelles et ponctuelles**, cette situation engendre plusieurs **dysfonctionnements** :
 
 1. **Détection tardive** : la panne est le plus souvent révélée par
    l'**utilisateur final lui-même**, c'est-à-dire *après* que le service a été
@@ -885,11 +908,9 @@ plutôt que l'adoption d'un outil existant.
 
 ## 4.6 La solution proposée
 
-Nous proposons un **système de supervision automatisé, modulaire et 100 %
-open-source**, conçu pour les organisations, qui :
+Nous proposons **Awali**, un **système de supervision automatisé, modulaire et 100 % open-source** conçu pour répondre aux besoins d'OPEN MOISE, qui :
 
-- **découvre automatiquement** les équipements d'un sous-réseau client (scan
-  CIDR parallélisé) ;
+- **découvre automatiquement** les équipements du réseau d'OPEN MOISE (scan CIDR parallélisé) ;
 - **sonde en continu** la disponibilité (ICMP) et les services (TCP : HTTP, SSH,
   MySQL…) ;
 - **confirme** la panne par un seuil d'échecs (anti-faux positif) et
@@ -935,9 +956,7 @@ gratuité, légèreté, notification mobile native et ouverture vers l'IA.
 Le principal marqueur d'innovation est l'intégration **native** d'un canal de
 notification **push mobile gratuit** via **Telegram**. Sur ce point, les
 solutions concurrentes imposent un plugin, une application payante ou une
-passerelle SMS facturée. Pour une ESN dont la réactivité de l'astreinte est le
-cœur de métier, recevoir l'alerte **instantanément sur smartphone**, où que l'on
-soit, constitue un **avantage opérationnel et concurrentiel** direct.
+passerelle SMS facturée. Pour OPEN MOISE, dont la réactivité face aux incidents conditionne la continuité des paiements OpenPay et de la marketplace vocale MOISE, recevoir l'alerte **instantanément sur smartphone**, où que l'on soit, constitue un **avantage opérationnel** direct.
 
 ## 5.4 Un socle évolutif
 
@@ -1378,9 +1397,7 @@ double sortie facilite l'exploitation et le diagnostic en production.
 
 # CHAPITRE 8 — DÉMONSTRATION : LES ÉCRANS DE LA SOLUTION
 
-Ce chapitre présente la solution **réalisée et fonctionnelle** à travers ses
-principaux écrans, illustrés sur un **parc client d'exemple** supervisé par OPEN
-MOISE (huit équipements, dont deux en panne). Les captures correspondent au
+Ce chapitre présente **Awali**, la solution **réalisée et fonctionnelle**, à travers ses principaux écrans, illustrés sur le **parc informatique d'OPEN MOISE** (huit équipements, dont deux en panne). Les captures correspondent au
 rendu réel de l'application (Flask + Bootstrap).
 
 ## 8.1 L'accès sécurisé (page de connexion)
@@ -1405,8 +1422,7 @@ apparaissent en **rouge (DOWN)**.
 ![Figure 12 — Tableau de bord temps réel](../soutenance/captures/capture-dashboard.png)
 
 Le rafraîchissement automatique (AJAX, toutes les 30 secondes) maintient
-l'affichage à jour sans rechargement de page, offrant aux techniciens d'OPEN
-MOISE une **vision permanente et synthétique** de tous les parcs supervisés.
+l'affichage à jour sans rechargement de page, offrant aux techniciens d'OPEN MOISE une **vision permanente et synthétique** de l'ensemble du parc supervisé.
 
 ## 8.3 La détection d'une panne et l'alerte instantanée
 
@@ -1692,15 +1708,10 @@ aussi une feuille de route d'évolution, sont :
 
 # CONCLUSION GÉNÉRALE
 
-Ce mémoire-projet s'est attaché à répondre à un besoin concret et stratégique de
-les organisations : **détecter en temps réel les pannes des réseaux
-qu'elle supervise et réduire le temps d'intervention de ses équipes**, à un coût
-maîtrisé. Partant du constat des limites de la supervision **manuelle et
+Ce mémoire-projet s'est attaché à répondre à un besoin concret et stratégique d'**OPEN MOISE** : **détecter en temps réel les pannes de son réseau et réduire le temps d'intervention de ses équipes**, à un coût maîtrisé. Partant du constat des limites de la supervision **manuelle et
 réactive** — détection tardive, absence de traçabilité, risque sur les SLA — et
 de l'inadéquation, pour une structure de cette taille, des solutions du marché
-(trop complexes ou trop coûteuses), nous avons **conçu, réalisé et déployé un
-système d'automatisation de la supervision et de la détection des pannes
-réseau**, fondé **exclusivement sur des outils open-source**.
+(trop complexes ou trop coûteuses), nous avons **conçu, réalisé et déployé Awali**, un système d'automatisation de la supervision et de la détection des pannes réseau fondé **exclusivement sur des outils open-source**.
 
 La démarche a suivi un cheminement rigoureux, conforme au canevas
 mémoire-projet : identification du **problème**, définition des **objectifs** et
@@ -1720,15 +1731,11 @@ tout pour un **coût de licence nul**. Sur le plan économique, l'investissement
 (**≈ 130 000 FCFA**) est rentabilisé dès le **premier client**, pour des revenus
 récurrents et des économies internes significatives.
 
-Au-delà de l'artefact produit, ce travail démontre qu'une **maîtrise des briques
-open-source** permet à une ESN ivoirienne de bâtir des solutions **sur mesure,
-efficaces et économiques**, et d'en faire un **avantage concurrentiel**. Les
+Au-delà de l'artefact produit, ce travail démontre qu'une **maîtrise des briques open-source** permet à une entreprise ivoirienne comme **OPEN MOISE** de bâtir des solutions **sur mesure, efficaces et économiques**, et d'en faire un **avantage concurrentiel**. Les
 perspectives ouvertes — **SNMP**, **intelligence artificielle**, **maintenance
 prédictive** et **auto-remédiation** — tracent la voie d'une supervision
 **proactive et intelligente**, qui ne se contente plus de constater les pannes
-mais cherche à les **anticiper**. C'est dans cette direction que pourront se
-prolonger les travaux futurs, au service de la compétitivité des organisations et de
-la qualité de service rendue à ses clients.
+mais cherche à les **anticiper**. C'est dans cette direction que pourront se prolonger les travaux futurs, au service de la compétitivité d'OPEN MOISE et de la qualité de service rendue à ses utilisateurs.
 
 ```{=openxml}
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
