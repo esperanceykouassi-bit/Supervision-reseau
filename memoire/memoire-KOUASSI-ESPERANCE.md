@@ -126,8 +126,7 @@ Telegram**.
 
 Les évaluations menées montrent que l'automatisation fait chuter le **temps
 moyen de détection** d'environ une heure à moins de **deux minutes**, réduit le
-**temps de réaction** des équipes et améliore le **taux de disponibilité** du
-parc supervisé, le tout pour un **coût de licence nul**. Au-delà de l'outil interne, **Awali** fait passer OPEN MOISE d'une supervision réactive à une supervision **proactive** ; modulaire et extensible, la solution prépare l'évolution vers une supervision **prédictive** assistée par l'intelligence artificielle.
+**temps de réaction** des équipes et améliore le **taux de disponibilité** du parc supervisé, le tout pour un **coût de licence nul**. Le prototype a par ailleurs été **déployé et validé en conditions réelles** : sur un réseau d'une soixantaine d'équipements, une panne a été détectée en moins de deux minutes et a déclenché simultanément une alerte Telegram et un courriel. Au-delà de l'outil interne, **Awali** fait passer OPEN MOISE d'une supervision réactive à une supervision **proactive** ; modulaire et extensible, la solution prépare l'évolution vers une supervision **prédictive** assistée par l'intelligence artificielle.
 
 **Mots-clés :** supervision réseau, automatisation, détection de pannes, open-source, Python, Flask, MySQL, Telegram, DevOps, SLA, OPEN MOISE, Awali.
 
@@ -1483,6 +1482,22 @@ La démonstration établit que la solution **fonctionne de bout en bout** : de
 l'accès sécurisé à la détection automatique d'une panne, jusqu'à l'alerte
 instantanée de l'astreinte et au reporting exploitable au profit du client.
 
+## 8.8 Déploiement et validation en conditions réelles
+
+Au-delà de la maquette illustrée ci-dessus, la solution **Awali** a été **réellement déployée et validée** sur un environnement opérationnel. Le moteur de supervision et le tableau de bord ont été installés sur un **serveur Ubuntu** (machine virtuelle, adresse fixe `192.168.1.50`), adossés à la base **MySQL** et au tableau de bord **Flask**, puis **automatisés par Cron** : un cycle de supervision toutes les **deux minutes** et une découverte du réseau quotidienne.
+
+La **découverte automatique** lancée sur le sous-réseau `192.168.1.0/24` a recensé une **soixantaine d'équipements** actifs, immédiatement supervisés. Le taux de disponibilité et l'état de chaque hôte (UP/DOWN, latence, horodatage) sont **calculés et affichés en temps réel** sur le tableau de bord, avec rafraîchissement automatique (figure 17).
+
+*[Figure 17 — Tableau de bord en conditions réelles (≈ 63 équipements supervisés) — capture à insérer]*
+
+Pour valider la **chaîne d'alerte de bout en bout**, une panne a été provoquée sur un équipement (`hote-192-168-1-124`). Après deux cycles d'échec consécutifs — soit **moins de deux minutes** —, le système a confirmé la panne et **émis simultanément l'alerte sur les deux canaux** : une **notification Telegram** reçue instantanément sur smartphone (figure 18) et un **courriel** délivré dans la boîte de réception (figure 19). Les deux messages portent les mêmes informations (équipement, adresse IP, type `PANNE_RESEAU`, sévérité `CRITIQUE` et détail), preuve de la cohérence du dispositif.
+
+*[Figure 18 — Alerte Telegram reçue sur smartphone (incident réel) — capture à insérer]*
+
+*[Figure 19 — Alerte e-mail reçue dans Gmail (même incident) — capture à insérer]*
+
+Lorsque l'équipement est redevenu joignable, le système a automatiquement émis une **notification de rétablissement** et **soldé** l'alerte de panne associée. Cette validation confirme, en conditions réelles, l'atteinte des objectifs du projet : **détection en moins de deux minutes**, **alerte multi-canal instantanée** et **traçabilité complète** des incidents — le tout sur une pile **100 % open-source** et **sans aucun coût de licence**.
+
 ```{=openxml}
 <w:p><w:r><w:br w:type="page"/></w:r></w:p>
 ```
@@ -1726,8 +1741,7 @@ CFA** — a montré que la solution dépasse le simple outil interne pour deveni
 Les évaluations menées **confirment les quatre hypothèses** : l'automatisation
 fait chuter le temps de détection d'environ une heure à **moins de deux
 minutes**, réduit le temps de réaction grâce aux **notifications instantanées**,
-améliore le **taux de disponibilité** et assure une **traçabilité complète**, le
-tout pour un **coût de licence nul**. Sur le plan économique, l'investissement
+améliore le **taux de disponibilité** et assure une **traçabilité complète**, le tout pour un **coût de licence nul**. Le prototype a en outre été **déployé et validé en conditions réelles** : la découverte a recensé une soixantaine d'équipements, et une panne provoquée a été détectée en moins de deux minutes, déclenchant simultanément une notification Telegram et un e-mail — démonstration concrète de la chaîne d'alerte de bout en bout. Sur le plan économique, l'investissement
 (**≈ 130 000 FCFA**) est rentabilisé dès le **premier client**, pour des revenus
 récurrents et des économies internes significatives.
 
