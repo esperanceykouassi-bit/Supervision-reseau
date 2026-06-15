@@ -1,0 +1,17 @@
+# ====================================================================== #
+#  Planification Cron — adaptée à l'installation dans /home/yoo/supervision
+#  (venv situé dans src/venv).                                           #
+#                                                                         #
+#  Installation (crontab de l'utilisateur, aucune longue ligne à taper) : #
+#    crontab /home/yoo/supervision/src/cron/supervision-vm.cron          #
+#  Vérification :                                                         #
+#    crontab -l                                                          #
+#  Désinstallation :                                                     #
+#    crontab -r                                                          #
+# ====================================================================== #
+
+# Cycle de supervision toutes les 2 minutes (ping + alertes).
+*/2 * * * * cd /home/yoo/supervision/src && /home/yoo/supervision/src/venv/bin/python supervisor.py >> /home/yoo/supervision/src/logs/cron.log 2>&1
+
+# Découverte automatique du réseau chaque jour à 03h00 (nouveaux équipements).
+0 3 * * * cd /home/yoo/supervision/src && /home/yoo/supervision/src/venv/bin/python supervisor.py --decouvrir 192.168.1.0/24 >> /home/yoo/supervision/src/logs/decouverte.log 2>&1
