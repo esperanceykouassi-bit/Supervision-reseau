@@ -1,0 +1,49 @@
+/* style.css — feuille de style personnalisée du tableau de bord */
+
+body {
+    background-color: #f4f6f9;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.card {
+    border: none;
+    border-radius: 0.6rem;
+}
+
+.card-header {
+    font-weight: 600;
+    background-color: #fff;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.navbar-brand {
+    letter-spacing: 0.5px;
+}
+
+code {
+    color: #6f42c1;
+    background: #f3f0ff;
+    padding: 1px 5px;
+    border-radius: 4px;
+}
+
+/* Animation discrète sur les badges DOWN (clignotement léger) */
+.badge.bg-danger {
+    animation: pulsation 1.6s infinite;
+}
+
+@keyframes pulsation {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.65; }
+}
+
+footer {
+    border-top: 1px solid #e3e6ea;
+    margin-top: 2rem;
+}
+
+/* Optimisation pour l'impression des rapports (masque la navigation) */
+@media print {
+    nav, footer, .btn { display: none !important; }
+    .card { box-shadow: none !important; border: 1px solid #ccc !important; }
+}

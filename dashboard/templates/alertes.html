@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block titre %}Alertes{% endblock %}
+{% block contenu %}
+<h2 class="mb-4"><i class="bi bi-bell"></i> Historique des alertes</h2>
+
+<div class="card shadow-sm">
+  <div class="card-body p-0">
+    <table class="table table-hover mb-0">
+      <thead class="table-light">
+        <tr><th>Date</th><th>Équipement</th><th>Type</th><th>Sévérité</th><th>Message</th><th>État</th><th>Action</th></tr>
+      </thead>
+      <tbody>
+        {% for a in alertes %}
+        <tr class="{{ 'table-warning' if not a.acquittee }}">
+          <td><small>{{ a.date_alerte.strftime('%d/%m/%Y %H:%M') }}</small></td>
+          <td>{{ a.nom }} <small class="text-muted">{{ a.adresse_ip }}</small></td>
+          <td>{{ a.type_alerte }}</td>
+          <td>
+            {% set couleur = {'CRITIQUE':'danger','AVERTISSEMENT':'warning','INFO':'info'}[a.severite] %}
+            <span class="badge bg-{{ couleur }}">{{ a.severite }}</span>
+          </td>
+          <td><small>{{ a.message }}</small></td>
+          <td>
+            {% if a.acquittee %}<span class="badge bg-success">Acquittée</span>
+            {% else %}<span class="badge bg-secondary">En attente</span>{% endif %}
+          </td>
+          <td>
+            {% if not a.acquittee %}
+            <form method="post" action="{{ url_for('acquitter', alerte_id=a.id) }}" class="d-inline">
+              <button class="btn btn-sm btn-outline-success"><i class="bi bi-check2"></i> Acquitter</button>
+            </form>
+            {% endif %}
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7" class="text-center py-3 text-muted">Aucune alerte enregistrée.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

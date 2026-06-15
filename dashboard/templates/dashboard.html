@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block titre %}Tableau de bord{% endblock %}
+{% block contenu %}
+<h2 class="mb-4"><i class="bi bi-speedometer2"></i> Tableau de bord</h2>
+
+<!-- Cartes d'indicateurs clés (KPI) -->
+<div class="row g-3 mb-4">
+  <div class="col-md-3">
+    <div class="card text-bg-primary shadow-sm">
+      <div class="card-body">
+        <h6 class="card-title">Équipements supervisés</h6>
+        <p class="display-6 mb-0" id="kpi-total">{{ stats.total_equipements }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-bg-success shadow-sm">
+      <div class="card-body">
+        <h6 class="card-title">En ligne (UP)</h6>
+        <p class="display-6 mb-0" id="kpi-up">{{ stats.equipements_up }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-bg-danger shadow-sm">
+      <div class="card-body">
+        <h6 class="card-title">Hors ligne (DOWN)</h6>
+        <p class="display-6 mb-0" id="kpi-down">{{ stats.equipements_down }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-bg-warning shadow-sm">
+      <div class="card-body">
+        <h6 class="card-title">Alertes actives</h6>
+        <p class="display-6 mb-0" id="kpi-alertes">{{ stats.alertes_actives }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3">
+  <!-- Graphique de disponibilité -->
+  <div class="col-md-5">
+    <div class="card shadow-sm">
+      <div class="card-header">Disponibilité globale : <strong>{{ stats.taux_disponibilite }} %</strong></div>
+      <div class="card-body"><canvas id="graphiqueDispo"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Alertes récentes -->
+  <div class="col-md-7">
+    <div class="card shadow-sm">
+      <div class="card-header"><i class="bi bi-bell-fill text-danger"></i> Alertes actives</div>
+      <div class="card-body p-0">
+        <table class="table table-sm table-hover mb-0">
+          <thead><tr><th>Équipement</th><th>Type</th><th>Sévérité</th><th>Date</th></tr></thead>
+          <tbody>
+            {% for a in alertes %}
+            <tr>
+              <td>{{ a.nom }} <small class="text-muted">{{ a.adresse_ip }}</small></td>
+              <td>{{ a.type_alerte }}</td>
+              <td><span class="badge bg-danger">{{ a.severite }}</span></td>
+              <td><small>{{ a.date_alerte.strftime('%d/%m %H:%M') }}</small></td>
+            </tr>
+            {% else %}
+            <tr><td colspan="4" class="text-center text-success py-3"><i class="bi bi-check-circle"></i> Aucune alerte active</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- État détaillé des équipements -->
+<div class="card shadow-sm mt-3">
+  <div class="card-header"><i class="bi bi-pc-display"></i> État des équipements</div>
+  <div class="card-body p-0">
+    <table class="table table-hover mb-0">
+      <thead><tr><th>Nom</th><th>Adresse IP</th><th>Type</th><th>Statut</th><th>Latence</th><th>Dernière vérif.</th></tr></thead>
+      <tbody>
+        {% for e in equipements %}
+        <tr>
+          <td>{{ e.nom }}</td>
+          <td><code>{{ e.adresse_ip }}</code></td>
+          <td>{{ e.type_equipement }}</td>
+          <td><span class="badge bg-{{ e.statut|statut_badge }}">{{ e.statut }}</span></td>
+          <td>{{ e.latence_ms ~ ' ms' if e.latence_ms else '—' }}</td>
+          <td><small>{{ e.derniere_verification.strftime('%d/%m %H:%M:%S') if e.derniere_verification else 'Jamais' }}</small></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // Initialise le graphique en anneau avec les données serveur.
+  initGraphiqueDispo({{ stats.equipements_up }}, {{ stats.equipements_down }});
+  // Rafraîchissement automatique des KPI toutes les 30 secondes (AJAX).
+  setInterval(rafraichirKPI, 30000);
+</script>
+{% endblock %}
