@@ -13,6 +13,8 @@ Pré-requis : créer un bot via @BotFather pour obtenir le TELEGRAM_BOT_TOKEN,
 puis récupérer le chat_id de l'administrateur ou du groupe d'astreinte.
 """
 
+import html
+
 import requests
 
 from config import config
@@ -25,15 +27,26 @@ API_URL = "https://api.telegram.org/bot{token}/sendMessage"
 
 
 def _construire_message(equipement, type_alerte, severite, message):
-    """Construit le texte de la notification au format Markdown Telegram."""
+    """Construit le texte de la notification au format HTML Telegram.
+
+    On utilise le mode HTML (et non Markdown) car certaines valeurs dynamiques
+    contiennent des caractères réservés au Markdown — par exemple l'underscore
+    de « PANNE_RESEAU » ou « SERVICE_INDISPONIBLE » — qui faisaient échouer le
+    rendu (HTTP 400 « can't parse entities »). Les valeurs variables sont
+    échappées pour neutraliser les caractères spéciaux HTML (<, >, &).
+    """
     icone = {"CRITIQUE": "🔴", "AVERTISSEMENT": "🟠", "INFO": "🔵"}.get(severite, "⚪")
+
+    def esc(valeur):
+        return html.escape(str(valeur))
+
     return (
-        f"{icone} *ALERTE SUPERVISION*\n\n"
-        f"*Équipement :* {equipement['nom']}\n"
-        f"*IP :* `{equipement['adresse_ip']}`\n"
-        f"*Type :* {type_alerte}\n"
-        f"*Sévérité :* {severite}\n"
-        f"*Détail :* {message}"
+        f"{icone} <b>ALERTE SUPERVISION</b>\n\n"
+        f"<b>Équipement :</b> {esc(equipement['nom'])}\n"
+        f"<b>IP :</b> <code>{esc(equipement['adresse_ip'])}</code>\n"
+        f"<b>Type :</b> {esc(type_alerte)}\n"
+        f"<b>Sévérité :</b> {esc(severite)}\n"
+        f"<b>Détail :</b> {esc(message)}"
     )
 
 
@@ -47,7 +60,7 @@ def envoyer_alerte_telegram(equipement, type_alerte, severite, message):
     payload = {
         "chat_id": config.TELEGRAM_CHAT_ID,
         "text": _construire_message(equipement, type_alerte, severite, message),
-        "parse_mode": "Markdown",
+        "parse_mode": "HTML",
     }
 
     try:

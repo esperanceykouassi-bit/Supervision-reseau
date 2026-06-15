@@ -57,7 +57,7 @@ def envoyer_alerte_email(equipement, type_alerte, severite, message):
 
     try:
         # Connexion sécurisée : STARTTLS chiffre la session avant l'authentification.
-        with smtplib.SMTP(config.SMTP_HOST, config.SMTP_PORT, timeout=10) as serveur:
+        with smtplib.SMTP(config.SMTP_HOST, config.SMTP_PORT, timeout=30) as serveur:
             serveur.starttls()
             serveur.login(config.SMTP_USER, config.SMTP_PASSWORD)
             serveur.sendmail(config.ALERT_EMAIL_FROM, config.ALERT_EMAIL_TO, msg.as_string())
