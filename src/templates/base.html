@@ -16,10 +16,8 @@
 {% if session.utilisateur %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand fw-bold d-flex align-items-center" href="{{ url_for('dashboard') }}">
-      <img src="{{ url_for('static', filename='img/logo-awali.png') }}" alt="Awali" height="34" class="me-2"
-           onerror="this.style.display='none'">
-      Awali
+    <a class="navbar-brand fw-bold" href="{{ url_for('dashboard') }}">
+      <i class="bi bi-hdd-network"></i> SupervisionNet
     </a>
     <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
       <span class="navbar-toggler-icon"></span>
@@ -55,7 +53,7 @@
 </main>
 
 <footer class="text-center text-muted py-3 small">
-  <strong>Awali</strong> — Surveille. Alerte. Anticipe. · Automatisation de la supervision réseau — &copy; 2026
+  Système d'automatisation de la supervision réseau — Mémoire Master 2 RIT — &copy; 2026
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

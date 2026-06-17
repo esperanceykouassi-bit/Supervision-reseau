@@ -90,7 +90,7 @@ fun DashboardApp() {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Awali", fontWeight = FontWeight.Bold) },
+                title = { Text("SupervisionNet", fontWeight = FontWeight.Bold) },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = Navy, titleContentColor = Color.White,
                     actionIconContentColor = Color.White
