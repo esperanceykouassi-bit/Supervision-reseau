@@ -223,5 +223,13 @@ def statut_badge(statut):
 
 
 if __name__ == "__main__":
-    logger.info("Démarrage du tableau de bord Flask sur %s:%s", config.HOST, config.PORT)
-    app.run(host=config.HOST, port=config.PORT, debug=config.DEBUG)
+    import os
+    # HTTPS si un certificat TLS est configuré et présent, sinon HTTP.
+    ssl_context = None
+    if (config.SSL_CERT and config.SSL_KEY
+            and os.path.exists(config.SSL_CERT) and os.path.exists(config.SSL_KEY)):
+        ssl_context = (config.SSL_CERT, config.SSL_KEY)
+        logger.info("HTTPS activé (TLS) — https://%s:%s", config.HOST, config.PORT)
+    else:
+        logger.info("Démarrage du tableau de bord Flask sur %s:%s (HTTP)", config.HOST, config.PORT)
+    app.run(host=config.HOST, port=config.PORT, debug=config.DEBUG, ssl_context=ssl_context)

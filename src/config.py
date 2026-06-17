@@ -35,6 +35,10 @@ class Config:
     # Clé d'API pour l'accès des clients mobiles à l'API REST (en-tête
     # « X-API-Key »). Laisser vide pour désactiver l'accès par clé.
     API_KEY = os.getenv("API_KEY", "")
+    # Certificat TLS/HTTPS (optionnel). Si les deux fichiers existent, le
+    # tableau de bord est servi en HTTPS (connexion chiffrée). Sinon, HTTP.
+    SSL_CERT = os.getenv("SSL_CERT", "")
+    SSL_KEY = os.getenv("SSL_KEY", "")
 
     # ------------------------------------------------------------------ #
     # Configuration de la base de données MySQL                          #
