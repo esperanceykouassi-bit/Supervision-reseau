@@ -32,6 +32,7 @@ from modules.detection import enregistrer_decouverte
 from modules.logger import get_logger
 from modules.ping_monitor import ping
 from modules.service_monitor import verifier_service
+from modules.snmp_monitor import interroger_snmp, resume_snmp
 from config import config
 
 logger = get_logger("supervisor")
@@ -60,6 +61,14 @@ def superviser_equipement(equipement):
         if not ouvert:
             statut = "DOWN"
             message = f"Hôte joignable mais service {service} indisponible."
+
+    # --- Sonde SNMP optionnelle (supervision « profonde ») ------------- #
+    # Si SNMP est activé, on enrichit le journal des équipements joignables
+    # avec leur nom système et leur uptime (informations internes de l'agent).
+    if config.SNMP_ENABLED and statut == "UP":
+        info_snmp = resume_snmp(ip)
+        if info_snmp:
+            message = (message + " | " if message else "") + info_snmp
 
     # --- Persistance : statut courant + ligne d'historique ------------- #
     database.update_statut_equipement(equipement["id"], statut, latence)
@@ -126,12 +135,26 @@ def main():
         "--decouvrir", metavar="CIDR",
         help="Découvre et enregistre les équipements d'un sous-réseau (ex. 192.168.1.0/24).",
     )
+    parser.add_argument(
+        "--snmp", metavar="IP",
+        help="Interroge un équipement par SNMP et affiche ses informations.",
+    )
     args = parser.parse_args()
 
     try:
         if args.decouvrir:
             nb = enregistrer_decouverte(args.decouvrir)
             print(f"{nb} nouvel(aux) équipement(s) découvert(s).")
+        elif args.snmp:
+            infos = interroger_snmp(args.snmp)
+            if infos["disponible"]:
+                print(f"Réponse SNMP de {args.snmp} :")
+                print(f"  Nom système : {infos.get('nom')}")
+                print(f"  Description : {infos.get('description')}")
+                print(f"  Uptime      : {infos.get('uptime')}")
+            else:
+                print(f"Aucune réponse SNMP de {args.snmp} "
+                      f"(agent SNMP actif ? communauté '{config.SNMP_COMMUNITY}' correcte ?).")
         else:
             cycle_supervision()
     except Exception as exc:

@@ -76,6 +76,20 @@ class Config:
     LOG_FILE = os.getenv("LOG_FILE", "supervision.log")
     LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
+    # ------------------------------------------------------------------ #
+    # Supervision SNMP (Simple Network Management Protocol)              #
+    # ------------------------------------------------------------------ #
+    # Activé globalement : enrichit chaque cycle avec les infos SNMP des
+    # équipements joignables (nom système, uptime). À laisser sur False si
+    # le parc n'a pas d'agent SNMP, pour éviter des interrogations inutiles.
+    SNMP_ENABLED = os.getenv("SNMP_ENABLED", "False").lower() == "true"
+    # Version SNMP : « 1 » ou « 2c » (v2c recommandée).
+    SNMP_VERSION = os.getenv("SNMP_VERSION", "2c")
+    # Communauté en lecture seule (équivalent d'un mot de passe SNMP).
+    SNMP_COMMUNITY = os.getenv("SNMP_COMMUNITY", "public")
+    # Délai d'attente (secondes) d'une requête SNMP.
+    SNMP_TIMEOUT = int(os.getenv("SNMP_TIMEOUT", "2"))
+
 
 # Instance unique réutilisée dans toute l'application.
 config = Config()
