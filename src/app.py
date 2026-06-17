@@ -47,6 +47,23 @@ def login_required(vue):
     return wrapper
 
 
+def api_auth_required(vue):
+    """Décorateur des routes d'API : autorise soit une session web active, soit
+    une clé d'API valide (en-tête « X-API-Key »). Cela permet au tableau de bord
+    web (session) ET à l'application mobile (clé d'API) de consommer la même API.
+    En cas d'échec on renvoie un code 401 JSON (et non une redirection HTML).
+    """
+    @wraps(vue)
+    def wrapper(*args, **kwargs):
+        cle = request.headers.get("X-API-Key", "")
+        if config.API_KEY and cle == config.API_KEY:
+            return vue(*args, **kwargs)
+        if session.get("utilisateur"):
+            return vue(*args, **kwargs)
+        return jsonify({"erreur": "Authentification requise (clé d'API ou session)."}), 401
+    return wrapper
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """Page de connexion. Vérifie les identifiants contre la table utilisateurs."""
@@ -167,14 +184,14 @@ def rapports():
 # API REST (JSON) — consommée par le JavaScript pour le rafraîchissement  #
 # ---------------------------------------------------------------------- #
 @app.route("/api/statistiques")
-@login_required
+@api_auth_required
 def api_statistiques():
     """Retourne les statistiques au format JSON (pour les graphiques temps réel)."""
     return jsonify(database.get_statistiques())
 
 
 @app.route("/api/equipements")
-@login_required
+@api_auth_required
 def api_equipements():
     """Retourne l'état des équipements au format JSON."""
     equipements = database.get_all_equipements()
@@ -186,7 +203,7 @@ def api_equipements():
 
 
 @app.route("/api/alertes")
-@login_required
+@api_auth_required
 def api_alertes():
     """Retourne les alertes actives au format JSON."""
     alertes = database.get_alertes(limit=20, non_acquittees=True)

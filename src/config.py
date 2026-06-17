@@ -32,6 +32,9 @@ class Config:
     DEBUG = os.getenv("FLASK_DEBUG", "False").lower() == "true"
     HOST = os.getenv("FLASK_HOST", "0.0.0.0")
     PORT = int(os.getenv("FLASK_PORT", "5000"))
+    # Clé d'API pour l'accès des clients mobiles à l'API REST (en-tête
+    # « X-API-Key »). Laisser vide pour désactiver l'accès par clé.
+    API_KEY = os.getenv("API_KEY", "")
 
     # ------------------------------------------------------------------ #
     # Configuration de la base de données MySQL                          #

@@ -1,0 +1,4 @@
+<resources>
+    <!-- Thème de base ; l'interface est dessinée par Jetpack Compose (Material 3). -->
+    <style name="Theme.Supervision" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>
