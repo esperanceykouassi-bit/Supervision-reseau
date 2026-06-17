@@ -1,0 +1,8 @@
+# Dépendances OPTIONNELLES pour la détection d'anomalies par apprentissage
+# automatique (module modules/anomalies.py).
+#   Installation : pip install -r requirements-ia.txt
+# Si ces paquets ne sont pas installés, le module bascule automatiquement sur
+# une méthode statistique pure-Python (aucune dépendance) — le système reste
+# pleinement fonctionnel.
+scikit-learn>=1.4
+numpy>=1.26

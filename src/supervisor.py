@@ -139,6 +139,11 @@ def main():
         "--snmp", metavar="IP",
         help="Interroge un équipement par SNMP et affiche ses informations.",
     )
+    parser.add_argument(
+        "--anomalies", action="store_true",
+        help="Analyse l'historique (IA) et émet des alertes préventives "
+             "pour les comportements anormaux (panne possible).",
+    )
     args = parser.parse_args()
 
     try:
@@ -155,6 +160,10 @@ def main():
             else:
                 print(f"Aucune réponse SNMP de {args.snmp} "
                       f"(agent SNMP actif ? communauté '{config.SNMP_COMMUNITY}' correcte ?).")
+        elif args.anomalies:
+            from modules import anomalies
+            nb = anomalies.analyser_et_alerter()
+            print(f"Analyse prédictive terminée : {nb} alerte(s) préventive(s) émise(s).")
         else:
             cycle_supervision()
     except Exception as exc:
