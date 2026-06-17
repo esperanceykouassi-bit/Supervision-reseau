@@ -15,3 +15,7 @@
 
 # Découverte automatique du réseau chaque jour à 03h00 (nouveaux équipements).
 0 3 * * * cd /home/yoo/supervision/src && /home/yoo/supervision/src/venv/bin/python supervisor.py --decouvrir 192.168.1.0/24 >> /home/yoo/supervision/src/logs/decouverte.log 2>&1
+
+# Analyse prédictive (IA) toutes les 15 minutes : détection d'anomalies sur
+# l'historique et émission d'alertes préventives (avant la panne franche).
+*/15 * * * * cd /home/yoo/supervision/src && /home/yoo/supervision/src/venv/bin/python supervisor.py --anomalies >> /home/yoo/supervision/src/logs/anomalies.log 2>&1
