@@ -3,13 +3,19 @@
 {% block contenu %}
 <h2 class="mb-4"><i class="bi bi-journal-text"></i> Journaux de supervision</h2>
 
+<div class="mb-3">
+  <input type="text" id="rechercheJournaux" class="form-control"
+         placeholder="🔍 Rechercher par équipement, IP, statut ou message…"
+         oninput="filtrerTable('tbodyJournaux', this.value, 'aucunResultatJournaux')">
+</div>
+
 <div class="card shadow-sm">
   <div class="card-body p-0">
     <table class="table table-sm table-striped mb-0">
       <thead class="table-light">
         <tr><th>Horodatage</th><th>Équipement</th><th>IP</th><th>Statut</th><th>Latence</th><th>Message</th></tr>
       </thead>
-      <tbody>
+      <tbody id="tbodyJournaux">
         {% for j in journaux %}
         <tr>
           <td><small>{{ j.date_evenement.strftime('%d/%m/%Y %H:%M:%S') }}</small></td>
@@ -22,6 +28,21 @@
         {% endfor %}
       </tbody>
     </table>
+    <div id="aucunResultatJournaux" class="text-center text-muted py-3 d-none">Aucun journal trouvé.</div>
   </div>
 </div>
+
+<script>
+function filtrerTable(tbodyId, terme, aucunId) {
+  terme = terme.toLowerCase();
+  const lignes = document.querySelectorAll('#' + tbodyId + ' tr');
+  let visibles = 0;
+  lignes.forEach(function(tr) {
+    const visible = tr.innerText.toLowerCase().includes(terme);
+    tr.style.display = visible ? '' : 'none';
+    if (visible) visibles++;
+  });
+  document.getElementById(aucunId).classList.toggle('d-none', visibles > 0);
+}
+</script>
 {% endblock %}
