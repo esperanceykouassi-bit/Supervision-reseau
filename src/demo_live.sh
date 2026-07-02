@@ -11,7 +11,7 @@
 #  Usage : bash demo_live.sh                                             #
 # ====================================================================== #
 cd "$(dirname "$0")"
-pause(){ echo; read -p "      ▶  Appuyez sur [Entrée] pour continuer..."; echo; }
+pause(){ sleep 3; }
 
 clear
 cat <<'BANNER'
